@@ -41,7 +41,7 @@ namespace SCA.Controllers
         public ActionResult Create()
         {
             ViewBag.IdPermisos = new SelectList(db.Permisos, "IdPermisos", "Nombre");
-            ViewBag.PRUEBA = "";
+            ViewBag.PRUEBA = ""; 
             return View();
         }
 
