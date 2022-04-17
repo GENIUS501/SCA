@@ -1,0 +1,120 @@
+﻿@model SCA.Models.Inventario
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Inventario</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdInventario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdInventario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CodigoEmpresa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CodigoEmpresa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modelo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modelo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Serie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Serie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fabricante)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fabricante)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaCompra)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaCompra)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CostoEquipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CostoEquipo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Garantia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Garantia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VenceGarantia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VenceGarantia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdDepartamento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdDepartamento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MotivoDeshabilitar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MotivoDeshabilitar)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,1081 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BaseDatosSCAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BitacoraIngresoSalida">
+          <Key>
+            <PropertyRef Name="IdBitacoraIngresoSalida" />
+          </Key>
+          <Property Name="IdBitacoraIngresoSalida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" />
+          <Property Name="FechaIngreso" Type="date" />
+          <Property Name="FechaSalida" Type="date" />
+        </EntityType>
+        <EntityType Name="BitacoraMovimiento">
+          <Key>
+            <PropertyRef Name="IdBitacoraMovimiento" />
+          </Key>
+          <Property Name="IdBitacoraMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" />
+          <Property Name="FechaMovimiento" Type="date" />
+          <Property Name="TipoMovimiento" Type="varchar" MaxLength="50" />
+          <Property Name="DescripcionMovimiento" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ControlInventario">
+          <Key>
+            <PropertyRef Name="IdControlInventario" />
+          </Key>
+          <Property Name="IdControlInventario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdInventario" Type="int" />
+          <Property Name="IdPersonal" Type="int" />
+          <Property Name="EstadoActivo" Type="int" Nullable="false" />
+          <Property Name="FechaSalida" Type="date" Nullable="false" />
+          <Property Name="FechaIngresa" Type="date" Nullable="false" />
+          <Property Name="Anomalias" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ControlVehiculo">
+          <Key>
+            <PropertyRef Name="IdControlVehiculo" />
+          </Key>
+          <Property Name="IdControlVehiculo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdFlotilla" Type="int" />
+          <Property Name="IdPersonal" Type="int" />
+          <Property Name="EstadoVehiculo" Type="int" Nullable="false" />
+          <Property Name="FechaSalida" Type="date" Nullable="false" />
+          <Property Name="KilometrajeSalida" Type="int" Nullable="false" />
+          <Property Name="FechaIngresa" Type="date" Nullable="false" />
+          <Property Name="KilometrajeIngresa" Type="int" Nullable="false" />
+          <Property Name="Anomalias" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Departamento">
+          <Key>
+            <PropertyRef Name="IdDepartamento" />
+          </Key>
+          <Property Name="IdDepartamento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Flotilla">
+          <Key>
+            <PropertyRef Name="IdFlotilla" />
+          </Key>
+          <Property Name="IdFlotilla" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Placa" Type="int" Nullable="false" />
+          <Property Name="Marca" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Modelo" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Traccion" Type="int" Nullable="false" />
+          <Property Name="Ano" Type="int" Nullable="false" />
+          <Property Name="Combustible" Type="int" Nullable="false" />
+          <Property Name="FechaCompra" Type="date" Nullable="false" />
+          <Property Name="CostoVehiculo" Type="int" Nullable="false" />
+          <Property Name="IdDepartamento" Type="int" />
+          <Property Name="MotivoDeshabilitar" Type="int" />
+        </EntityType>
+        <EntityType Name="Inventario">
+          <Key>
+            <PropertyRef Name="IdInventario" />
+          </Key>
+          <Property Name="IdInventario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodigoEmpresa" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Modelo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Serie" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fabricante" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaCompra" Type="date" Nullable="false" />
+          <Property Name="CostoEquipo" Type="int" Nullable="false" />
+          <Property Name="Garantia" Type="int" Nullable="false" />
+          <Property Name="VenceGarantia" Type="date" Nullable="false" />
+          <Property Name="IdDepartamento" Type="int" />
+          <Property Name="MotivoDeshabilitar" Type="int" />
+        </EntityType>
+        <EntityType Name="Licencia">
+          <Key>
+            <PropertyRef Name="IdLicencia" />
+          </Key>
+          <Property Name="IdLicencia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPersonal" Type="int" />
+          <Property Name="TipoLicencia" Type="int" Nullable="false" />
+          <Property Name="VenceLicencia" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MantenimientoInventario">
+          <Key>
+            <PropertyRef Name="IdMantenimientoInventario" />
+          </Key>
+          <Property Name="IdMantenimientoInventario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdInventario" Type="int" />
+          <Property Name="TipoMantenimiento" Type="int" Nullable="false" />
+          <Property Name="CostoMantenimiento" Type="int" Nullable="false" />
+          <Property Name="FechaMantenimiento" Type="date" />
+          <Property Name="FechaProximoMantenimiento" Type="date" />
+          <Property Name="DescripcionServicio" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MantenimientoVehiculo">
+          <Key>
+            <PropertyRef Name="IdMantenimientoVehiculo" />
+          </Key>
+          <Property Name="IdMantenimientoVehiculo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdFlotilla" Type="int" />
+          <Property Name="TipoMantenimiento" Type="int" Nullable="false" />
+          <Property Name="KilometrajeActual" Type="int" Nullable="false" />
+          <Property Name="ProximoKilometraje" Type="int" Nullable="false" />
+          <Property Name="CostoMantenimiento" Type="int" Nullable="false" />
+          <Property Name="FechaMantenimiento" Type="date" />
+          <Property Name="DescripcionServicio" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Perfiles">
+          <Key>
+            <PropertyRef Name="IdPerfiles" />
+          </Key>
+          <Property Name="IdPerfiles" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="IdPermisos" Type="int" />
+        </EntityType>
+        <EntityType Name="Permisos">
+          <Key>
+            <PropertyRef Name="IdPermisos" />
+          </Key>
+          <Property Name="IdPermisos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Personal">
+          <Key>
+            <PropertyRef Name="IdPersonal" />
+          </Key>
+          <Property Name="IdPersonal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cedula" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido2" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdLicencia" Type="int" />
+          <Property Name="CarnetMS" Type="int" />
+          <Property Name="VenceCarnetMS" Type="date" />
+          <Property Name="IdDepartamento" Type="int" />
+          <Property Name="MotivoDeshabilitar" Type="int" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPersonal" Type="int" />
+          <Property Name="IdPerfiles" Type="int" />
+          <Property Name="Usuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contraseña" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BitacoraIngresoSalida_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="BitacoraIngresoSalida" Type="Self.BitacoraIngresoSalida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="BitacoraIngresoSalida">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BitacoraMovimiento_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="BitacoraMovimiento" Type="Self.BitacoraMovimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="BitacoraMovimiento">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ControlInventario_Inventario">
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="0..1" />
+          <End Role="ControlInventario" Type="Self.ControlInventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inventario">
+              <PropertyRef Name="IdInventario" />
+            </Principal>
+            <Dependent Role="ControlInventario">
+              <PropertyRef Name="IdInventario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ControlInventario_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ControlInventario" Type="Self.ControlInventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="IdPersonal" />
+            </Principal>
+            <Dependent Role="ControlInventario">
+              <PropertyRef Name="IdPersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ControlVehiculo_Flotilla">
+          <End Role="Flotilla" Type="Self.Flotilla" Multiplicity="0..1" />
+          <End Role="ControlVehiculo" Type="Self.ControlVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Flotilla">
+              <PropertyRef Name="IdFlotilla" />
+            </Principal>
+            <Dependent Role="ControlVehiculo">
+              <PropertyRef Name="IdFlotilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ControlVehiculo_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ControlVehiculo" Type="Self.ControlVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="IdPersonal" />
+            </Principal>
+            <Dependent Role="ControlVehiculo">
+              <PropertyRef Name="IdPersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Flotilla_Departamento">
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="0..1" />
+          <End Role="Flotilla" Type="Self.Flotilla" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="IdDepartamento" />
+            </Principal>
+            <Dependent Role="Flotilla">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventario_Departamento">
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="0..1" />
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="IdDepartamento" />
+            </Principal>
+            <Dependent Role="Inventario">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MantenimientoInventario_Inventario">
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="0..1" />
+          <End Role="MantenimientoInventario" Type="Self.MantenimientoInventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inventario">
+              <PropertyRef Name="IdInventario" />
+            </Principal>
+            <Dependent Role="MantenimientoInventario">
+              <PropertyRef Name="IdInventario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MantenimientoVehiculo_Flotilla">
+          <End Role="Flotilla" Type="Self.Flotilla" Multiplicity="0..1" />
+          <End Role="MantenimientoVehiculo" Type="Self.MantenimientoVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Flotilla">
+              <PropertyRef Name="IdFlotilla" />
+            </Principal>
+            <Dependent Role="MantenimientoVehiculo">
+              <PropertyRef Name="IdFlotilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Perfiles_Permisos">
+          <End Role="Permisos" Type="Self.Permisos" Multiplicity="0..1" />
+          <End Role="Perfiles" Type="Self.Perfiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permisos">
+              <PropertyRef Name="IdPermisos" />
+            </Principal>
+            <Dependent Role="Perfiles">
+              <PropertyRef Name="IdPermisos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personal_Departamento">
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="0..1" />
+          <End Role="Personal" Type="Self.Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="IdDepartamento" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personal_Licencia">
+          <End Role="Licencia" Type="Self.Licencia" Multiplicity="0..1" />
+          <End Role="Personal" Type="Self.Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Licencia">
+              <PropertyRef Name="IdLicencia" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="IdLicencia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Perfiles">
+          <End Role="Perfiles" Type="Self.Perfiles" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perfiles">
+              <PropertyRef Name="IdPerfiles" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdPerfiles" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="IdPersonal" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdPersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BaseDatosSCAModelStoreContainer">
+          <EntitySet Name="BitacoraIngresoSalida" EntityType="Self.BitacoraIngresoSalida" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BitacoraMovimiento" EntityType="Self.BitacoraMovimiento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ControlInventario" EntityType="Self.ControlInventario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ControlVehiculo" EntityType="Self.ControlVehiculo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departamento" EntityType="Self.Departamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Flotilla" EntityType="Self.Flotilla" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inventario" EntityType="Self.Inventario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Licencia" EntityType="Self.Licencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MantenimientoInventario" EntityType="Self.MantenimientoInventario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MantenimientoVehiculo" EntityType="Self.MantenimientoVehiculo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permisos" EntityType="Self.Permisos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personal" EntityType="Self.Personal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BitacoraIngresoSalida_Usuario" Association="Self.FK_BitacoraIngresoSalida_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="BitacoraIngresoSalida" EntitySet="BitacoraIngresoSalida" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BitacoraMovimiento_Usuario" Association="Self.FK_BitacoraMovimiento_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="BitacoraMovimiento" EntitySet="BitacoraMovimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ControlInventario_Inventario" Association="Self.FK_ControlInventario_Inventario">
+            <End Role="Inventario" EntitySet="Inventario" />
+            <End Role="ControlInventario" EntitySet="ControlInventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ControlInventario_Personal" Association="Self.FK_ControlInventario_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ControlInventario" EntitySet="ControlInventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ControlVehiculo_Flotilla" Association="Self.FK_ControlVehiculo_Flotilla">
+            <End Role="Flotilla" EntitySet="Flotilla" />
+            <End Role="ControlVehiculo" EntitySet="ControlVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ControlVehiculo_Personal" Association="Self.FK_ControlVehiculo_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ControlVehiculo" EntitySet="ControlVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flotilla_Departamento" Association="Self.FK_Flotilla_Departamento">
+            <End Role="Departamento" EntitySet="Departamento" />
+            <End Role="Flotilla" EntitySet="Flotilla" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventario_Departamento" Association="Self.FK_Inventario_Departamento">
+            <End Role="Departamento" EntitySet="Departamento" />
+            <End Role="Inventario" EntitySet="Inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MantenimientoInventario_Inventario" Association="Self.FK_MantenimientoInventario_Inventario">
+            <End Role="Inventario" EntitySet="Inventario" />
+            <End Role="MantenimientoInventario" EntitySet="MantenimientoInventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MantenimientoVehiculo_Flotilla" Association="Self.FK_MantenimientoVehiculo_Flotilla">
+            <End Role="Flotilla" EntitySet="Flotilla" />
+            <End Role="MantenimientoVehiculo" EntitySet="MantenimientoVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Perfiles_Permisos" Association="Self.FK_Perfiles_Permisos">
+            <End Role="Permisos" EntitySet="Permisos" />
+            <End Role="Perfiles" EntitySet="Perfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personal_Departamento" Association="Self.FK_Personal_Departamento">
+            <End Role="Departamento" EntitySet="Departamento" />
+            <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personal_Licencia" Association="Self.FK_Personal_Licencia">
+            <End Role="Licencia" EntitySet="Licencia" />
+            <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Perfiles" Association="Self.FK_Usuario_Perfiles">
+            <End Role="Perfiles" EntitySet="Perfiles" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Personal" Association="Self.FK_Usuario_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BaseDatosSCAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BitacoraIngresoSalida">
+          <Key>
+            <PropertyRef Name="IdBitacoraIngresoSalida" />
+          </Key>
+          <Property Name="IdBitacoraIngresoSalida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <Property Name="FechaIngreso" Type="DateTime" Precision="0" />
+          <Property Name="FechaSalida" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_BitacoraIngresoSalida_Usuario" FromRole="BitacoraIngresoSalida" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="BitacoraMovimiento">
+          <Key>
+            <PropertyRef Name="IdBitacoraMovimiento" />
+          </Key>
+          <Property Name="IdBitacoraMovimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <Property Name="FechaMovimiento" Type="DateTime" Precision="0" />
+          <Property Name="TipoMovimiento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DescripcionMovimiento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_BitacoraMovimiento_Usuario" FromRole="BitacoraMovimiento" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="ControlInventario">
+          <Key>
+            <PropertyRef Name="IdControlInventario" />
+          </Key>
+          <Property Name="IdControlInventario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdInventario" Type="Int32" />
+          <Property Name="IdPersonal" Type="Int32" />
+          <Property Name="EstadoActivo" Type="Int32" Nullable="false" />
+          <Property Name="FechaSalida" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaIngresa" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Anomalias" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Inventario" Relationship="Self.FK_ControlInventario_Inventario" FromRole="ControlInventario" ToRole="Inventario" />
+          <NavigationProperty Name="Personal" Relationship="Self.FK_ControlInventario_Personal" FromRole="ControlInventario" ToRole="Personal" />
+        </EntityType>
+        <EntityType Name="ControlVehiculo">
+          <Key>
+            <PropertyRef Name="IdControlVehiculo" />
+          </Key>
+          <Property Name="IdControlVehiculo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdFlotilla" Type="Int32" />
+          <Property Name="IdPersonal" Type="Int32" />
+          <Property Name="EstadoVehiculo" Type="Int32" Nullable="false" />
+          <Property Name="FechaSalida" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="KilometrajeSalida" Type="Int32" Nullable="false" />
+          <Property Name="FechaIngresa" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="KilometrajeIngresa" Type="Int32" Nullable="false" />
+          <Property Name="Anomalias" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Flotilla" Relationship="Self.FK_ControlVehiculo_Flotilla" FromRole="ControlVehiculo" ToRole="Flotilla" />
+          <NavigationProperty Name="Personal" Relationship="Self.FK_ControlVehiculo_Personal" FromRole="ControlVehiculo" ToRole="Personal" />
+        </EntityType>
+        <EntityType Name="Departamento">
+          <Key>
+            <PropertyRef Name="IdDepartamento" />
+          </Key>
+          <Property Name="IdDepartamento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Flotilla" Relationship="Self.FK_Flotilla_Departamento" FromRole="Departamento" ToRole="Flotilla" />
+          <NavigationProperty Name="Inventario" Relationship="Self.FK_Inventario_Departamento" FromRole="Departamento" ToRole="Inventario" />
+          <NavigationProperty Name="Personal" Relationship="Self.FK_Personal_Departamento" FromRole="Departamento" ToRole="Personal" />
+        </EntityType>
+        <EntityType Name="Flotilla">
+          <Key>
+            <PropertyRef Name="IdFlotilla" />
+          </Key>
+          <Property Name="IdFlotilla" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Placa" Type="Int32" Nullable="false" />
+          <Property Name="Marca" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Modelo" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Traccion" Type="Int32" Nullable="false" />
+          <Property Name="Ano" Type="Int32" Nullable="false" />
+          <Property Name="Combustible" Type="Int32" Nullable="false" />
+          <Property Name="FechaCompra" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CostoVehiculo" Type="Int32" Nullable="false" />
+          <Property Name="IdDepartamento" Type="Int32" />
+          <Property Name="MotivoDeshabilitar" Type="Int32" />
+          <NavigationProperty Name="ControlVehiculo" Relationship="Self.FK_ControlVehiculo_Flotilla" FromRole="Flotilla" ToRole="ControlVehiculo" />
+          <NavigationProperty Name="Departamento" Relationship="Self.FK_Flotilla_Departamento" FromRole="Flotilla" ToRole="Departamento" />
+          <NavigationProperty Name="MantenimientoVehiculo" Relationship="Self.FK_MantenimientoVehiculo_Flotilla" FromRole="Flotilla" ToRole="MantenimientoVehiculo" />
+        </EntityType>
+        <EntityType Name="Inventario">
+          <Key>
+            <PropertyRef Name="IdInventario" />
+          </Key>
+          <Property Name="IdInventario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodigoEmpresa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Serie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fabricante" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaCompra" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CostoEquipo" Type="Int32" Nullable="false" />
+          <Property Name="Garantia" Type="Int32" Nullable="false" />
+          <Property Name="VenceGarantia" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdDepartamento" Type="Int32" />
+          <Property Name="MotivoDeshabilitar" Type="Int32" />
+          <NavigationProperty Name="ControlInventario" Relationship="Self.FK_ControlInventario_Inventario" FromRole="Inventario" ToRole="ControlInventario" />
+          <NavigationProperty Name="Departamento" Relationship="Self.FK_Inventario_Departamento" FromRole="Inventario" ToRole="Departamento" />
+          <NavigationProperty Name="MantenimientoInventario" Relationship="Self.FK_MantenimientoInventario_Inventario" FromRole="Inventario" ToRole="MantenimientoInventario" />
+        </EntityType>
+        <EntityType Name="Licencia">
+          <Key>
+            <PropertyRef Name="IdLicencia" />
+          </Key>
+          <Property Name="IdLicencia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPersonal" Type="Int32" />
+          <Property Name="TipoLicencia" Type="Int32" Nullable="false" />
+          <Property Name="VenceLicencia" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Personal" Relationship="Self.FK_Personal_Licencia" FromRole="Licencia" ToRole="Personal" />
+        </EntityType>
+        <EntityType Name="MantenimientoInventario">
+          <Key>
+            <PropertyRef Name="IdMantenimientoInventario" />
+          </Key>
+          <Property Name="IdMantenimientoInventario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdInventario" Type="Int32" />
+          <Property Name="TipoMantenimiento" Type="Int32" Nullable="false" />
+          <Property Name="CostoMantenimiento" Type="Int32" Nullable="false" />
+          <Property Name="FechaMantenimiento" Type="DateTime" Precision="0" />
+          <Property Name="FechaProximoMantenimiento" Type="DateTime" Precision="0" />
+          <Property Name="DescripcionServicio" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Inventario" Relationship="Self.FK_MantenimientoInventario_Inventario" FromRole="MantenimientoInventario" ToRole="Inventario" />
+        </EntityType>
+        <EntityType Name="MantenimientoVehiculo">
+          <Key>
+            <PropertyRef Name="IdMantenimientoVehiculo" />
+          </Key>
+          <Property Name="IdMantenimientoVehiculo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdFlotilla" Type="Int32" />
+          <Property Name="TipoMantenimiento" Type="Int32" Nullable="false" />
+          <Property Name="KilometrajeActual" Type="Int32" Nullable="false" />
+          <Property Name="ProximoKilometraje" Type="Int32" Nullable="false" />
+          <Property Name="CostoMantenimiento" Type="Int32" Nullable="false" />
+          <Property Name="FechaMantenimiento" Type="DateTime" Precision="0" />
+          <Property Name="DescripcionServicio" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Flotilla" Relationship="Self.FK_MantenimientoVehiculo_Flotilla" FromRole="MantenimientoVehiculo" ToRole="Flotilla" />
+        </EntityType>
+        <EntityType Name="Perfiles">
+          <Key>
+            <PropertyRef Name="IdPerfiles" />
+          </Key>
+          <Property Name="IdPerfiles" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdPermisos" Type="Int32" />
+          <NavigationProperty Name="Permisos" Relationship="Self.FK_Perfiles_Permisos" FromRole="Perfiles" ToRole="Permisos" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Perfiles" FromRole="Perfiles" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Permisos">
+          <Key>
+            <PropertyRef Name="IdPermisos" />
+          </Key>
+          <Property Name="IdPermisos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Perfiles" Relationship="Self.FK_Perfiles_Permisos" FromRole="Permisos" ToRole="Perfiles" />
+        </EntityType>
+        <EntityType Name="Personal">
+          <Key>
+            <PropertyRef Name="IdPersonal" />
+          </Key>
+          <Property Name="IdPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdLicencia" Type="Int32" />
+          <Property Name="CarnetMS" Type="Int32" />
+          <Property Name="VenceCarnetMS" Type="DateTime" Precision="0" />
+          <Property Name="IdDepartamento" Type="Int32" />
+          <Property Name="MotivoDeshabilitar" Type="Int32" />
+          <NavigationProperty Name="ControlInventario" Relationship="Self.FK_ControlInventario_Personal" FromRole="Personal" ToRole="ControlInventario" />
+          <NavigationProperty Name="ControlVehiculo" Relationship="Self.FK_ControlVehiculo_Personal" FromRole="Personal" ToRole="ControlVehiculo" />
+          <NavigationProperty Name="Departamento" Relationship="Self.FK_Personal_Departamento" FromRole="Personal" ToRole="Departamento" />
+          <NavigationProperty Name="Licencia" Relationship="Self.FK_Personal_Licencia" FromRole="Personal" ToRole="Licencia" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Personal" FromRole="Personal" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPersonal" Type="Int32" />
+          <Property Name="IdPerfiles" Type="Int32" />
+          <Property Name="Usuario1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contraseña" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="BitacoraIngresoSalida" Relationship="Self.FK_BitacoraIngresoSalida_Usuario" FromRole="Usuario" ToRole="BitacoraIngresoSalida" />
+          <NavigationProperty Name="BitacoraMovimiento" Relationship="Self.FK_BitacoraMovimiento_Usuario" FromRole="Usuario" ToRole="BitacoraMovimiento" />
+          <NavigationProperty Name="Perfiles" Relationship="Self.FK_Usuario_Perfiles" FromRole="Usuario" ToRole="Perfiles" />
+          <NavigationProperty Name="Personal" Relationship="Self.FK_Usuario_Personal" FromRole="Usuario" ToRole="Personal" />
+        </EntityType>
+        <Association Name="FK_BitacoraIngresoSalida_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="BitacoraIngresoSalida" Type="Self.BitacoraIngresoSalida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="BitacoraIngresoSalida">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BitacoraMovimiento_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="BitacoraMovimiento" Type="Self.BitacoraMovimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="BitacoraMovimiento">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ControlInventario_Inventario">
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="0..1" />
+          <End Role="ControlInventario" Type="Self.ControlInventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inventario">
+              <PropertyRef Name="IdInventario" />
+            </Principal>
+            <Dependent Role="ControlInventario">
+              <PropertyRef Name="IdInventario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ControlInventario_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ControlInventario" Type="Self.ControlInventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="IdPersonal" />
+            </Principal>
+            <Dependent Role="ControlInventario">
+              <PropertyRef Name="IdPersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ControlVehiculo_Flotilla">
+          <End Role="Flotilla" Type="Self.Flotilla" Multiplicity="0..1" />
+          <End Role="ControlVehiculo" Type="Self.ControlVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Flotilla">
+              <PropertyRef Name="IdFlotilla" />
+            </Principal>
+            <Dependent Role="ControlVehiculo">
+              <PropertyRef Name="IdFlotilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ControlVehiculo_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ControlVehiculo" Type="Self.ControlVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="IdPersonal" />
+            </Principal>
+            <Dependent Role="ControlVehiculo">
+              <PropertyRef Name="IdPersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Flotilla_Departamento">
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="0..1" />
+          <End Role="Flotilla" Type="Self.Flotilla" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="IdDepartamento" />
+            </Principal>
+            <Dependent Role="Flotilla">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventario_Departamento">
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="0..1" />
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="IdDepartamento" />
+            </Principal>
+            <Dependent Role="Inventario">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personal_Departamento">
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="0..1" />
+          <End Role="Personal" Type="Self.Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="IdDepartamento" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MantenimientoVehiculo_Flotilla">
+          <End Role="Flotilla" Type="Self.Flotilla" Multiplicity="0..1" />
+          <End Role="MantenimientoVehiculo" Type="Self.MantenimientoVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Flotilla">
+              <PropertyRef Name="IdFlotilla" />
+            </Principal>
+            <Dependent Role="MantenimientoVehiculo">
+              <PropertyRef Name="IdFlotilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MantenimientoInventario_Inventario">
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="0..1" />
+          <End Role="MantenimientoInventario" Type="Self.MantenimientoInventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inventario">
+              <PropertyRef Name="IdInventario" />
+            </Principal>
+            <Dependent Role="MantenimientoInventario">
+              <PropertyRef Name="IdInventario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personal_Licencia">
+          <End Role="Licencia" Type="Self.Licencia" Multiplicity="0..1" />
+          <End Role="Personal" Type="Self.Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Licencia">
+              <PropertyRef Name="IdLicencia" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="IdLicencia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Perfiles_Permisos">
+          <End Role="Permisos" Type="Self.Permisos" Multiplicity="0..1" />
+          <End Role="Perfiles" Type="Self.Perfiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permisos">
+              <PropertyRef Name="IdPermisos" />
+            </Principal>
+            <Dependent Role="Perfiles">
+              <PropertyRef Name="IdPermisos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Perfiles">
+          <End Role="Perfiles" Type="Self.Perfiles" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perfiles">
+              <PropertyRef Name="IdPerfiles" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdPerfiles" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="IdPersonal" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdPersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BaseDatosSCAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BitacoraIngresoSalida" EntityType="Self.BitacoraIngresoSalida" />
+          <EntitySet Name="BitacoraMovimiento" EntityType="Self.BitacoraMovimiento" />
+          <EntitySet Name="ControlInventario" EntityType="Self.ControlInventario" />
+          <EntitySet Name="ControlVehiculo" EntityType="Self.ControlVehiculo" />
+          <EntitySet Name="Departamento" EntityType="Self.Departamento" />
+          <EntitySet Name="Flotilla" EntityType="Self.Flotilla" />
+          <EntitySet Name="Inventario" EntityType="Self.Inventario" />
+          <EntitySet Name="Licencia" EntityType="Self.Licencia" />
+          <EntitySet Name="MantenimientoInventario" EntityType="Self.MantenimientoInventario" />
+          <EntitySet Name="MantenimientoVehiculo" EntityType="Self.MantenimientoVehiculo" />
+          <EntitySet Name="Perfiles" EntityType="Self.Perfiles" />
+          <EntitySet Name="Permisos" EntityType="Self.Permisos" />
+          <EntitySet Name="Personal" EntityType="Self.Personal" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK_BitacoraIngresoSalida_Usuario" Association="Self.FK_BitacoraIngresoSalida_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="BitacoraIngresoSalida" EntitySet="BitacoraIngresoSalida" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BitacoraMovimiento_Usuario" Association="Self.FK_BitacoraMovimiento_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="BitacoraMovimiento" EntitySet="BitacoraMovimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ControlInventario_Inventario" Association="Self.FK_ControlInventario_Inventario">
+            <End Role="Inventario" EntitySet="Inventario" />
+            <End Role="ControlInventario" EntitySet="ControlInventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ControlInventario_Personal" Association="Self.FK_ControlInventario_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ControlInventario" EntitySet="ControlInventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ControlVehiculo_Flotilla" Association="Self.FK_ControlVehiculo_Flotilla">
+            <End Role="Flotilla" EntitySet="Flotilla" />
+            <End Role="ControlVehiculo" EntitySet="ControlVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ControlVehiculo_Personal" Association="Self.FK_ControlVehiculo_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ControlVehiculo" EntitySet="ControlVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flotilla_Departamento" Association="Self.FK_Flotilla_Departamento">
+            <End Role="Departamento" EntitySet="Departamento" />
+            <End Role="Flotilla" EntitySet="Flotilla" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventario_Departamento" Association="Self.FK_Inventario_Departamento">
+            <End Role="Departamento" EntitySet="Departamento" />
+            <End Role="Inventario" EntitySet="Inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personal_Departamento" Association="Self.FK_Personal_Departamento">
+            <End Role="Departamento" EntitySet="Departamento" />
+            <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MantenimientoVehiculo_Flotilla" Association="Self.FK_MantenimientoVehiculo_Flotilla">
+            <End Role="Flotilla" EntitySet="Flotilla" />
+            <End Role="MantenimientoVehiculo" EntitySet="MantenimientoVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MantenimientoInventario_Inventario" Association="Self.FK_MantenimientoInventario_Inventario">
+            <End Role="Inventario" EntitySet="Inventario" />
+            <End Role="MantenimientoInventario" EntitySet="MantenimientoInventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personal_Licencia" Association="Self.FK_Personal_Licencia">
+            <End Role="Licencia" EntitySet="Licencia" />
+            <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Perfiles_Permisos" Association="Self.FK_Perfiles_Permisos">
+            <End Role="Permisos" EntitySet="Permisos" />
+            <End Role="Perfiles" EntitySet="Perfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Perfiles" Association="Self.FK_Usuario_Perfiles">
+            <End Role="Perfiles" EntitySet="Perfiles" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Personal" Association="Self.FK_Usuario_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BaseDatosSCAModelStoreContainer" CdmEntityContainer="BaseDatosSCAEntities">
+          <EntitySetMapping Name="BitacoraIngresoSalida">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.BitacoraIngresoSalida">
+              <MappingFragment StoreEntitySet="BitacoraIngresoSalida">
+                <ScalarProperty Name="IdBitacoraIngresoSalida" ColumnName="IdBitacoraIngresoSalida" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BitacoraMovimiento">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.BitacoraMovimiento">
+              <MappingFragment StoreEntitySet="BitacoraMovimiento">
+                <ScalarProperty Name="IdBitacoraMovimiento" ColumnName="IdBitacoraMovimiento" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="FechaMovimiento" ColumnName="FechaMovimiento" />
+                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
+                <ScalarProperty Name="DescripcionMovimiento" ColumnName="DescripcionMovimiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ControlInventario">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.ControlInventario">
+              <MappingFragment StoreEntitySet="ControlInventario">
+                <ScalarProperty Name="IdControlInventario" ColumnName="IdControlInventario" />
+                <ScalarProperty Name="IdInventario" ColumnName="IdInventario" />
+                <ScalarProperty Name="IdPersonal" ColumnName="IdPersonal" />
+                <ScalarProperty Name="EstadoActivo" ColumnName="EstadoActivo" />
+                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
+                <ScalarProperty Name="FechaIngresa" ColumnName="FechaIngresa" />
+                <ScalarProperty Name="Anomalias" ColumnName="Anomalias" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ControlVehiculo">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.ControlVehiculo">
+              <MappingFragment StoreEntitySet="ControlVehiculo">
+                <ScalarProperty Name="IdControlVehiculo" ColumnName="IdControlVehiculo" />
+                <ScalarProperty Name="IdFlotilla" ColumnName="IdFlotilla" />
+                <ScalarProperty Name="IdPersonal" ColumnName="IdPersonal" />
+                <ScalarProperty Name="EstadoVehiculo" ColumnName="EstadoVehiculo" />
+                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
+                <ScalarProperty Name="KilometrajeSalida" ColumnName="KilometrajeSalida" />
+                <ScalarProperty Name="FechaIngresa" ColumnName="FechaIngresa" />
+                <ScalarProperty Name="KilometrajeIngresa" ColumnName="KilometrajeIngresa" />
+                <ScalarProperty Name="Anomalias" ColumnName="Anomalias" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departamento">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.Departamento">
+              <MappingFragment StoreEntitySet="Departamento">
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Flotilla">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.Flotilla">
+              <MappingFragment StoreEntitySet="Flotilla">
+                <ScalarProperty Name="IdFlotilla" ColumnName="IdFlotilla" />
+                <ScalarProperty Name="Placa" ColumnName="Placa" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="Traccion" ColumnName="Traccion" />
+                <ScalarProperty Name="Ano" ColumnName="Ano" />
+                <ScalarProperty Name="Combustible" ColumnName="Combustible" />
+                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
+                <ScalarProperty Name="CostoVehiculo" ColumnName="CostoVehiculo" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="MotivoDeshabilitar" ColumnName="MotivoDeshabilitar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inventario">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.Inventario">
+              <MappingFragment StoreEntitySet="Inventario">
+                <ScalarProperty Name="IdInventario" ColumnName="IdInventario" />
+                <ScalarProperty Name="CodigoEmpresa" ColumnName="CodigoEmpresa" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="Serie" ColumnName="Serie" />
+                <ScalarProperty Name="Fabricante" ColumnName="Fabricante" />
+                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
+                <ScalarProperty Name="CostoEquipo" ColumnName="CostoEquipo" />
+                <ScalarProperty Name="Garantia" ColumnName="Garantia" />
+                <ScalarProperty Name="VenceGarantia" ColumnName="VenceGarantia" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="MotivoDeshabilitar" ColumnName="MotivoDeshabilitar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Licencia">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.Licencia">
+              <MappingFragment StoreEntitySet="Licencia">
+                <ScalarProperty Name="IdLicencia" ColumnName="IdLicencia" />
+                <ScalarProperty Name="IdPersonal" ColumnName="IdPersonal" />
+                <ScalarProperty Name="TipoLicencia" ColumnName="TipoLicencia" />
+                <ScalarProperty Name="VenceLicencia" ColumnName="VenceLicencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MantenimientoInventario">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.MantenimientoInventario">
+              <MappingFragment StoreEntitySet="MantenimientoInventario">
+                <ScalarProperty Name="IdMantenimientoInventario" ColumnName="IdMantenimientoInventario" />
+                <ScalarProperty Name="IdInventario" ColumnName="IdInventario" />
+                <ScalarProperty Name="TipoMantenimiento" ColumnName="TipoMantenimiento" />
+                <ScalarProperty Name="CostoMantenimiento" ColumnName="CostoMantenimiento" />
+                <ScalarProperty Name="FechaMantenimiento" ColumnName="FechaMantenimiento" />
+                <ScalarProperty Name="FechaProximoMantenimiento" ColumnName="FechaProximoMantenimiento" />
+                <ScalarProperty Name="DescripcionServicio" ColumnName="DescripcionServicio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MantenimientoVehiculo">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.MantenimientoVehiculo">
+              <MappingFragment StoreEntitySet="MantenimientoVehiculo">
+                <ScalarProperty Name="IdMantenimientoVehiculo" ColumnName="IdMantenimientoVehiculo" />
+                <ScalarProperty Name="IdFlotilla" ColumnName="IdFlotilla" />
+                <ScalarProperty Name="TipoMantenimiento" ColumnName="TipoMantenimiento" />
+                <ScalarProperty Name="KilometrajeActual" ColumnName="KilometrajeActual" />
+                <ScalarProperty Name="ProximoKilometraje" ColumnName="ProximoKilometraje" />
+                <ScalarProperty Name="CostoMantenimiento" ColumnName="CostoMantenimiento" />
+                <ScalarProperty Name="FechaMantenimiento" ColumnName="FechaMantenimiento" />
+                <ScalarProperty Name="DescripcionServicio" ColumnName="DescripcionServicio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Perfiles">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.Perfiles">
+              <MappingFragment StoreEntitySet="Perfiles">
+                <ScalarProperty Name="IdPerfiles" ColumnName="IdPerfiles" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdPermisos" ColumnName="IdPermisos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permisos">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.Permisos">
+              <MappingFragment StoreEntitySet="Permisos">
+                <ScalarProperty Name="IdPermisos" ColumnName="IdPermisos" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personal">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.Personal">
+              <MappingFragment StoreEntitySet="Personal">
+                <ScalarProperty Name="IdPersonal" ColumnName="IdPersonal" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido1" ColumnName="Apellido1" />
+                <ScalarProperty Name="Apellido2" ColumnName="Apellido2" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="IdLicencia" ColumnName="IdLicencia" />
+                <ScalarProperty Name="CarnetMS" ColumnName="CarnetMS" />
+                <ScalarProperty Name="VenceCarnetMS" ColumnName="VenceCarnetMS" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="MotivoDeshabilitar" ColumnName="MotivoDeshabilitar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdPersonal" ColumnName="IdPersonal" />
+                <ScalarProperty Name="IdPerfiles" ColumnName="IdPerfiles" />
+                <ScalarProperty Name="Usuario1" ColumnName="Usuario" />
+                <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

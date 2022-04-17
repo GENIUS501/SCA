@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c23a7c4086d544d5a55436b5500d4861" Name="Diagram1" ZoomLevel="67">
+        <EntityTypeShape EntityType="BaseDatosSCAModel.BitacoraIngresoSalida" Width="1.5" PointX="12.5" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.BitacoraMovimiento" Width="1.5" PointX="12.5" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.ControlInventario" Width="1.5" PointX="5.25" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.ControlVehiculo" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.Departamento" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.Flotilla" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.Inventario" Width="1.5" PointX="3" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.Licencia" Width="1.5" PointX="5.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.MantenimientoInventario" Width="1.5" PointX="5.25" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.MantenimientoVehiculo" Width="1.5" PointX="5.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.Perfiles" Width="1.5" PointX="8" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.Permisos" Width="1.5" PointX="5.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.Personal" Width="1.5" PointX="8" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.Usuario" Width="1.5" PointX="10.25" PointY="10" IsExpanded="true" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_BitacoraIngresoSalida_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_ControlInventario_Inventario" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_ControlInventario_Personal" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_ControlVehiculo_Flotilla" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_ControlVehiculo_Personal" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_Flotilla_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_Inventario_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_Personal_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_MantenimientoVehiculo_Flotilla" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_MantenimientoInventario_Inventario" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_Personal_Licencia" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_Perfiles_Permisos" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_Usuario_Perfiles" ManuallyRouted="false" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_Usuario_Personal" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
