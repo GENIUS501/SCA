@@ -451,6 +451,7 @@
     <Content Include="Views\ReportePerfiles\Report.cshtml" />
     <Content Include="Views\ReportePersonal\Report.cshtml" />
     <Content Include="Views\ReporteUsuario\Report.cshtml" />
+    <Content Include="Views\Departamento\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

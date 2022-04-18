@@ -17,7 +17,8 @@ namespace SCA.Controllers
         // GET: Departamento
         public ActionResult Index()
         {
-            return View();
+            var Model = db.Departamento.ToList();
+            return View(Model);
         }
 
         // GET: Departamento/Details/5
