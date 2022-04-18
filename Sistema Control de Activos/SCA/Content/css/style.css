@@ -105,7 +105,7 @@
 .navbar-dark .navbar-nav .nav-link {
     position: relative;
     padding: 35px 15px;
-    font-size: 18px;
+    font-size: 12px;
     text-transform: uppercase;
     color: var(--light);
     outline: none;
