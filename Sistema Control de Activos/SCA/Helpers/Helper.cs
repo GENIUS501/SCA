@@ -11,7 +11,7 @@ namespace Helpers
 {
     public class Helper
     {
-        private BaseDatosSCAEntities db = new BaseDatosSCAEntities();
+        
         public static string EncodePassword(string originalPassword)
         {
             SHA1 sha1 = new SHA1CryptoServiceProvider();
@@ -24,6 +24,7 @@ namespace Helpers
 
         public static bool RegistrarMovimiento(string Movimiento, string Modulo, string ValorAntiguo, string ValorNuevo, int Id)
         {
+            BaseDatosSCAEntities db = new BaseDatosSCAEntities();
             using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 BitacoraMovimiento Entidad = new BitacoraMovimiento();
