@@ -48,5 +48,37 @@ namespace Helpers
             }
         }
 
+        public static int RegistrarIngresoSalida(BitacoraIngresoSalida obj)//Viene de la vista obj
+        {
+            try
+            {
+                BaseDatosSCAEntities db = new BaseDatosSCAEntities();
+                using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    BitacoraIngresoSalida Objbd = new BitacoraIngresoSalida();//Viene de la base de datos
+                    Objbd.IdUsuario = obj.IdUsuario;
+                    Objbd.FechaIngreso = obj.FechaIngreso;
+                    db.BitacoraIngresoSalida.Add(Objbd);
+                    db.SaveChanges();//Commit
+                    int Resultado = Objbd.Id;
+
+                    if (Resultado > 0)
+                    {
+                        Ts.Complete();
+                        return Resultado;
+                    }
+                    else
+                    {
+                        Ts.Dispose();
+                        return 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
