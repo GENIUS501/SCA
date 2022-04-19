@@ -21,8 +21,7 @@ namespace SCA.Models
         }
     
         public int IdLicencia { get; set; }
-        public Nullable<int> IdPersonal { get; set; }
-        public int TipoLicencia { get; set; }
+        public string TipoLicencia { get; set; }
         public System.DateTime VenceLicencia { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

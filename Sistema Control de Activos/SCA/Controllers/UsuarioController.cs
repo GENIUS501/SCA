@@ -18,7 +18,7 @@ namespace SCA.Controllers
         public ActionResult Index()
         {
             var user = db.Usuario.Include(a => a.Personal);
-            var use = db.Usuario.Include(a => a.Perfiles);
+           // var use = db.Usuario.Include(a => a.Perfiles);
             return View(user.ToList());
         }
 
@@ -51,12 +51,12 @@ namespace SCA.Controllers
                     Selected = false
                 };
             }); 
-            Modelo.IdPerfillist = db.Perfiles.ToList().ConvertAll(d =>
+            Modelo.IdPerfillist = db.Perfiles_Acceso.ToList().ConvertAll(d =>
             {
                 return new SelectListItem()
                 {
-                    Text = d.Nombre,
-                    Value = d.IdPerfiles.ToString(),
+                    Text = d.NombrePerfil,
+                    Value = d.Id_Perfil.ToString(),
                     Selected = false
                 };
             });
@@ -66,8 +66,7 @@ namespace SCA.Controllers
         // POST: Usuario/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdUsuario, IdPersonal, IdPerfiles" +
-                                                   "Usuario, Password")] Usuario usuario)
+        public ActionResult Create([Bind(Include = "IdUsuario, IdPersonal, IdPerfiles" +                                                 "Usuario, Password")] Usuario usuario)
         {
             try
             {
@@ -80,7 +79,7 @@ namespace SCA.Controllers
                 }
 
                 ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula");
-                ViewBag.IdPerfiles = new SelectList(db.Perfiles, "IdPerfiles", "Nombre");
+                //ViewBag.IdPerfiles = new SelectList(db.Perfiles, "IdPerfiles", "Nombre");
                 return View(usuario);
             }
             catch (Exception)
@@ -104,7 +103,7 @@ namespace SCA.Controllers
             }
 
             ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula");
-            ViewBag.IdPerfiles = new SelectList(db.Perfiles, "IdPerfiles", "Nombre");
+            //ViewBag.IdPerfiles = new SelectList(db.Perfiles, "IdPerfiles", "Nombre");
             return View(usuario);
         }
 
@@ -124,7 +123,7 @@ namespace SCA.Controllers
                 }
 
                 ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula");
-                ViewBag.IdPerfiles = new SelectList(db.Perfiles, "IdPerfiles", "Nombre");
+                //ViewBag.IdPerfiles = new SelectList(db.Perfiles, "IdPerfiles", "Nombre");
                 return View(usuario);
             }
             catch

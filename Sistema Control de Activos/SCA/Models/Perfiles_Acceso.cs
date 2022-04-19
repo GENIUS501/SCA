@@ -12,18 +12,22 @@ namespace SCA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Permisos
+    public partial class Perfiles_Acceso
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Permisos()
+        public Perfiles_Acceso()
         {
-            this.Perfiles = new HashSet<Perfiles>();
+            this.Perfiles_Permisos = new HashSet<Perfiles_Permisos>();
+            this.Usuario = new HashSet<Usuario>();
         }
     
-        public int IdPermisos { get; set; }
-        public string Nombre { get; set; }
+        public int Id_Perfil { get; set; }
+        public string NombrePerfil { get; set; }
+        public string Descripcion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Perfiles> Perfiles { get; set; }
+        public virtual ICollection<Perfiles_Permisos> Perfiles_Permisos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Usuario> Usuario { get; set; }
     }
 }

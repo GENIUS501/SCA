@@ -58,7 +58,7 @@ namespace SCA.Controllers
                     return RedirectToAction("Index");
                 }
 
-                ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula", licencia.IdPersonal);
+                //ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula", licencia.IdPersonal);
                 return View(licencia);
             }
             catch
@@ -81,7 +81,7 @@ namespace SCA.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula", licencia.IdPersonal);
+            //ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula", licencia.IdPersonal);
             return View(licencia);
         }
 
@@ -99,7 +99,7 @@ namespace SCA.Controllers
                     return RedirectToAction("Index");
                 }
 
-                ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula", licencia.IdPersonal);
+                //ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula", licencia.IdPersonal);
                 return View(licencia);
             }
             catch

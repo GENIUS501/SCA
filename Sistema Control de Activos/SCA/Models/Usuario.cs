@@ -33,7 +33,7 @@ namespace SCA.Models
         public virtual ICollection<BitacoraIngresoSalida> BitacoraIngresoSalida { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BitacoraMovimiento> BitacoraMovimiento { get; set; }
-        public virtual Perfiles Perfiles { get; set; }
+        public virtual Perfiles_Acceso Perfiles_Acceso { get; set; }
         public virtual Personal Personal { get; set; }
     }
 }

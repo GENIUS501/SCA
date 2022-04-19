@@ -83,7 +83,39 @@
                         "next": "Siguiente",
                         "previous": "Anterior"
                     },
-                }
+                },
+                buttons: [
+                    {
+                        extend: "pdf",
+                        text: '<button class="">Exportar a PDF</button>',
+                        filename: 'Reporte de Usuarios',
+                        title: 'BCR \n Netpoints \n Reporte de Usuarios \n Fecha:',
+                        customize: function (doc) {
+                            doc['footer'] = (function (page, pages) {
+                                return {
+                                    columns: [
+                                        {
+                                            alignment: 'left',
+                                            text:
+                                                [
+                                                    { text: 'Usuario: ', italics: true }
+                                                ]
+                                        },
+                                        {
+                                            alignment: 'right',
+                                            text: [
+                                                'Pagina ',
+                                                { text: page.toString(), italics: true },
+                                                ' de ',
+                                                { text: pages.toString(), italics: true }
+                                            ]
+                                        }],
+                                    margin: [10, 0]
+                                }
+                            });
+                        }
+                    }
+                ]
             });
         });
     </script>

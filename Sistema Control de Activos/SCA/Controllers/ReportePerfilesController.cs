@@ -14,11 +14,11 @@ namespace SCA.Controllers
         {
             var ReportePerfiles = new List<Perfiles>();
 
-            using (BaseDatosSCAEntities dc = new BaseDatosSCAEntities())
-            {
-                ReportePerfiles = dc.Perfiles.Where(a => a.IdPerfiles != null).ToList();
-            }
-            return View(ReportePerfiles);
+            //using (BaseDatosSCAEntities dc = new BaseDatosSCAEntities())
+            //{
+            //    ReportePerfiles = dc.Perfiles.Where(a => a.IdPerfiles != null).ToList();
+            //}
+            return View();
         }
     }
 }

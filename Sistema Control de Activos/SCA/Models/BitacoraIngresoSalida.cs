@@ -14,9 +14,9 @@ namespace SCA.Models
     
     public partial class BitacoraIngresoSalida
     {
-        public int IdBitacoraIngresoSalida { get; set; }
-        public Nullable<int> IdUsuario { get; set; }
-        public Nullable<System.DateTime> FechaIngreso { get; set; }
+        public int Id { get; set; }
+        public int IdUsuario { get; set; }
+        public System.DateTime FechaIngreso { get; set; }
         public Nullable<System.DateTime> FechaSalida { get; set; }
     
         public virtual Usuario Usuario { get; set; }

@@ -2,22 +2,24 @@
 <Schema Namespace="BaseDatosSCAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="BitacoraIngresoSalida">
     <Key>
-      <PropertyRef Name="IdBitacoraIngresoSalida" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="IdBitacoraIngresoSalida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="IdUsuario" Type="int" />
-    <Property Name="FechaIngreso" Type="date" />
-    <Property Name="FechaSalida" Type="date" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdUsuario" Type="int" Nullable="false" />
+    <Property Name="FechaIngreso" Type="datetime" Nullable="false" />
+    <Property Name="FechaSalida" Type="datetime" />
   </EntityType>
   <EntityType Name="BitacoraMovimiento">
     <Key>
-      <PropertyRef Name="IdBitacoraMovimiento" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="IdBitacoraMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="IdUsuario" Type="int" />
-    <Property Name="FechaMovimiento" Type="date" />
-    <Property Name="TipoMovimiento" Type="varchar" MaxLength="50" />
-    <Property Name="DescripcionMovimiento" Type="varchar" MaxLength="50" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdUsuario" Type="int" Nullable="false" />
+    <Property Name="FechaMovimiento" Type="date" Nullable="false" />
+    <Property Name="TipoMovimiento" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ModuloAfectado" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ValorAntiguo" Type="varchar" MaxLength="50" />
+    <Property Name="ValorNuevo" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="ControlInventario">
     <Key>
@@ -90,8 +92,7 @@
       <PropertyRef Name="IdLicencia" />
     </Key>
     <Property Name="IdLicencia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="IdPersonal" Type="int" />
-    <Property Name="TipoLicencia" Type="int" Nullable="false" />
+    <Property Name="TipoLicencia" Type="varchar" MaxLength="2" Nullable="false" />
     <Property Name="VenceLicencia" Type="date" Nullable="false" />
   </EntityType>
   <EntityType Name="MantenimientoInventario">
@@ -119,20 +120,26 @@
     <Property Name="FechaMantenimiento" Type="date" />
     <Property Name="DescripcionServicio" Type="varchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="Perfiles">
+  <EntityType Name="Perfiles_Acceso">
     <Key>
-      <PropertyRef Name="IdPerfiles" />
+      <PropertyRef Name="Id_Perfil" />
     </Key>
-    <Property Name="IdPerfiles" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
-    <Property Name="IdPermisos" Type="int" />
+    <Property Name="Id_Perfil" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombrePerfil" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
   </EntityType>
-  <EntityType Name="Permisos">
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="Perfiles_Permisos">
     <Key>
-      <PropertyRef Name="IdPermisos" />
+      <PropertyRef Name="Id_Permiso" />
     </Key>
-    <Property Name="IdPermisos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Id_Permiso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_Perfil" Type="int" />
+    <Property Name="Modulo" Type="varchar" MaxLength="25" />
+    <Property Name="Agregar" Type="varchar" MaxLength="2" />
+    <Property Name="Modificar" Type="varchar" MaxLength="2" />
+    <Property Name="Eliminar" Type="varchar" MaxLength="2" />
   </EntityType>
   <EntityType Name="Personal">
     <Key>
@@ -159,10 +166,10 @@
     <Property Name="IdPersonal" Type="int" />
     <Property Name="IdPerfiles" Type="int" />
     <Property Name="Usuario" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Contraseña" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Contraseña" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="FK_BitacoraIngresoSalida_Usuario">
-    <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
     <End Role="BitacoraIngresoSalida" Type="Self.BitacoraIngresoSalida" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Usuario">
@@ -174,7 +181,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_BitacoraMovimiento_Usuario">
-    <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
     <End Role="BitacoraMovimiento" Type="Self.BitacoraMovimiento" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Usuario">
@@ -281,15 +288,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Perfiles_Permisos">
-    <End Role="Permisos" Type="Self.Permisos" Multiplicity="0..1" />
-    <End Role="Perfiles" Type="Self.Perfiles" Multiplicity="*" />
+  <Association Name="FK_Permisos_Perfil">
+    <End Role="Perfiles_Acceso" Type="Self.Perfiles_Acceso" Multiplicity="0..1" />
+    <End Role="Perfiles_Permisos" Type="Self.Perfiles_Permisos" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Permisos">
-        <PropertyRef Name="IdPermisos" />
+      <Principal Role="Perfiles_Acceso">
+        <PropertyRef Name="Id_Perfil" />
       </Principal>
-      <Dependent Role="Perfiles">
-        <PropertyRef Name="IdPermisos" />
+      <Dependent Role="Perfiles_Permisos">
+        <PropertyRef Name="Id_Perfil" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -317,12 +324,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Usuario_Perfiles">
-    <End Role="Perfiles" Type="Self.Perfiles" Multiplicity="0..1" />
+  <Association Name="FK_Usuario_Perfil">
+    <End Role="Perfiles_Acceso" Type="Self.Perfiles_Acceso" Multiplicity="0..1" />
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Perfiles">
-        <PropertyRef Name="IdPerfiles" />
+      <Principal Role="Perfiles_Acceso">
+        <PropertyRef Name="Id_Perfil" />
       </Principal>
       <Dependent Role="Usuario">
         <PropertyRef Name="IdPerfiles" />
@@ -352,10 +359,19 @@
     <EntitySet Name="Licencia" EntityType="Self.Licencia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MantenimientoInventario" EntityType="Self.MantenimientoInventario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MantenimientoVehiculo" EntityType="Self.MantenimientoVehiculo" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Permisos" EntityType="Self.Permisos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Perfiles_Acceso" EntityType="Self.Perfiles_Acceso" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Personal" EntityType="Self.Personal" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Perfiles_Permisos" EntityType="Self.Perfiles_Permisos" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Perfiles_Permisos].[Id_Permiso] AS [Id_Permiso], 
+    [Perfiles_Permisos].[Id_Perfil] AS [Id_Perfil], 
+    [Perfiles_Permisos].[Modulo] AS [Modulo], 
+    [Perfiles_Permisos].[Agregar] AS [Agregar], 
+    [Perfiles_Permisos].[Modificar] AS [Modificar], 
+    [Perfiles_Permisos].[Eliminar] AS [Eliminar]
+    FROM [dbo].[Perfiles_Permisos] AS [Perfiles_Permisos]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_BitacoraIngresoSalida_Usuario" Association="Self.FK_BitacoraIngresoSalida_Usuario">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="BitacoraIngresoSalida" EntitySet="BitacoraIngresoSalida" />
@@ -396,9 +412,9 @@
       <End Role="Flotilla" EntitySet="Flotilla" />
       <End Role="MantenimientoVehiculo" EntitySet="MantenimientoVehiculo" />
     </AssociationSet>
-    <AssociationSet Name="FK_Perfiles_Permisos" Association="Self.FK_Perfiles_Permisos">
-      <End Role="Permisos" EntitySet="Permisos" />
-      <End Role="Perfiles" EntitySet="Perfiles" />
+    <AssociationSet Name="FK_Permisos_Perfil" Association="Self.FK_Permisos_Perfil">
+      <End Role="Perfiles_Acceso" EntitySet="Perfiles_Acceso" />
+      <End Role="Perfiles_Permisos" EntitySet="Perfiles_Permisos" />
     </AssociationSet>
     <AssociationSet Name="FK_Personal_Departamento" Association="Self.FK_Personal_Departamento">
       <End Role="Departamento" EntitySet="Departamento" />
@@ -408,8 +424,8 @@
       <End Role="Licencia" EntitySet="Licencia" />
       <End Role="Personal" EntitySet="Personal" />
     </AssociationSet>
-    <AssociationSet Name="FK_Usuario_Perfiles" Association="Self.FK_Usuario_Perfiles">
-      <End Role="Perfiles" EntitySet="Perfiles" />
+    <AssociationSet Name="FK_Usuario_Perfil" Association="Self.FK_Usuario_Perfil">
+      <End Role="Perfiles_Acceso" EntitySet="Perfiles_Acceso" />
       <End Role="Usuario" EntitySet="Usuario" />
     </AssociationSet>
     <AssociationSet Name="FK_Usuario_Personal" Association="Self.FK_Usuario_Personal">

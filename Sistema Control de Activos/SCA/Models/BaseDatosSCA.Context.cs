@@ -25,6 +25,7 @@ namespace SCA.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<MantenimientoInventario> MantenimientoInventario { get; set; }
         public virtual DbSet<BitacoraIngresoSalida> BitacoraIngresoSalida { get; set; }
         public virtual DbSet<BitacoraMovimiento> BitacoraMovimiento { get; set; }
         public virtual DbSet<ControlInventario> ControlInventario { get; set; }
@@ -33,11 +34,10 @@ namespace SCA.Models
         public virtual DbSet<Flotilla> Flotilla { get; set; }
         public virtual DbSet<Inventario> Inventario { get; set; }
         public virtual DbSet<Licencia> Licencia { get; set; }
-        public virtual DbSet<MantenimientoInventario> MantenimientoInventario { get; set; }
         public virtual DbSet<MantenimientoVehiculo> MantenimientoVehiculo { get; set; }
-        public virtual DbSet<Perfiles> Perfiles { get; set; }
-        public virtual DbSet<Permisos> Permisos { get; set; }
+        public virtual DbSet<Perfiles_Acceso> Perfiles_Acceso { get; set; }
         public virtual DbSet<Personal> Personal { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Perfiles_Permisos> Perfiles_Permisos { get; set; }
     }
 }

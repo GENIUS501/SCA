@@ -12,16 +12,15 @@ namespace SCA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class BitacoraMovimiento
+    public partial class Perfiles_Permisos
     {
-        public int Id { get; set; }
-        public int IdUsuario { get; set; }
-        public System.DateTime FechaMovimiento { get; set; }
-        public string TipoMovimiento { get; set; }
-        public string ModuloAfectado { get; set; }
-        public string ValorAntiguo { get; set; }
-        public string ValorNuevo { get; set; }
+        public int Id_Permiso { get; set; }
+        public Nullable<int> Id_Perfil { get; set; }
+        public string Modulo { get; set; }
+        public string Agregar { get; set; }
+        public string Modificar { get; set; }
+        public string Eliminar { get; set; }
     
-        public virtual Usuario Usuario { get; set; }
+        public virtual Perfiles_Acceso Perfiles_Acceso { get; set; }
     }
 }

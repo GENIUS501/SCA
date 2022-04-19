@@ -50,10 +50,12 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -134,8 +136,6 @@
     <Compile Include="Controllers\LicenciaController.cs" />
     <Compile Include="Controllers\MantenimientoInventarioController.cs" />
     <Compile Include="Controllers\MantenimientoVehiculoController.cs" />
-    <Compile Include="Controllers\PerfilesController.cs" />
-    <Compile Include="Controllers\PermisosController.cs" />
     <Compile Include="Controllers\PersonalController.cs" />
     <Compile Include="Controllers\ReporteControlInventarioController.cs" />
     <Compile Include="Controllers\ReporteControlVehiculoController.cs" />
@@ -147,6 +147,9 @@
     <Compile Include="Controllers\ReportePersonalController.cs" />
     <Compile Include="Controllers\ReporteUsuarioController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Filters\AuthorizeUser.cs" />
+    <Compile Include="Filters\AuthorizeUserPermises.cs" />
+    <Compile Include="Filters\Verificarsession.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -204,11 +207,11 @@
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MantenimientoVehiculoMetaData.cs" />
-    <Compile Include="Models\Perfiles.cs">
+    <Compile Include="Models\PerfilesMetaData.cs" />
+    <Compile Include="Models\Perfiles_Acceso.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PerfilesMetaData.cs" />
-    <Compile Include="Models\Permisos.cs">
+    <Compile Include="Models\Perfiles_Permisos.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PermisosMetaData.cs" />
@@ -458,12 +461,6 @@
     <Content Include="Views\MantenimientoVehiculo\Create.cshtml" />
     <Content Include="Views\MantenimientoVehiculo\Edit.cshtml" />
     <Content Include="Views\MantenimientoVehiculo\Delete.cshtml" />
-    <Content Include="Views\Perfiles\Create.cshtml" />
-    <Content Include="Views\Perfiles\Editq.cshtml" />
-    <Content Include="Views\Perfiles\Delete.cshtml" />
-    <Content Include="Views\Permisos\Create.cshtml" />
-    <Content Include="Views\Permisos\Edit.cshtml" />
-    <Content Include="Views\Permisos\Delete.cshtml" />
     <Content Include="Views\Usuario\Create.cshtml" />
     <Content Include="Views\Usuario\Edit.cshtml" />
     <Content Include="Views\Usuario\Delete.cshtml" />

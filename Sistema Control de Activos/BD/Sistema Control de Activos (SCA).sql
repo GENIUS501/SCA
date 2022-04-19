@@ -6,8 +6,8 @@ go
 
 create table Departamento
 (
-IdDepartamento int IDENTITY(1,1) PRIMARY KEY,
-Nombre varchar(50) NOT NULL
+	IdDepartamento int IDENTITY(1,1) PRIMARY KEY,
+	Nombre varchar(50) NOT NULL
 )
 
 create table Licencia
@@ -125,15 +125,6 @@ FechaMantenimiento date,
 DescripcionServicio varchar(max) NOT NULL
 
 CONSTRAINT FK_MantenimientoVehiculo_Flotilla FOREIGN KEY (IdFlotilla) REFERENCES Flotilla (IdFlotilla)
-)
-
-create table Perfiles
-(
-IdPerfiles int IDENTITY(1,1) PRIMARY KEY,
-Nombre varchar(20) NOT NULL,
-IdPermisos int
-
-CONSTRAINT FK_Perfiles_Permisos FOREIGN KEY (IdPermisos) REFERENCES Permisos (IdPermisos)
 )
 
 CREATE TABLE Perfiles_Acceso(
