@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using SCA.Models;
@@ -66,15 +67,27 @@ namespace SCA.Controllers
         // POST: Usuario/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdUsuario, IdPersonal, IdPerfiles" +                                                 "Usuario, Password")] Usuario usuario)
+        public ActionResult Create([Bind(Include = "IdUsuario, IdPersonal, IdPerfiles, Usuario, Password")] Usuario usuario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    usuario.Contraseña = Helpers.Helper.EncodePassword(string.Concat(usuario.Usuario1.ToString(), usuario.Contraseña.ToString()));
-                    db.Usuario.Add(usuario);
-                    db.SaveChanges();
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        usuario.Contraseña = Helpers.Helper.EncodePassword(string.Concat(usuario.Usuario1.ToString(), usuario.Contraseña.ToString()));
+                        db.Usuario.Add(usuario);
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            //var RegistroBitacora = Helpers.Helper.RegistrarMovimiento("Agrego", "Usuarios", "", usuario.IdPerfiles.ToString() + usuario.IdPersonal.ToString(), 1);
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                        }
+                    }
                     return RedirectToAction("Index");
                 }
 

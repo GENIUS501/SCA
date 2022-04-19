@@ -32,8 +32,7 @@ namespace Filters
                 else
                 {
                     //Llena la entidad permisos con los valores de la tabla permisos de base de datos si existen
-                    NRoles_Permisos Negocios = new NRoles_Permisos();
-                    var lstMisOperaciones = Negocios.ListaOperaciones(UsuarioEntidadSesion.IdRol, numero_modulo);
+                    var lstMisOperaciones = Negocios.ListaOperaciones(UsuarioEntidadSesion.IdPerfiles, numero_modulo);
                     //Si es meno o igual a cero es que el permiso no existe y por lo tanto no puede acceder al modulo
                     if (lstMisOperaciones.ToList().Count() <= 0)
                     {
