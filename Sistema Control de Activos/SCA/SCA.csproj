@@ -150,6 +150,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Models\BaseDatosSCA.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -476,6 +477,7 @@
     <Content Include="Views\ReportePersonal\Report.cshtml" />
     <Content Include="Views\ReporteUsuario\Report.cshtml" />
     <Content Include="Views\Departamento\Index.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

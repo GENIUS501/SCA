@@ -12,31 +12,27 @@ Nombre varchar(50) NOT NULL
 
 create table Licencia
 (
-IdLicencia int IDENTITY(1,1) PRIMARY KEY,
-IdPersonal int,
-TipoLicencia int NOT NULL,
-VenceLicencia date NOT NULL
-
-CONSTRAINT FK_Licencia_Personal FOREIGN KEY (IdPersonal) REFERENCES Personal(IdPersonal)
+	IdLicencia int IDENTITY(1,1) PRIMARY KEY,
+	TipoLicencia VARCHAR(2) NOT NULL,
+	VenceLicencia date NOT NULL
 )
 
 create table Personal
 (
-IdPersonal int IDENTITY(1,1) PRIMARY KEY,
-Cedula varchar(12) UNIQUE NOT NULL,
-Nombre varchar(50) NOT NULL,
-Apellido1 varchar(50) NOT NULL,
-Apellido2 varchar(50) NOT NULL,
-Telefono varchar(8) NOT NULL,
-Correo varchar(50) NOT NULL,
-IdLicencia int,
-CarnetMS int,
-VenceCarnetMS date,
-IdDepartamento int,
-MotivoDeshabilitar int
-
-CONSTRAINT FK_Personal_Licencia FOREIGN KEY (IdLicencia) REFERENCES Licencia (IdLicencia),
-CONSTRAINT FK_Personal_Departamento FOREIGN KEY (IdDepartamento) REFERENCES Departamento (IdDepartamento)
+	IdPersonal int IDENTITY(1,1) PRIMARY KEY,
+	Cedula varchar(12) UNIQUE NOT NULL,
+	Nombre varchar(50) NOT NULL,
+	Apellido1 varchar(50) NOT NULL,
+	Apellido2 varchar(50) NOT NULL,
+	Telefono varchar(8) NOT NULL,
+	Correo varchar(50) NOT NULL,
+	IdLicencia int,
+	CarnetMS int,
+	VenceCarnetMS date,
+	IdDepartamento int,
+	MotivoDeshabilitar int,
+	CONSTRAINT FK_Personal_Licencia FOREIGN KEY (IdLicencia) REFERENCES Licencia (IdLicencia),
+	CONSTRAINT FK_Personal_Departamento FOREIGN KEY (IdDepartamento) REFERENCES Departamento (IdDepartamento)
 )
 
 create table Inventario
@@ -140,43 +136,51 @@ IdPermisos int
 CONSTRAINT FK_Perfiles_Permisos FOREIGN KEY (IdPermisos) REFERENCES Permisos (IdPermisos)
 )
 
-create table Permisos
-(
-IdPermisos int IDENTITY(1,1) PRIMARY KEY,
-Nombre varchar(20) NOT NULL
-)
+CREATE TABLE Perfiles_Acceso(
+	[Id_Perfil] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[NombrePerfil] [varchar](50) NOT NULL,
+	[Descripcion] [varchar](200) NOT NULL,
+
+);
+
+CREATE TABLE [dbo].[Perfiles_Permisos](
+	[Id_Permiso] [int] IDENTITY(1,1) NOT NULL,
+	[Id_Perfil] [int] NULL,
+	[Modulo] VARCHAR(25) NULL,
+	[Agregar] [varchar](2) NULL,
+	[Modificar] [varchar](2) NULL,
+	[Eliminar] [varchar](2) NULL,
+	CONSTRAINT FK_Permisos_Perfil FOREIGN KEY (Id_Perfil) REFERENCES Perfiles_Acceso(Id_Perfil)
+);
 
 create table Usuario
 (
-IdUsuario int IDENTITY(1,1) PRIMARY KEY,
-IdPersonal int,
-IdPerfiles int,
-Usuario varchar(50) NOT NULL,
-Contraseña varchar(max) NOT NULL,
-
-CONSTRAINT FK_Usuario_Personal FOREIGN KEY (IdPersonal) REFERENCES Personal (IdPersonal),
-CONSTRAINT FK_Usuario_Perfiles FOREIGN KEY (IdPerfiles) REFERENCES Perfiles (IdPerfiles)
-)
+	IdUsuario int IDENTITY(1,1) PRIMARY KEY,
+	IdPersonal int,
+	IdPerfiles int,
+	Usuario varchar(50) NOT NULL,
+	Contraseña varchar(max) NOT NULL,
+	CONSTRAINT FK_Usuario_Personal FOREIGN KEY (IdPersonal) REFERENCES Personal (IdPersonal),
+	CONSTRAINT FK_Usuario_Perfil FOREIGN KEY (IdPerfiles) REFERENCES Perfiles_Acceso (Id_Perfil)
+);
 
 create table BitacoraIngresoSalida
 (
-IdBitacoraIngresoSalida int IDENTITY(1,1) PRIMARY KEY,
-IdUsuario int,
-FechaIngreso datetime,
-FechaSalida datetime
-
-CONSTRAINT FK_BitacoraIngresoSalida_Usuario FOREIGN KEY (IdUsuario) REFERENCES Usuario (IdUsuario)
+	Id int IDENTITY(1,1) PRIMARY KEY,
+	IdUsuario int NOT NULL,
+	FechaIngreso datetime NOT NULL,
+	FechaSalida datetime NULL,
+	CONSTRAINT FK_BitacoraIngresoSalida_Usuario FOREIGN KEY (IdUsuario) REFERENCES Usuario (IdUsuario)
 )
 
 create table BitacoraMovimiento
 (
-IdBitacoraMovimiento int IDENTITY(1,1) PRIMARY KEY,
-IdUsuario int,
-FechaMovimiento date,
-TipoMovimiento varchar(50),
-ModuloAfectado varchar (50),
-ValorAntiguo varchar (50),
-ValorNuevo varchar (50)
-
-CONSTRAINT FK_BitacoraMovimiento_Usuario FOREIGN KEY (IdUsuario) REFERENCES Usuario (IdUsuario)
+	Id INT IDENTITY(1,1) PRIMARY KEY,
+	IdUsuario int NOT NULL,
+	FechaMovimiento date NOT NULL,
+	TipoMovimiento varchar(50) NOT NULL,
+	ModuloAfectado varchar (50) NOT NULL,
+	ValorAntiguo varchar (50) NULL,
+	ValorNuevo varchar (50) NULL,
+	CONSTRAINT FK_BitacoraMovimiento_Usuario FOREIGN KEY (IdUsuario) REFERENCES Usuario (IdUsuario)
 )

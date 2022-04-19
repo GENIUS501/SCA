@@ -41,9 +41,26 @@ namespace SCA.Controllers
         // GET: Usuario/Create
         public ActionResult Create()
         {
-            ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula");
-            ViewBag.IdPerfiles = new SelectList(db.Perfiles, "IdPerfiles", "Nombre");
-            return View();
+            Usuario Modelo = new Usuario();
+            Modelo.IdPersonallist = db.Personal.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre + d.Apellido1 + d.Apellido2,
+                    Value = d.IdPersonal.ToString(),
+                    Selected = false
+                };
+            }); 
+            Modelo.IdPerfillist = db.Perfiles.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdPerfiles.ToString(),
+                    Selected = false
+                };
+            });
+            return View(Modelo);
         }
 
         // POST: Usuario/Create
@@ -56,6 +73,7 @@ namespace SCA.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    usuario.Contraseña = Helpers.Helper.EncodePassword(string.Concat(usuario.Usuario1.ToString(), usuario.Contraseña.ToString()));
                     db.Usuario.Add(usuario);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -65,7 +83,7 @@ namespace SCA.Controllers
                 ViewBag.IdPerfiles = new SelectList(db.Perfiles, "IdPerfiles", "Nombre");
                 return View(usuario);
             }
-            catch
+            catch (Exception)
             {
                 return View();
             }
