@@ -15,7 +15,7 @@ namespace Filters
         private string numero_modulo;
         private BaseDatosSCAEntities db = new BaseDatosSCAEntities();
         //Captura el numero del modulo al que se desea acceder 
-        public AuthorizeUser(int idmodulo = 0)
+        public AuthorizeUser(string idmodulo)
         {
             this.numero_modulo = idmodulo;
         }
@@ -33,7 +33,7 @@ namespace Filters
                 else
                 {
                     //Llena la entidad permisos con los valores de la tabla permisos de base de datos si existen
-                    int IdPerfil = (UsuarioEntidadSesion.IdPerfiles is null)?UsuarioEntidadSesion.IdPerfiles:0;
+                    int IdPerfil = (int)((UsuarioEntidadSesion.IdPerfiles is null )? UsuarioEntidadSesion.IdPerfiles:0);
                     var lstMisOperaciones = Lista_de_Operaciones(IdPerfil, numero_modulo);
                     //Si es meno o igual a cero es que el permiso no existe y por lo tanto no puede acceder al modulo
                     if (lstMisOperaciones.ToList().Count() <= 0)

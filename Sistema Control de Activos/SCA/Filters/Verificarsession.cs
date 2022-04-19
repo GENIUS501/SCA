@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SCA.Controllers;
+using SCA.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,7 +18,7 @@ namespace Filters
                 //Esto indica que es un filtro
                 base.OnActionExecuting(filterContext);
                 //Captura la sesion enviada por el sistema
-                var Ent_Usuario = (EUsuario)HttpContext.Current.Session["User"];
+                var Ent_Usuario = (Usuario)HttpContext.Current.Session["User"];
                 //Comprueba si la sesion existe si esta nula es que no existe
                 if (Ent_Usuario == null)
                 {
