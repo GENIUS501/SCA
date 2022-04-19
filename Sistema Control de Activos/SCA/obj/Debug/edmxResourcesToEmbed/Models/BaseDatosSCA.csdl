@@ -25,31 +25,13 @@
     <EntitySet Name="Licencia" EntityType="BaseDatosSCAModel.Licencia" />
     <EntitySet Name="MantenimientoVehiculo" EntityType="BaseDatosSCAModel.MantenimientoVehiculo" />
     <EntitySet Name="Perfiles_Acceso" EntityType="BaseDatosSCAModel.Perfiles_Acceso" />
-    <EntitySet Name="Personal" EntityType="BaseDatosSCAModel.Personal" />
-    <EntitySet Name="Usuario" EntityType="BaseDatosSCAModel.Usuario" />
     <EntitySet Name="Perfiles_Permisos" EntityType="BaseDatosSCAModel.Perfiles_Permisos" />
-    <AssociationSet Name="FK_BitacoraIngresoSalida_Usuario" Association="BaseDatosSCAModel.FK_BitacoraIngresoSalida_Usuario">
-      <End Role="Usuario" EntitySet="Usuario" />
-      <End Role="BitacoraIngresoSalida" EntitySet="BitacoraIngresoSalida" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BitacoraMovimiento_Usuario" Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario">
-      <End Role="Usuario" EntitySet="Usuario" />
-      <End Role="BitacoraMovimiento" EntitySet="BitacoraMovimiento" />
-    </AssociationSet>
     <AssociationSet Name="FK_ControlInventario_Inventario" Association="BaseDatosSCAModel.FK_ControlInventario_Inventario">
       <End Role="Inventario" EntitySet="Inventario" />
       <End Role="ControlInventario" EntitySet="ControlInventario" />
     </AssociationSet>
-    <AssociationSet Name="FK_ControlInventario_Personal" Association="BaseDatosSCAModel.FK_ControlInventario_Personal">
-      <End Role="Personal" EntitySet="Personal" />
-      <End Role="ControlInventario" EntitySet="ControlInventario" />
-    </AssociationSet>
     <AssociationSet Name="FK_ControlVehiculo_Flotilla" Association="BaseDatosSCAModel.FK_ControlVehiculo_Flotilla">
       <End Role="Flotilla" EntitySet="Flotilla" />
-      <End Role="ControlVehiculo" EntitySet="ControlVehiculo" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ControlVehiculo_Personal" Association="BaseDatosSCAModel.FK_ControlVehiculo_Personal">
-      <End Role="Personal" EntitySet="Personal" />
       <End Role="ControlVehiculo" EntitySet="ControlVehiculo" />
     </AssociationSet>
     <AssociationSet Name="FK_Flotilla_Departamento" Association="BaseDatosSCAModel.FK_Flotilla_Departamento">
@@ -60,10 +42,6 @@
       <End Role="Departamento" EntitySet="Departamento" />
       <End Role="Inventario" EntitySet="Inventario" />
     </AssociationSet>
-    <AssociationSet Name="FK_Personal_Departamento" Association="BaseDatosSCAModel.FK_Personal_Departamento">
-      <End Role="Departamento" EntitySet="Departamento" />
-      <End Role="Personal" EntitySet="Personal" />
-    </AssociationSet>
     <AssociationSet Name="FK_MantenimientoVehiculo_Flotilla" Association="BaseDatosSCAModel.FK_MantenimientoVehiculo_Flotilla">
       <End Role="Flotilla" EntitySet="Flotilla" />
       <End Role="MantenimientoVehiculo" EntitySet="MantenimientoVehiculo" />
@@ -72,17 +50,39 @@
       <End Role="Inventario" EntitySet="Inventario" />
       <End Role="MantenimientoInventario" EntitySet="MantenimientoInventario" />
     </AssociationSet>
-    <AssociationSet Name="FK_Personal_Licencia" Association="BaseDatosSCAModel.FK_Personal_Licencia">
-      <End Role="Licencia" EntitySet="Licencia" />
-      <End Role="Personal" EntitySet="Personal" />
-    </AssociationSet>
     <AssociationSet Name="FK_Permisos_Perfil" Association="BaseDatosSCAModel.FK_Permisos_Perfil">
       <End Role="Perfiles_Acceso" EntitySet="Perfiles_Acceso" />
       <End Role="Perfiles_Permisos" EntitySet="Perfiles_Permisos" />
     </AssociationSet>
+    <EntitySet Name="Usuario" EntityType="BaseDatosSCAModel.Usuario" />
+    <AssociationSet Name="FK_BitacoraIngresoSalida_Usuario" Association="BaseDatosSCAModel.FK_BitacoraIngresoSalida_Usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="BitacoraIngresoSalida" EntitySet="BitacoraIngresoSalida" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BitacoraMovimiento_Usuario" Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="BitacoraMovimiento" EntitySet="BitacoraMovimiento" />
+    </AssociationSet>
     <AssociationSet Name="FK_Usuario_Perfil" Association="BaseDatosSCAModel.FK_Usuario_Perfil">
       <End Role="Perfiles_Acceso" EntitySet="Perfiles_Acceso" />
       <End Role="Usuario" EntitySet="Usuario" />
+    </AssociationSet>
+    <EntitySet Name="Personal" EntityType="BaseDatosSCAModel.Personal" />
+    <AssociationSet Name="FK_ControlInventario_Personal" Association="BaseDatosSCAModel.FK_ControlInventario_Personal">
+      <End Role="Personal" EntitySet="Personal" />
+      <End Role="ControlInventario" EntitySet="ControlInventario" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ControlVehiculo_Personal" Association="BaseDatosSCAModel.FK_ControlVehiculo_Personal">
+      <End Role="Personal" EntitySet="Personal" />
+      <End Role="ControlVehiculo" EntitySet="ControlVehiculo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personal_Departamento" Association="BaseDatosSCAModel.FK_Personal_Departamento">
+      <End Role="Departamento" EntitySet="Departamento" />
+      <End Role="Personal" EntitySet="Personal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personal_Licencia" Association="BaseDatosSCAModel.FK_Personal_Licencia">
+      <End Role="Licencia" EntitySet="Licencia" />
+      <End Role="Personal" EntitySet="Personal" />
     </AssociationSet>
     <AssociationSet Name="FK_Usuario_Personal" Association="BaseDatosSCAModel.FK_Usuario_Personal">
       <End Role="Personal" EntitySet="Personal" />
@@ -224,42 +224,6 @@
     <NavigationProperty Name="Perfiles_Permisos" Relationship="BaseDatosSCAModel.FK_Permisos_Perfil" FromRole="Perfiles_Acceso" ToRole="Perfiles_Permisos" />
     <NavigationProperty Name="Usuario" Relationship="BaseDatosSCAModel.FK_Usuario_Perfil" FromRole="Perfiles_Acceso" ToRole="Usuario" />
   </EntityType>
-  <EntityType Name="Personal">
-    <Key>
-      <PropertyRef Name="IdPersonal" />
-    </Key>
-    <Property Name="IdPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Cedula" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Apellido1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Apellido2" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Telefono" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-    <Property Name="Correo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="IdLicencia" Type="Int32" />
-    <Property Name="CarnetMS" Type="Int32" />
-    <Property Name="VenceCarnetMS" Type="DateTime" Precision="0" />
-    <Property Name="IdDepartamento" Type="Int32" />
-    <Property Name="MotivoDeshabilitar" Type="Int32" />
-    <NavigationProperty Name="ControlInventario" Relationship="BaseDatosSCAModel.FK_ControlInventario_Personal" FromRole="Personal" ToRole="ControlInventario" />
-    <NavigationProperty Name="ControlVehiculo" Relationship="BaseDatosSCAModel.FK_ControlVehiculo_Personal" FromRole="Personal" ToRole="ControlVehiculo" />
-    <NavigationProperty Name="Departamento" Relationship="BaseDatosSCAModel.FK_Personal_Departamento" FromRole="Personal" ToRole="Departamento" />
-    <NavigationProperty Name="Licencia" Relationship="BaseDatosSCAModel.FK_Personal_Licencia" FromRole="Personal" ToRole="Licencia" />
-    <NavigationProperty Name="Usuario" Relationship="BaseDatosSCAModel.FK_Usuario_Personal" FromRole="Personal" ToRole="Usuario" />
-  </EntityType>
-  <EntityType Name="Usuario">
-    <Key>
-      <PropertyRef Name="IdUsuario" />
-    </Key>
-    <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IdPersonal" Type="Int32" />
-    <Property Name="IdPerfiles" Type="Int32" />
-    <Property Name="Usuario1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Contraseña" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="BitacoraIngresoSalida" Relationship="BaseDatosSCAModel.FK_BitacoraIngresoSalida_Usuario" FromRole="Usuario" ToRole="BitacoraIngresoSalida" />
-    <NavigationProperty Name="BitacoraMovimiento" Relationship="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" FromRole="Usuario" ToRole="BitacoraMovimiento" />
-    <NavigationProperty Name="Perfiles_Acceso" Relationship="BaseDatosSCAModel.FK_Usuario_Perfil" FromRole="Usuario" ToRole="Perfiles_Acceso" />
-    <NavigationProperty Name="Personal" Relationship="BaseDatosSCAModel.FK_Usuario_Personal" FromRole="Usuario" ToRole="Personal" />
-  </EntityType>
   <EntityType Name="Perfiles_Permisos">
     <Key>
       <PropertyRef Name="Id_Permiso" />
@@ -272,30 +236,6 @@
     <Property Name="Eliminar" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Perfiles_Acceso" Relationship="BaseDatosSCAModel.FK_Permisos_Perfil" FromRole="Perfiles_Permisos" ToRole="Perfiles_Acceso" />
   </EntityType>
-  <Association Name="FK_BitacoraIngresoSalida_Usuario">
-    <End Type="BaseDatosSCAModel.Usuario" Role="Usuario" Multiplicity="1" />
-    <End Type="BaseDatosSCAModel.BitacoraIngresoSalida" Role="BitacoraIngresoSalida" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="IdUsuario" />
-      </Principal>
-      <Dependent Role="BitacoraIngresoSalida">
-        <PropertyRef Name="IdUsuario" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_BitacoraMovimiento_Usuario">
-    <End Type="BaseDatosSCAModel.Usuario" Role="Usuario" Multiplicity="1" />
-    <End Type="BaseDatosSCAModel.BitacoraMovimiento" Role="BitacoraMovimiento" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="IdUsuario" />
-      </Principal>
-      <Dependent Role="BitacoraMovimiento">
-        <PropertyRef Name="IdUsuario" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ControlInventario_Inventario">
     <End Type="BaseDatosSCAModel.Inventario" Role="Inventario" Multiplicity="0..1" />
     <End Type="BaseDatosSCAModel.ControlInventario" Role="ControlInventario" Multiplicity="*" />
@@ -308,18 +248,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ControlInventario_Personal">
-    <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="0..1" />
-    <End Type="BaseDatosSCAModel.ControlInventario" Role="ControlInventario" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Personal">
-        <PropertyRef Name="IdPersonal" />
-      </Principal>
-      <Dependent Role="ControlInventario">
-        <PropertyRef Name="IdPersonal" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ControlVehiculo_Flotilla">
     <End Type="BaseDatosSCAModel.Flotilla" Role="Flotilla" Multiplicity="0..1" />
     <End Type="BaseDatosSCAModel.ControlVehiculo" Role="ControlVehiculo" Multiplicity="*" />
@@ -329,18 +257,6 @@
       </Principal>
       <Dependent Role="ControlVehiculo">
         <PropertyRef Name="IdFlotilla" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ControlVehiculo_Personal">
-    <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="0..1" />
-    <End Type="BaseDatosSCAModel.ControlVehiculo" Role="ControlVehiculo" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Personal">
-        <PropertyRef Name="IdPersonal" />
-      </Principal>
-      <Dependent Role="ControlVehiculo">
-        <PropertyRef Name="IdPersonal" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -364,18 +280,6 @@
         <PropertyRef Name="IdDepartamento" />
       </Principal>
       <Dependent Role="Inventario">
-        <PropertyRef Name="IdDepartamento" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Personal_Departamento">
-    <End Type="BaseDatosSCAModel.Departamento" Role="Departamento" Multiplicity="0..1" />
-    <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Departamento">
-        <PropertyRef Name="IdDepartamento" />
-      </Principal>
-      <Dependent Role="Personal">
         <PropertyRef Name="IdDepartamento" />
       </Dependent>
     </ReferentialConstraint>
@@ -404,18 +308,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Personal_Licencia">
-    <End Type="BaseDatosSCAModel.Licencia" Role="Licencia" Multiplicity="0..1" />
-    <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Licencia">
-        <PropertyRef Name="IdLicencia" />
-      </Principal>
-      <Dependent Role="Personal">
-        <PropertyRef Name="IdLicencia" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Permisos_Perfil">
     <End Type="BaseDatosSCAModel.Perfiles_Acceso" Role="Perfiles_Acceso" Multiplicity="0..1" />
     <End Type="BaseDatosSCAModel.Perfiles_Permisos" Role="Perfiles_Permisos" Multiplicity="*" />
@@ -428,6 +320,44 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdPersonal" Type="Int32" />
+    <Property Name="IdPerfiles" Type="Int32" />
+    <Property Name="Usuario1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Contraseña" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="BitacoraIngresoSalida" Relationship="BaseDatosSCAModel.FK_BitacoraIngresoSalida_Usuario" FromRole="Usuario" ToRole="BitacoraIngresoSalida" />
+    <NavigationProperty Name="BitacoraMovimiento" Relationship="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" FromRole="Usuario" ToRole="BitacoraMovimiento" />
+    <NavigationProperty Name="Perfiles_Acceso" Relationship="BaseDatosSCAModel.FK_Usuario_Perfil" FromRole="Usuario" ToRole="Perfiles_Acceso" />
+    <NavigationProperty Name="Personal" Relationship="BaseDatosSCAModel.FK_Usuario_Personal" FromRole="Usuario" ToRole="Personal" />
+  </EntityType>
+  <Association Name="FK_BitacoraIngresoSalida_Usuario">
+    <End Type="BaseDatosSCAModel.Usuario" Role="Usuario" Multiplicity="1" />
+    <End Type="BaseDatosSCAModel.BitacoraIngresoSalida" Role="BitacoraIngresoSalida" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="BitacoraIngresoSalida">
+        <PropertyRef Name="IdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BitacoraMovimiento_Usuario">
+    <End Type="BaseDatosSCAModel.Usuario" Role="Usuario" Multiplicity="1" />
+    <End Type="BaseDatosSCAModel.BitacoraMovimiento" Role="BitacoraMovimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="BitacoraMovimiento">
+        <PropertyRef Name="IdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Usuario_Perfil">
     <End Type="BaseDatosSCAModel.Perfiles_Acceso" Role="Perfiles_Acceso" Multiplicity="0..1" />
     <End Type="BaseDatosSCAModel.Usuario" Role="Usuario" Multiplicity="*" />
@@ -437,6 +367,76 @@
       </Principal>
       <Dependent Role="Usuario">
         <PropertyRef Name="IdPerfiles" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Personal">
+    <Key>
+      <PropertyRef Name="IdPersonal" />
+    </Key>
+    <Property Name="IdPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Cedula" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Apellido1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Apellido2" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Telefono" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="Correo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IdLicencia" Type="Int32" />
+    <Property Name="CarnetMS" Type="Int32" />
+    <Property Name="VenceCarnetMS" Type="DateTime" Precision="0" />
+    <Property Name="IdDepartamento" Type="Int32" />
+    <Property Name="MotivoDeshabilitar" Type="Int32" />
+    <NavigationProperty Name="ControlInventario" Relationship="BaseDatosSCAModel.FK_ControlInventario_Personal" FromRole="Personal" ToRole="ControlInventario" />
+    <NavigationProperty Name="ControlVehiculo" Relationship="BaseDatosSCAModel.FK_ControlVehiculo_Personal" FromRole="Personal" ToRole="ControlVehiculo" />
+    <NavigationProperty Name="Departamento" Relationship="BaseDatosSCAModel.FK_Personal_Departamento" FromRole="Personal" ToRole="Departamento" />
+    <NavigationProperty Name="Licencia" Relationship="BaseDatosSCAModel.FK_Personal_Licencia" FromRole="Personal" ToRole="Licencia" />
+    <NavigationProperty Name="Usuario" Relationship="BaseDatosSCAModel.FK_Usuario_Personal" FromRole="Personal" ToRole="Usuario" />
+  </EntityType>
+  <Association Name="FK_ControlInventario_Personal">
+    <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="0..1" />
+    <End Type="BaseDatosSCAModel.ControlInventario" Role="ControlInventario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personal">
+        <PropertyRef Name="IdPersonal" />
+      </Principal>
+      <Dependent Role="ControlInventario">
+        <PropertyRef Name="IdPersonal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ControlVehiculo_Personal">
+    <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="0..1" />
+    <End Type="BaseDatosSCAModel.ControlVehiculo" Role="ControlVehiculo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personal">
+        <PropertyRef Name="IdPersonal" />
+      </Principal>
+      <Dependent Role="ControlVehiculo">
+        <PropertyRef Name="IdPersonal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personal_Departamento">
+    <End Type="BaseDatosSCAModel.Departamento" Role="Departamento" Multiplicity="0..1" />
+    <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departamento">
+        <PropertyRef Name="IdDepartamento" />
+      </Principal>
+      <Dependent Role="Personal">
+        <PropertyRef Name="IdDepartamento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personal_Licencia">
+    <End Type="BaseDatosSCAModel.Licencia" Role="Licencia" Multiplicity="0..1" />
+    <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Licencia">
+        <PropertyRef Name="IdLicencia" />
+      </Principal>
+      <Dependent Role="Personal">
+        <PropertyRef Name="IdLicencia" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -106,8 +106,8 @@ C:\Users\JavierArguedasDíaz\source\repos\SCA\Sistema Control de Activos\SCA\bin
 C:\Users\JavierArguedasDíaz\source\repos\SCA\Sistema Control de Activos\SCA\bin\es\System.Web.WebPages.resources.dll
 C:\Users\JavierArguedasDíaz\source\repos\SCA\Sistema Control de Activos\SCA\bin\es\System.Web.WebPages.Deployment.resources.dll
 C:\Users\JavierArguedasDíaz\source\repos\SCA\Sistema Control de Activos\SCA\bin\es\System.Web.WebPages.Razor.resources.dll
-C:\Users\JavierArguedasDíaz\source\repos\SCA\Sistema Control de Activos\SCA\obj\Debug\SCA.csproj.AssemblyReference.cache
 C:\Users\JavierArguedasDíaz\source\repos\SCA\Sistema Control de Activos\SCA\obj\Debug\SCA.csproj.CoreCompileInputs.cache
 C:\Users\JavierArguedasDíaz\source\repos\SCA\Sistema Control de Activos\SCA\obj\Debug\SCA.csproj.CopyComplete
 C:\Users\JavierArguedasDíaz\source\repos\SCA\Sistema Control de Activos\SCA\obj\Debug\SCA.dll
 C:\Users\JavierArguedasDíaz\source\repos\SCA\Sistema Control de Activos\SCA\obj\Debug\SCA.pdb
+C:\Users\JavierArguedasDíaz\source\repos\SCA\Sistema Control de Activos\SCA\obj\Debug\SCA.csproj.AssemblyReference.cache

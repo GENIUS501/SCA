@@ -140,6 +140,29 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Perfiles_Permisos">
+      <EntityTypeMapping TypeName="BaseDatosSCAModel.Perfiles_Permisos">
+        <MappingFragment StoreEntitySet="Perfiles_Permisos">
+          <ScalarProperty Name="Eliminar" ColumnName="Eliminar" />
+          <ScalarProperty Name="Modificar" ColumnName="Modificar" />
+          <ScalarProperty Name="Agregar" ColumnName="Agregar" />
+          <ScalarProperty Name="Modulo" ColumnName="Modulo" />
+          <ScalarProperty Name="Id_Perfil" ColumnName="Id_Perfil" />
+          <ScalarProperty Name="Id_Permiso" ColumnName="Id_Permiso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuario">
+      <EntityTypeMapping TypeName="BaseDatosSCAModel.Usuario">
+        <MappingFragment StoreEntitySet="Usuario">
+          <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+          <ScalarProperty Name="Usuario1" ColumnName="Usuario" />
+          <ScalarProperty Name="IdPerfiles" ColumnName="IdPerfiles" />
+          <ScalarProperty Name="IdPersonal" ColumnName="IdPersonal" />
+          <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Personal">
       <EntityTypeMapping TypeName="BaseDatosSCAModel.Personal">
         <MappingFragment StoreEntitySet="Personal">
@@ -155,29 +178,6 @@
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Cedula" ColumnName="Cedula" />
           <ScalarProperty Name="IdPersonal" ColumnName="IdPersonal" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Usuario">
-      <EntityTypeMapping TypeName="BaseDatosSCAModel.Usuario">
-        <MappingFragment StoreEntitySet="Usuario">
-          <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
-          <ScalarProperty Name="Usuario1" ColumnName="Usuario" />
-          <ScalarProperty Name="IdPerfiles" ColumnName="IdPerfiles" />
-          <ScalarProperty Name="IdPersonal" ColumnName="IdPersonal" />
-          <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Perfiles_Permisos">
-      <EntityTypeMapping TypeName="BaseDatosSCAModel.Perfiles_Permisos">
-        <MappingFragment StoreEntitySet="Perfiles_Permisos">
-          <ScalarProperty Name="Eliminar" ColumnName="Eliminar" />
-          <ScalarProperty Name="Modificar" ColumnName="Modificar" />
-          <ScalarProperty Name="Agregar" ColumnName="Agregar" />
-          <ScalarProperty Name="Modulo" ColumnName="Modulo" />
-          <ScalarProperty Name="Id_Perfil" ColumnName="Id_Perfil" />
-          <ScalarProperty Name="Id_Permiso" ColumnName="Id_Permiso" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

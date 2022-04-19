@@ -25,7 +25,7 @@ namespace SCA.Controllers
                 //Encripta la contrasena para realizar la prueba
                 string passa = Helpers.Helper.EncodePassword(string.Concat(Modelo.Usuario.ToString(), Modelo.Pass.ToString()));
                 //Se consulta la base de datos con la contrasena y el usuario dados por usuario 
-                var UsuarioLogueado = Login(Modelo.Usuario, passa);
+                var UsuarioLogueado = LoginAcceso(Modelo.Usuario, passa);
                 //Si la base no devolvio la entidad usuarios llena es por que el usuario o la clave esta mal
                 if (UsuarioLogueado == null)
                 {
@@ -64,7 +64,7 @@ namespace SCA.Controllers
             }
         }
 
-        public Usuario Login(string Usuario, string Pass)
+        public Usuario LoginAcceso(string Usuario, string Pass)
         {
             try
             {

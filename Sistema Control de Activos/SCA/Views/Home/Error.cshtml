@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Layout - Login.cshtml";
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error</title>
+</head>
+<body>
+    <div class="d-flex justify-content-center align-items-center flex-column" style="min-height: 100vh">
+        <h1 class="padding-top-20 padding-bottom-20">Error de acceso</h1>
+        <h3>No tienes permiso para acceder aqui.</h3>
+
+        <button type="button" class="btn btn-outline-secondary"
+                onclick="window.location.href = '/Home/Index';">
+            Ir al inicio<i class='bx bx-home'></i>
+        </button>
+
+    </div>
+</body>
+</html>
+

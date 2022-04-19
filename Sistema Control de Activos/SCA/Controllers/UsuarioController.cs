@@ -7,6 +7,7 @@ using System.Net;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using Filters;
 using SCA.Models;
 
 namespace SCA.Controllers
@@ -16,6 +17,7 @@ namespace SCA.Controllers
         private BaseDatosSCAEntities db = new BaseDatosSCAEntities();
 
         // GET: Usuario
+        [AuthorizeUser(idmodulo: "Usuario")]
         public ActionResult Index()
         {
             var user = db.Usuario.Include(a => a.Personal);
@@ -40,10 +42,10 @@ namespace SCA.Controllers
         }
 
         // GET: Usuario/Create
+        [AuthorizeUserPermises(accion: "A", idmodulo: "Usuario")]
         public ActionResult Create()
         {
-            Usuario Modelo = new Usuario();
-            Modelo.IdPersonallist = db.Personal.ToList().ConvertAll(d =>
+            ViewBag.IdPersonallist = db.Personal.ToList().ConvertAll(d =>
             {
                 return new SelectListItem()
                 {
@@ -51,8 +53,8 @@ namespace SCA.Controllers
                     Value = d.IdPersonal.ToString(),
                     Selected = false
                 };
-            }); 
-            Modelo.IdPerfillist = db.Perfiles_Acceso.ToList().ConvertAll(d =>
+            });
+            ViewBag.IdPerfillist = db.Perfiles_Acceso.ToList().ConvertAll(d =>
             {
                 return new SelectListItem()
                 {
@@ -61,13 +63,14 @@ namespace SCA.Controllers
                     Selected = false
                 };
             });
-            return View(Modelo);
+            return View();
         }
 
         // POST: Usuario/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdUsuario, IdPersonal, IdPerfiles, Usuario, Password")] Usuario usuario)
+        [AuthorizeUserPermises(accion: "A", idmodulo: "Usuario")]
+        public ActionResult Create(Usuario usuario)
         {
             try
             {
@@ -76,6 +79,7 @@ namespace SCA.Controllers
                     using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
                         usuario.Contraseña = Helpers.Helper.EncodePassword(string.Concat(usuario.Usuario1.ToString(), usuario.Contraseña.ToString()));
+                       
                         db.Usuario.Add(usuario);
                         int Resultado = db.SaveChanges();
                         if (Resultado > 0)
@@ -95,13 +99,14 @@ namespace SCA.Controllers
                 //ViewBag.IdPerfiles = new SelectList(db.Perfiles, "IdPerfiles", "Nombre");
                 return View(usuario);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return View();
             }
         }
 
         // GET: Usuario/Edit/5
+        [AuthorizeUserPermises(accion: "E", idmodulo: "Usuario")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -123,6 +128,7 @@ namespace SCA.Controllers
         // POST: Usuario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUserPermises(accion: "E", idmodulo: "Usuario")]
         public ActionResult Edit([Bind(Include = "IdUsuario, IdPersonal, IdPerfiles" +
                                                    "Usuario, Password")] Usuario usuario)
         {
@@ -146,6 +152,7 @@ namespace SCA.Controllers
         }
 
         // GET: Usuario/Delete/5
+        [AuthorizeUserPermises(accion: "D", idmodulo: "Usuario")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

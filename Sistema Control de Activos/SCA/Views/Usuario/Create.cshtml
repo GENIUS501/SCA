@@ -25,15 +25,13 @@
         <div class="form-group">
             <label class="control-label col-md-2">Nombre de la persona:</label>
             <div class="col-md-10">
-                @Html.DropDownList("Id_Perfil", (List<SelectListItem>)Model.IdPersonallist, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IdPersonallist, "", new { @class = "text-danger" })
+                @Html.DropDownList("IdPersonal", (List<SelectListItem>)ViewBag.IdPersonallist, htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Perfil de acceso:</label>
             <div class="col-md-10">
-                @Html.DropDownList("IdPerfiles", (List<SelectListItem>)Model.IdPerfillist, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IdPerfillist, "", new { @class = "text-danger" })
+                @Html.DropDownList("IdPerfiles", (List<SelectListItem>)ViewBag.IdPerfillist, htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
 
@@ -52,17 +50,17 @@
                 @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <br />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-outline-secondary" />
             </div>
         </div>
     </div>
 }
-
+<br />
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Volver a la lista", "Index")
 </div>
 
 @section Scripts {

@@ -14,7 +14,7 @@ namespace SCA.Models
         {
             [Display(Name = "Nombre del Empleado")]
             [Required(ErrorMessage = "El Nombre del Empleado es Requerido")]
-            public string NombrePersonal { get; set; }
+            public string Nombre { get; set; }
 
             [Display(Name = "Primer Apellido del Empleado")]
             [Required(ErrorMessage = "El Apellido del Empleado es Requerido")]
@@ -47,13 +47,13 @@ namespace SCA.Models
             public int IdLicencia { get; set; }
 
             [Required(ErrorMessage = "Se Debe Seleccionar una Opcion")]
-            public string CarnetMinisterioSalud { get; set; }
+            public string CarnetMS { get; set; }
 
             [Display(Name = "Fecha de Vencimiento")]
             [Required(ErrorMessage = "La Fecha de Vencimiento es Requerida")]
             [DataType(DataType.Date)]
             [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-            public System.DateTime VencimientoCarnet { get; set; }
+            public System.DateTime VenceCarnetMS { get; set; }
 
             [Required(ErrorMessage = "Se Debe Seleccionar una Opcion")]
             public int IdDepartamento { get; set; }

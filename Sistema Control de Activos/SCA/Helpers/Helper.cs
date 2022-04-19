@@ -1,6 +1,7 @@
 ﻿using SCA.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -79,6 +80,37 @@ namespace Helpers
                 throw ex;
             }
         }
+        public static int RegistroSalida(int IdRegistro)
+        {
+            try
+            {
+                BaseDatosSCAEntities db = new BaseDatosSCAEntities();
+                using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    //Esto llena la entidad con los datos correspondientes a la entidad traida de la bd
+                    var Objbd = db.BitacoraIngresoSalida.Find(IdRegistro);
+                    Objbd.FechaSalida = DateTime.Now;
+                    db.Entry(Objbd).State = EntityState.Modified;
+                    //Guarda los cambios en bd
+                    int Resultado = db.SaveChanges();//Commit
 
+                    if (Resultado > 0)
+                    {
+                        Ts.Complete();
+                        return Resultado;
+                    }
+                    else
+                    {
+                        Ts.Dispose();
+                        return 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

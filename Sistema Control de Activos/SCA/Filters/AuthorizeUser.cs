@@ -13,7 +13,6 @@ namespace Filters
     {
         //Declaracion de variables
         private string numero_modulo;
-        private BaseDatosSCAEntities db = new BaseDatosSCAEntities();
         //Captura el numero del modulo al que se desea acceder 
         public AuthorizeUser(string idmodulo)
         {
@@ -33,7 +32,7 @@ namespace Filters
                 else
                 {
                     //Llena la entidad permisos con los valores de la tabla permisos de base de datos si existen
-                    int IdPerfil = (int)((UsuarioEntidadSesion.IdPerfiles is null )? UsuarioEntidadSesion.IdPerfiles:0);
+                    int IdPerfil = (int)(UsuarioEntidadSesion.IdPerfiles);
                     var lstMisOperaciones = Lista_de_Operaciones(IdPerfil, numero_modulo);
                     //Si es meno o igual a cero es que el permiso no existe y por lo tanto no puede acceder al modulo
                     if (lstMisOperaciones.ToList().Count() <= 0)
@@ -53,10 +52,11 @@ namespace Filters
         {
             try
             {
-                using (db)
+                using (BaseDatosSCAEntities db = new BaseDatosSCAEntities())
                 {
                     List<Perfiles_Permisos> Objbd = new List<Perfiles_Permisos>();
-                    return db.Perfiles_Permisos.Where(x => x.Id_Permiso == Idrol && x.Modulo == IdModulo).ToList();
+                    return db.Perfiles_Permisos.Where(x => x.Id_Perfil == Idrol && x.Modulo == IdModulo).ToList();
+                    
                 }
             }
             catch (Exception ex)

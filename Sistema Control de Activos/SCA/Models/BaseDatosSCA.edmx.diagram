@@ -16,23 +16,23 @@
         <EntityTypeShape EntityType="BaseDatosSCAModel.Licencia" Width="1.5" PointX="0.75" PointY="15.125" />
         <EntityTypeShape EntityType="BaseDatosSCAModel.MantenimientoVehiculo" Width="1.5" PointX="5.25" PointY="24.75" />
         <EntityTypeShape EntityType="BaseDatosSCAModel.Perfiles_Acceso" Width="1.5" PointX="3" PointY="11" />
-        <EntityTypeShape EntityType="BaseDatosSCAModel.Personal" Width="1.5" PointX="3" PointY="13.875" />
-        <EntityTypeShape EntityType="BaseDatosSCAModel.Usuario" Width="1.5" PointX="5.25" PointY="11.625" />
         <EntityTypeShape EntityType="BaseDatosSCAModel.Perfiles_Permisos" Width="1.5" PointX="5.25" PointY="7.875" />
-        <AssociationConnector Association="BaseDatosSCAModel.FK_BitacoraIngresoSalida_Usuario" />
-        <AssociationConnector Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_ControlInventario_Inventario" />
-        <AssociationConnector Association="BaseDatosSCAModel.FK_ControlInventario_Personal" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_ControlVehiculo_Flotilla" />
-        <AssociationConnector Association="BaseDatosSCAModel.FK_ControlVehiculo_Personal" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_Flotilla_Departamento" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_Inventario_Departamento" />
-        <AssociationConnector Association="BaseDatosSCAModel.FK_Personal_Departamento" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_MantenimientoVehiculo_Flotilla" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_MantenimientoInventario_Inventario" />
-        <AssociationConnector Association="BaseDatosSCAModel.FK_Personal_Licencia" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_Permisos_Perfil" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.Usuario" Width="1.5" PointX="5.25" PointY="12.25" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_BitacoraIngresoSalida_Usuario" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_Usuario_Perfil" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.Personal" Width="1.5" PointX="10" PointY="13.375" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_ControlInventario_Personal" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_ControlVehiculo_Personal" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_Personal_Departamento" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_Personal_Licencia" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_Usuario_Personal" />
         </Diagram>
     </edmx:Diagrams>

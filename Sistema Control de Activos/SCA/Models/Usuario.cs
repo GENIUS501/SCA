@@ -11,8 +11,7 @@ namespace SCA.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.Web.Mvc;
-
+    
     public partial class Usuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -27,8 +26,7 @@ namespace SCA.Models
         public Nullable<int> IdPerfiles { get; set; }
         public string Usuario1 { get; set; }
         public string Contraseña { get; set; }
-        public List<SelectListItem> IdPersonallist { get; set; }
-        public List<SelectListItem> IdPerfillist { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BitacoraIngresoSalida> BitacoraIngresoSalida { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

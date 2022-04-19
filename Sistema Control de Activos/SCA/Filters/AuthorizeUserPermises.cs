@@ -12,7 +12,6 @@ namespace Filters
     public class AuthorizeUserPermises : AuthorizeAttribute
     {
         //Declaracion de variables
-        private BaseDatosSCAEntities db = new BaseDatosSCAEntities();
         private string numero_modulo;
         private string accion;
         //Captura el numero del modulo al que se desea acceder 
@@ -39,7 +38,7 @@ namespace Filters
                     //Valida que la accion este permitida en el perfil.
                     //Llena la entidad permisos con los valores de la tabla permisos de base de datos si existen
                     //NRoles_Permisos Negocios = new NRoles_Permisos();
-                    int IdPerfil = (int)((UsuarioEntidadSesion.IdPerfiles is null) ? UsuarioEntidadSesion.IdPerfiles : 0);
+                    int IdPerfil = (int)(UsuarioEntidadSesion.IdPerfiles);
                     var lstMisOperaciones = Lista_de_Operaciones_Accion(IdPerfil, numero_modulo, accion);
                     //Si es meno o igual a cero es que el permiso no existe y por lo tanto no puede acceder al modulo
                     if (lstMisOperaciones.ToList().Count() <= 0)
@@ -59,7 +58,7 @@ namespace Filters
         {
             try
             {
-                using (db)
+                using (BaseDatosSCAEntities db = new BaseDatosSCAEntities())
                 {
                     List<Perfiles_Permisos> Objbd = new List<Perfiles_Permisos>();
                     if (Accion == "A")
