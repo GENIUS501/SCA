@@ -150,8 +150,19 @@ namespace SCA.Controllers
                     using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
                         var inventarioguardar = db.Inventario.Find(inventario.IdInventario);
-                        inventarioguardar = inventario;
-                        db.Entry(inventarioguardar).State = EntityState.Modified;
+                        inventarioguardar.CodigoEmpresa = inventario.CodigoEmpresa;
+                        inventarioguardar.ControlInventario = inventario.ControlInventario;
+                        inventarioguardar.CostoEquipo = inventario.CostoEquipo;
+                        inventarioguardar.Fabricante = inventario.Fabricante;
+                        inventarioguardar.FechaCompra = inventario.FechaCompra;
+                        inventarioguardar.Garantia = inventario.Garantia;
+                        inventarioguardar.IdDepartamento = inventario.IdDepartamento;
+                        inventarioguardar.IdInventario = inventario.IdInventario;
+                        inventarioguardar.Modelo = inventario.Modelo;
+                        inventarioguardar.Nombre = inventario.Nombre;
+                        inventarioguardar.Serie = inventario.Serie;
+                        inventarioguardar.VenceGarantia = inventario.VenceGarantia;
+                        //db.Entry(inventarioguardar).State = EntityState.Modified;
                         int Resultado = db.SaveChanges();
                         if (Resultado > 0)
                         {
