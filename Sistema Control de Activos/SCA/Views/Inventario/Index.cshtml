@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@Html.Raw(TempData["msg"])
 <h2>Index</h2>
 
 <p>
@@ -47,8 +47,8 @@
                 @Html.DisplayNameFor(model => model.Departamento.Nombre)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.MotivoDeshabilitar)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.MotivoDeshabilitar)
+                </th>*@
             <th>Acciones</th>
         </tr>
     </thead>
@@ -90,12 +90,12 @@
                     @Html.DisplayFor(modelItem => item.Departamento.Nombre)
                 </td>
                 @*<td>
-                    @Html.DisplayFor(modelItem => item.MotivoDeshabilitar)
-                </td>*@
+                        @Html.DisplayFor(modelItem => item.MotivoDeshabilitar)
+                    </td>*@
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.IdInventario }) |
                     @Html.ActionLink("Detalles", "Details", new { id = item.IdInventario }) |
-                    @Html.ActionLink("Borrar", "Delete", new { id=item.IdInventario })
+                    @Html.ActionLink("Borrar", "Delete", new { id = item.IdInventario })
                 </td>
             </tr>
         }
@@ -141,7 +141,7 @@
                         filename: 'Reporte de inventarios',
                         title: "D'geo \n Reporte de inventarios \n Fecha: " + d,
                         customize: function (doc) {
-/*                            doc.content[1].margin = [80, 0, 80, 0];*/
+                            /*                            doc.content[1].margin = [80, 0, 80, 0];*/
                             doc['footer'] = (function (page, pages) {
                                 return {
                                     columns: [
@@ -168,7 +168,7 @@
 
                         },
                         exportOptions: {
-                            columns: [0, 1, 2, 3,4,5,6,7,8,9,10]
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                         }
                     }
                 ]

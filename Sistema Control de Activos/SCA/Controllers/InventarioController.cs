@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using SCA.Models;
@@ -29,7 +30,8 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Inventario inventario = db.Inventario.Find(id);
+            var inventarios = db.Inventario.Include(x => x.Departamento).ToList();
+            Inventario inventario = inventarios.Where(x => x.IdInventario == id).FirstOrDefault();
             if (inventario == null)
             {
                 return HttpNotFound();
@@ -55,25 +57,57 @@ namespace SCA.Controllers
         // POST: Inventario/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdInventario, CodigoEmpresa, Nombre, Modelo, Serie" +
-                                                   "Fabricante, FechaCompra, CostoEquipo, Garantia, VenceGarantia" +
-                                                   "IdDepartamento, MotivoDeshabilitar")]Inventario inventario)
+        public ActionResult Create(Inventario inventario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Inventario.Add(inventario);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        db.Inventario.Add(inventario);
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Agrego", "Inventario", "", inventario.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('Inventario Agregado exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            ViewBag.ListaDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                            {
+                                return new SelectListItem()
+                                {
+                                    Text = d.Nombre,
+                                    Value = d.IdDepartamento.ToString(),
+                                    Selected = false
+                                };
+                            });
+                            TempData["msg"] = "<script>alert('Error al agregar inventario!!');</script>";
+                            return View(inventario);
+                        }
+                    }
                 }
-
-                ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre", inventario.IdDepartamento);
+                ViewBag.ListaDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre,
+                        Value = d.IdDepartamento.ToString(),
+                        Selected = false
+                    };
+                });
+                TempData["msg"] = "<script>alert('Error al agregar inventario!!');</script>";
                 return View(inventario);
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al agregar inventario!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -90,33 +124,76 @@ namespace SCA.Controllers
             {
                 return HttpNotFound();
             }
-
-            ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre", inventario.IdDepartamento);
+            ViewBag.ListaDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
             return View(inventario);
         }
 
         // POST: Inventario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdInventario, CodigoEmpresa, Nombre, Modelo, Serie" +
-                                                   "Fabricante, FechaCompra, CostoEquipo, Garantia, VenceGarantia" +
-                                                   "IdDepartamento, MotivoDeshabilitar")]Inventario inventario)
+        public ActionResult Edit(Inventario inventario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(inventario).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    var ValorAntiguoEntidad = db.Inventario.Where(x => x.IdInventario == inventario.IdInventario).FirstOrDefault();
+                    string ValorAntiguo = "IdInventario:" + ValorAntiguoEntidad.IdInventario.ToString() + " CodigoEmpresa:" + ValorAntiguoEntidad.CodigoEmpresa + " Nombre:" + ValorAntiguoEntidad.Nombre + " Modelo:" + ValorAntiguoEntidad.Modelo + " Serie:" + ValorAntiguoEntidad.Serie + " Fabricante:" + ValorAntiguoEntidad.Fabricante + " FechaCompra" + ValorAntiguoEntidad.FechaCompra.ToString() + " CostoEquipo:" + ValorAntiguoEntidad.CostoEquipo + " Garantia:" + ValorAntiguoEntidad.Garantia.ToString() + " VenceGarantia:" + ValorAntiguoEntidad.VenceGarantia + " IdDepartamento:" + ValorAntiguoEntidad.IdDepartamento;
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        var inventarioguardar = db.Inventario.Find(inventario.IdInventario);
+                        inventarioguardar = inventario;
+                        db.Entry(inventarioguardar).State = EntityState.Modified;
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Edito", "Inventario", ValorAntiguo, inventario.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('Inventario editado exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            ViewBag.ListaDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                            {
+                                return new SelectListItem()
+                                {
+                                    Text = d.Nombre,
+                                    Value = d.IdDepartamento.ToString(),
+                                    Selected = false
+                                };
+                            });
+                            TempData["msg"] = "<script>alert('Error al editar inventario!!');</script>";
+                            return View(inventario);
+                        }
+                    }
                 }
-
-                ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre", inventario.IdDepartamento);
+                ViewBag.ListaDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre,
+                        Value = d.IdDepartamento.ToString(),
+                        Selected = false
+                    };
+                });
+                TempData["msg"] = "<script>alert('Error al editar inventario!!');</script>";
                 return View(inventario);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al editar inventario!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -127,8 +204,8 @@ namespace SCA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            Inventario inventario = db.Inventario.Find(id);
+            var inventarios = db.Inventario.Include(x => x.Departamento).ToList();
+            Inventario inventario = inventarios.Where(x => x.IdInventario == id).FirstOrDefault();
             if (inventario == null)
             {
                 return HttpNotFound();
@@ -138,30 +215,41 @@ namespace SCA.Controllers
         }
 
         // POST: Inventario/Delete/5
-        [HttpPost, ActionName("Borrar")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
-                Inventario inventario = db.Inventario.Find(id);
-                db.Inventario.Remove(inventario);
-                db.SaveChanges();
+
+                using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    Inventario inventario = db.Inventario.Find(id);
+                    var ValorAntiguoEntidad = db.Inventario.Find(inventario.IdInventario);
+                    db.Inventario.Remove(inventario);
+                    int Resultado = db.SaveChanges();
+                    if (Resultado > 0)
+                    {
+                        Ts.Complete();
+                        var UsuarioLogueado = (Usuario)Session["User"];
+                        string ValorAntiguo = "IdInventario:" + ValorAntiguoEntidad.IdInventario.ToString() + " CodigoEmpresa:" + ValorAntiguoEntidad.CodigoEmpresa + " Nombre:" + ValorAntiguoEntidad.Nombre + " Modelo:" + ValorAntiguoEntidad.Modelo + " Serie:" + ValorAntiguoEntidad.Serie + " Fabricante:" + ValorAntiguoEntidad.Fabricante + " FechaCompra" + ValorAntiguoEntidad.FechaCompra.ToString() + " CostoEquipo:" + ValorAntiguoEntidad.CostoEquipo + " Garantia:" + ValorAntiguoEntidad.Garantia.ToString() + " VenceGarantia:" + ValorAntiguoEntidad.VenceGarantia + " IdDepartamento:" + ValorAntiguoEntidad.IdDepartamento;
+                        Helpers.Helper.RegistrarMovimiento("Elimino", "Inventario", ValorAntiguo, "", UsuarioLogueado.IdUsuario);
+                        TempData["msg"] = "<script>alert('Inventario eliminado exitosamente!!');</script>";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        Ts.Dispose();
+                        TempData["msg"] = "<script>alert('Error al eliminar inventario!!');</script>";
+                        return View(inventario);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                TempData["msg"] = "<script>alert('Error al eliminar inventario!!');</script>";
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

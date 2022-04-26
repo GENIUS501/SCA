@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations;
 namespace SCA.Models
 {
     [MetadataType(typeof(InventarioMetaData))]
-
     public partial class Inventario
     {
         public class InventarioMetaData
@@ -52,6 +51,11 @@ namespace SCA.Models
             public int IdDepartamento { get; set; }
 
             public string MotivoDeshabilitar { get; set; }
+        }
+
+        public string ValorNuevo()
+        {
+            return "IdInventario:" + IdInventario.ToString() + " CodigoEmpresa:" + CodigoEmpresa + " Nombre:" + Nombre + " Modelo:" + Modelo + " Serie:" + Serie + " Fabricante:" + Fabricante + " FechaCompra" + FechaCompra.ToString() + " CostoEquipo:" + CostoEquipo + " Garantia:" + Garantia.ToString() + " VenceGarantia:" + VenceGarantia + " IdDepartamento:" + IdDepartamento;
         }
     }
 }

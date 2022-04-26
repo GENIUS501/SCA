@@ -7,7 +7,6 @@
       <Diagram DiagramId="c23a7c4086d544d5a55436b5500d4861" Name="Diagram1" ZoomLevel="67">
         <EntityTypeShape EntityType="BaseDatosSCAModel.MantenimientoInventario" Width="1.5" PointX="5.25" PointY="19.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BaseDatosSCAModel.BitacoraIngresoSalida" Width="1.5" PointX="7.5" PointY="13.75" />
-        <EntityTypeShape EntityType="BaseDatosSCAModel.BitacoraMovimiento" Width="1.5" PointX="7.5" PointY="10.375" />
         <EntityTypeShape EntityType="BaseDatosSCAModel.ControlInventario" Width="1.5" PointX="5.25" PointY="16" />
         <EntityTypeShape EntityType="BaseDatosSCAModel.ControlVehiculo" Width="1.5" PointX="8.25" PointY="19.375" />
         <EntityTypeShape EntityType="BaseDatosSCAModel.Departamento" Width="1.5" PointX="0.75" PointY="20" />
@@ -26,7 +25,6 @@
         <AssociationConnector Association="BaseDatosSCAModel.FK_Permisos_Perfil" />
         <EntityTypeShape EntityType="BaseDatosSCAModel.Usuario" Width="1.5" PointX="5.25" PointY="12.25" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_BitacoraIngresoSalida_Usuario" />
-        <AssociationConnector Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_Usuario_Perfil" />
         <EntityTypeShape EntityType="BaseDatosSCAModel.Personal" Width="1.5" PointX="10" PointY="13.375" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_ControlInventario_Personal" />
@@ -34,6 +32,8 @@
         <AssociationConnector Association="BaseDatosSCAModel.FK_Personal_Departamento" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_Personal_Licencia" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_Usuario_Personal" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.BitacoraMovimiento" Width="1.5" PointX="7.5" PointY="10.375" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

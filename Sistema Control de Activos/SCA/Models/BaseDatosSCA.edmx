@@ -23,8 +23,8 @@
           <Property Name="FechaMovimiento" Type="date" Nullable="false" />
           <Property Name="TipoMovimiento" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModuloAfectado" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="ValorAntiguo" Type="varchar" MaxLength="50" />
-          <Property Name="ValorNuevo" Type="varchar" MaxLength="50" />
+          <Property Name="ValorAntiguo" Type="varchar(max)" />
+          <Property Name="ValorNuevo" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="ControlInventario">
           <Key>
@@ -458,7 +458,6 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
         <EntityContainer Name="BaseDatosSCAEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="MantenimientoInventario" EntityType="Self.MantenimientoInventario" />
           <EntitySet Name="BitacoraIngresoSalida" EntityType="BaseDatosSCAModel.BitacoraIngresoSalida" />
-          <EntitySet Name="BitacoraMovimiento" EntityType="BaseDatosSCAModel.BitacoraMovimiento" />
           <EntitySet Name="ControlInventario" EntityType="BaseDatosSCAModel.ControlInventario" />
           <EntitySet Name="ControlVehiculo" EntityType="BaseDatosSCAModel.ControlVehiculo" />
           <EntitySet Name="Departamento" EntityType="BaseDatosSCAModel.Departamento" />
@@ -501,10 +500,6 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="BitacoraIngresoSalida" EntitySet="BitacoraIngresoSalida" />
           </AssociationSet>
-          <AssociationSet Name="FK_BitacoraMovimiento_Usuario" Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="BitacoraMovimiento" EntitySet="BitacoraMovimiento" />
-          </AssociationSet>
           <AssociationSet Name="FK_Usuario_Perfil" Association="BaseDatosSCAModel.FK_Usuario_Perfil">
             <End Role="Perfiles_Acceso" EntitySet="Perfiles_Acceso" />
             <End Role="Usuario" EntitySet="Usuario" />
@@ -530,6 +525,11 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
             <End Role="Personal" EntitySet="Personal" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
+          <EntitySet Name="BitacoraMovimiento" EntityType="BaseDatosSCAModel.BitacoraMovimiento" />
+          <AssociationSet Name="FK_BitacoraMovimiento_Usuario" Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="BitacoraMovimiento" EntitySet="BitacoraMovimiento" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BitacoraIngresoSalida">
           <Key>
@@ -540,19 +540,6 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
           <Property Name="FechaIngreso" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="FechaSalida" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Usuario" Relationship="BaseDatosSCAModel.FK_BitacoraIngresoSalida_Usuario" FromRole="BitacoraIngresoSalida" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="BitacoraMovimiento">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
-          <Property Name="FechaMovimiento" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="TipoMovimiento" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModuloAfectado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ValorAntiguo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ValorNuevo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Usuario" Relationship="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" FromRole="BitacoraMovimiento" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="ControlInventario">
           <Key>
@@ -772,9 +759,9 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
           <Property Name="Usuario1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Contraseña" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="BitacoraIngresoSalida" Relationship="BaseDatosSCAModel.FK_BitacoraIngresoSalida_Usuario" FromRole="Usuario" ToRole="BitacoraIngresoSalida" />
-          <NavigationProperty Name="BitacoraMovimiento" Relationship="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" FromRole="Usuario" ToRole="BitacoraMovimiento" />
           <NavigationProperty Name="Perfiles_Acceso" Relationship="BaseDatosSCAModel.FK_Usuario_Perfil" FromRole="Usuario" ToRole="Perfiles_Acceso" />
           <NavigationProperty Name="Personal" Relationship="BaseDatosSCAModel.FK_Usuario_Personal" FromRole="Usuario" ToRole="Personal" />
+          <NavigationProperty Name="BitacoraMovimiento" Relationship="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" FromRole="Usuario" ToRole="BitacoraMovimiento" />
         </EntityType>
         <Association Name="FK_BitacoraIngresoSalida_Usuario">
           <End Type="BaseDatosSCAModel.Usuario" Role="Usuario" Multiplicity="1" />
@@ -784,18 +771,6 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
               <PropertyRef Name="IdUsuario" />
             </Principal>
             <Dependent Role="BitacoraIngresoSalida">
-              <PropertyRef Name="IdUsuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BitacoraMovimiento_Usuario">
-          <End Type="BaseDatosSCAModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="BaseDatosSCAModel.BitacoraMovimiento" Role="BitacoraMovimiento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="IdUsuario" />
-            </Principal>
-            <Dependent Role="BitacoraMovimiento">
               <PropertyRef Name="IdUsuario" />
             </Dependent>
           </ReferentialConstraint>
@@ -894,6 +869,31 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BitacoraMovimiento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="FechaMovimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TipoMovimiento" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModuloAfectado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ValorAntiguo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ValorNuevo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuario" Relationship="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" FromRole="BitacoraMovimiento" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_BitacoraMovimiento_Usuario">
+          <End Type="BaseDatosSCAModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="BaseDatosSCAModel.BitacoraMovimiento" Role="BitacoraMovimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="BitacoraMovimiento">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -918,19 +918,6 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
               <MappingFragment StoreEntitySet="BitacoraIngresoSalida">
                 <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
                 <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BitacoraMovimiento">
-            <EntityTypeMapping TypeName="BaseDatosSCAModel.BitacoraMovimiento">
-              <MappingFragment StoreEntitySet="BitacoraMovimiento">
-                <ScalarProperty Name="ValorNuevo" ColumnName="ValorNuevo" />
-                <ScalarProperty Name="ValorAntiguo" ColumnName="ValorAntiguo" />
-                <ScalarProperty Name="ModuloAfectado" ColumnName="ModuloAfectado" />
-                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
-                <ScalarProperty Name="FechaMovimiento" ColumnName="FechaMovimiento" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -1077,6 +1064,19 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="IdPersonal" ColumnName="IdPersonal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BitacoraMovimiento">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.BitacoraMovimiento">
+              <MappingFragment StoreEntitySet="BitacoraMovimiento">
+                <ScalarProperty Name="ValorNuevo" ColumnName="ValorNuevo" />
+                <ScalarProperty Name="ValorAntiguo" ColumnName="ValorAntiguo" />
+                <ScalarProperty Name="ModuloAfectado" ColumnName="ModuloAfectado" />
+                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
+                <ScalarProperty Name="FechaMovimiento" ColumnName="FechaMovimiento" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

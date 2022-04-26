@@ -171,7 +171,7 @@ create table BitacoraMovimiento
 	FechaMovimiento date NOT NULL,
 	TipoMovimiento varchar(50) NOT NULL,
 	ModuloAfectado varchar (50) NOT NULL,
-	ValorAntiguo varchar (50) NULL,
-	ValorNuevo varchar (50) NULL,
+	ValorAntiguo varchar (max) NULL,
+	ValorNuevo varchar (max) NULL,
 	CONSTRAINT FK_BitacoraMovimiento_Usuario FOREIGN KEY (IdUsuario) REFERENCES Usuario (IdUsuario)
 )

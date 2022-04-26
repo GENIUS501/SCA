@@ -1,12 +1,12 @@
 ﻿@model SCA.Models.Inventario
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
+<h2>Details</h2>
 
-<h3>Realmente desea eliminar el inventario?</h3>
 <div>
     <h4>Inventario</h4>
     <hr />
@@ -100,13 +100,8 @@
         </dd>
 
     </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Borrar" class="btn btn-outline-secondary" /> |
-            @Html.ActionLink("Volver a la lista", "Index")
-        </div>
-    }
 </div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new {  id = Model.IdInventario }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

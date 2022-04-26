@@ -25,27 +25,34 @@ namespace Helpers
 
         public static bool RegistrarMovimiento(string Movimiento, string Modulo, string ValorAntiguo, string ValorNuevo, int Id)
         {
-            BaseDatosSCAEntities db = new BaseDatosSCAEntities();
-            using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            try
             {
-                BitacoraMovimiento Entidad = new BitacoraMovimiento();
-                Entidad.FechaMovimiento = DateTime.Now;
-                Entidad.IdUsuario = Id;
-                Entidad.ModuloAfectado = Modulo;
-                Entidad.TipoMovimiento = Movimiento;
-                Entidad.ValorAntiguo = ValorAntiguo;
-                Entidad.ValorNuevo = ValorNuevo;
-                db.BitacoraMovimiento.Add(Entidad);
-                int Resultado = db.SaveChanges();
-                if (Resultado > 0)
+                BaseDatosSCAEntities db = new BaseDatosSCAEntities();
+                using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    Ts.Complete();
-                    return true;
-                }else
-                {
-                    Ts.Dispose();
-                    return false;
+                    BitacoraMovimiento Entidad = new BitacoraMovimiento();
+                    Entidad.FechaMovimiento = DateTime.Now;
+                    Entidad.IdUsuario = Id;
+                    Entidad.ModuloAfectado = Modulo;
+                    Entidad.TipoMovimiento = Movimiento;
+                    Entidad.ValorAntiguo = ValorAntiguo;
+                    Entidad.ValorNuevo = ValorNuevo;
+                    db.BitacoraMovimiento.Add(Entidad);
+                    int Resultado = db.SaveChanges();
+                    if (Resultado > 0)
+                    {
+                        Ts.Complete();
+                        return true;
+                    }
+                    else
+                    {
+                        Ts.Dispose();
+                        return false;
+                    }
                 }
+            }catch(Exception ex)
+            {
+                throw ex;
             }
         }
 
