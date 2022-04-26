@@ -14,7 +14,7 @@ namespace SCA.Models
         {
             [Display(Name = "Nombre del Equipo")]
             [Required(ErrorMessage = "El Nombre del Equipo es Requerido")]
-            public string NombreActivo { get; set; }
+            public string Nombre { get; set; }
 
             [Display(Name = "Modelo del Equipo")]
             [Required(ErrorMessage = "El Modelo del Equipo es Requerido")]
@@ -26,7 +26,7 @@ namespace SCA.Models
 
             [Display(Name = "Codigo del Equipo")]
             [Required(ErrorMessage = "El Codigo del Equipo es Requerido")]
-            public string CodigoDGeo { get; set; }
+            public string CodigoEmpresa { get; set; }
 
             [Display(Name = "Fabricante del Equipo")]
             [Required(ErrorMessage = "El Fabricante del Equipo es Requerido")]
@@ -46,7 +46,7 @@ namespace SCA.Models
             [Display(Name = "Vencimiento de Garantia")]
             [DataType(DataType.Date)]
             [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-            public System.DateTime VencimientoGarantia { get; set; }
+            public System.DateTime VenceGarantia { get; set; }
 
             [Required(ErrorMessage = "Se Debe Seleccionar una Opcion")]
             public int IdDepartamento { get; set; }

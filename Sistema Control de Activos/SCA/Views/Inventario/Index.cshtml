@@ -1,34 +1,54 @@
-﻿@model IEnumerable<SCA.Models.Usuario>
+﻿@model IEnumerable<SCA.Models.Inventario>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Usuarios</h2>
-<br />
+<h2>Index</h2>
+
 <p>
-    @Html.ActionLink("Agregar nuevo", "Create")
+    @Html.ActionLink("Agregar Nuevo", "Create")
 </p>
-<br />
 <table class="table table-responsive table-bordered" id="Tabla">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdUsuario)
+                @*@Html.DisplayNameFor(model => model.IdInventario)*@ Id
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Personal.Nombre)
+                @Html.DisplayNameFor(model => model.CodigoEmpresa)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Perfiles_Acceso.NombrePerfil)
+                @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
-                Nombre de usuario
+                @Html.DisplayNameFor(model => model.Modelo)
             </th>
             <th>
-                Contraseña encriptada
+                @Html.DisplayNameFor(model => model.Serie)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fabricante)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaCompra)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CostoEquipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Garantia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VenceGarantia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Departamento.Nombre)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.MotivoDeshabilitar)
+            </th>*@
             <th>Acciones</th>
         </tr>
     </thead>
@@ -37,35 +57,57 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdUsuario)
+                    @Html.DisplayFor(modelItem => item.IdInventario)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Personal.Nombre)
+                    @Html.DisplayFor(modelItem => item.CodigoEmpresa)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Perfiles_Acceso.NombrePerfil)
+                    @Html.DisplayFor(modelItem => item.Nombre)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Usuario1)
+                    @Html.DisplayFor(modelItem => item.Modelo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Contraseña)
+                    @Html.DisplayFor(modelItem => item.Serie)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.IdUsuario }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.IdUsuario }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.IdUsuario })
+                    @Html.DisplayFor(modelItem => item.Fabricante)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaCompra)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostoEquipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Garantia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VenceGarantia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Departamento.Nombre)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.MotivoDeshabilitar)
+                </td>*@
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.IdInventario }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.IdInventario }) |
+                    @Html.ActionLink("Borrar", "Delete", new { id=item.IdInventario })
                 </td>
             </tr>
         }
     </tbody>
 </table>
 @section scripts{
-    @*@Scripts.Render("~/bundles/jqueryval")*@
     <script>
-        var Usuario = '@Session["Usuario"].ToString()';//agarra el valor del usuario logueado
-        var f = new Date();
-        var d = f.getDate() + "/" + f.getMonth() + "/" + f.getFullYear() + "   " + " hora: " + f.getHours() + ":" + f.getMinutes();
+    var Usuario = '@Session["Usuario"].ToString()';//agarra el valor del usuario logueado
+    var f = new Date();
+    var d = f.getDate() + "/" + f.getMonth() + "/" + f.getFullYear() + "   " + " hora: " + f.getHours() + ":" + f.getMinutes();
+    </script>
+    <script>
         $(document).ready(function () {
             $('#Tabla').DataTable({
                 "searching": true,
@@ -96,10 +138,10 @@
                         extend: 'pdf',
                         orientation: 'landscape',
                         text: '<button class="btn btn-outline-secondary"> Exportar a PDF</button>',
-                        filename: 'Reporte de usuarios',
-                        title: "D'geo \n Reporte de usuarios \n Fecha: " + d,
+                        filename: 'Reporte de inventarios',
+                        title: "D'geo \n Reporte de inventarios \n Fecha: " + d,
                         customize: function (doc) {
-                            doc.content[1].margin = [190, 0, 190, 0];
+/*                            doc.content[1].margin = [80, 0, 80, 0];*/
                             doc['footer'] = (function (page, pages) {
                                 return {
                                     columns: [
@@ -126,7 +168,7 @@
 
                         },
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3,4,5,6,7,8,9,10]
                         }
                     }
                 ]

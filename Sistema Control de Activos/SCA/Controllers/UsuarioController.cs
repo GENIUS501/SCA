@@ -20,8 +20,8 @@ namespace SCA.Controllers
         [AuthorizeUser(idmodulo: "Usuario")]
         public ActionResult Index()
         {
-            var user = db.Usuario.Include(a => a.Personal);
-           // var use = db.Usuario.Include(a => a.Perfiles);
+            var user = db.Usuario.Include(a => a.Personal).Include(a => a.Perfiles_Acceso);
+            // var use = db.Usuario.Include(a => a.Perfiles);
             return View(user.ToList());
         }
 
@@ -79,7 +79,7 @@ namespace SCA.Controllers
                     using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
                         usuario.Contraseña = Helpers.Helper.EncodePassword(string.Concat(usuario.Usuario1.ToString(), usuario.Contraseña.ToString()));
-                       
+
                         db.Usuario.Add(usuario);
                         int Resultado = db.SaveChanges();
                         if (Resultado > 0)

@@ -40,7 +40,15 @@ namespace SCA.Controllers
         // GET: Inventario/Create
         public ActionResult Create()
         {
-            ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre");
+            ViewBag.ListaDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
             return View();
         }
 

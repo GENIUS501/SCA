@@ -14,7 +14,7 @@ namespace SCA.Models
         {
             [Display(Name ="Nombre de Departamento")]
             [Required(ErrorMessage ="El Nombre del Departamento es Requerido")]
-            public string NombreDepartamento { get; set; }
+            public string Nombre { get; set; }
         }
     }
 }
