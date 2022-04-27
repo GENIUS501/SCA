@@ -32,8 +32,8 @@ namespace SCA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            Usuario usuario = db.Usuario.Find(id);
+            var usuarios = db.Usuario.Include(a => a.Personal).Include(a => a.Perfiles_Acceso).ToList();
+            var usuario = usuarios.Where(x => x.IdUsuario == id).FirstOrDefault();
             if (usuario == null)
             {
                 return HttpNotFound();
@@ -79,29 +79,58 @@ namespace SCA.Controllers
                     using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
                         usuario.Contraseña = Helpers.Helper.EncodePassword(string.Concat(usuario.Usuario1.ToString(), usuario.Contraseña.ToString()));
-
                         db.Usuario.Add(usuario);
                         int Resultado = db.SaveChanges();
                         if (Resultado > 0)
                         {
                             Ts.Complete();
-                            //var RegistroBitacora = Helpers.Helper.RegistrarMovimiento("Agrego", "Usuarios", "", usuario.IdPerfiles.ToString() + usuario.IdPersonal.ToString(), 1);
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Agrego", "Usuario", "", usuario.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('Usuario Agregado exitosamente!!');</script>";
+                            return RedirectToAction("Index");
                         }
                         else
                         {
                             Ts.Dispose();
+                            ViewBag.ListaDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                            {
+                                return new SelectListItem()
+                                {
+                                    Text = d.Nombre,
+                                    Value = d.IdDepartamento.ToString(),
+                                    Selected = false
+                                };
+                            });
+                            TempData["msg"] = "<script>alert('Error al agregar usuario!!');</script>";
+                            return View(usuario);
                         }
                     }
-                    return RedirectToAction("Index");
                 }
-
-                ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula");
-                //ViewBag.IdPerfiles = new SelectList(db.Perfiles, "IdPerfiles", "Nombre");
+                ViewBag.IdPersonallist = db.Personal.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre + d.Apellido1 + d.Apellido2,
+                        Value = d.IdPersonal.ToString(),
+                        Selected = false
+                    };
+                });
+                ViewBag.IdPerfillist = db.Perfiles_Acceso.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.NombrePerfil,
+                        Value = d.Id_Perfil.ToString(),
+                        Selected = false
+                    };
+                });
+                TempData["msg"] = "<script>alert('Error al agregar usuario!!');</script>";
                 return View(usuario);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al agregar usuario!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -119,8 +148,24 @@ namespace SCA.Controllers
             {
                 return HttpNotFound();
             }
-
-            ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula");
+            ViewBag.IdPersonallist = db.Personal.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre + d.Apellido1 + d.Apellido2,
+                    Value = d.IdPersonal.ToString(),
+                    Selected = false
+                };
+            });
+            ViewBag.IdPerfillist = db.Perfiles_Acceso.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.NombrePerfil,
+                    Value = d.Id_Perfil.ToString(),
+                    Selected = false
+                };
+            });
             //ViewBag.IdPerfiles = new SelectList(db.Perfiles, "IdPerfiles", "Nombre");
             return View(usuario);
         }
@@ -129,25 +174,77 @@ namespace SCA.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeUserPermises(accion: "E", idmodulo: "Usuario")]
-        public ActionResult Edit([Bind(Include = "IdUsuario, IdPersonal, IdPerfiles" +
-                                                   "Usuario, Password")] Usuario usuario)
+        public ActionResult Edit(Usuario usuario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(usuario).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    var ValorAntiguoEntidad = db.Usuario.Where(x => x.IdUsuario == usuario.IdUsuario).FirstOrDefault();
+                    string ValorAntiguo = "Contraseña:" + ValorAntiguoEntidad.Contraseña.ToString() + " IdPerfiles:" + ValorAntiguoEntidad.IdPerfiles + " IdPersonal:" + ValorAntiguoEntidad.IdPersonal + " IdUsuario:" + ValorAntiguoEntidad.IdUsuario + " Usuario1:" + ValorAntiguoEntidad.Usuario1;
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        var UsuarioGuardar = db.Usuario.Where(x => x.IdUsuario == usuario.IdUsuario).FirstOrDefault();
+                        if (UsuarioGuardar.Contraseña != usuario.Contraseña)
+                        {
+                            UsuarioGuardar.Contraseña = Helpers.Helper.EncodePassword(string.Concat(usuario.Usuario1.ToString(), usuario.Contraseña.ToString()));
+                        }
+                        UsuarioGuardar.IdPerfiles = usuario.IdPerfiles;
+                        UsuarioGuardar.IdPersonal = usuario.IdPersonal;
+                        UsuarioGuardar.IdUsuario = usuario.IdUsuario;
+                        UsuarioGuardar.Usuario1 = usuario.Usuario1;
+                        //db.Entry(usuario).State = EntityState.Modified;
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Editado", "Usuario", ValorAntiguo, usuario.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('Usuario editado exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            ViewBag.ListaDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                            {
+                                return new SelectListItem()
+                                {
+                                    Text = d.Nombre,
+                                    Value = d.IdDepartamento.ToString(),
+                                    Selected = false
+                                };
+                            });
+                            TempData["msg"] = "<script>alert('Error al agregar usuario!!');</script>";
+                            return View(usuario);
+                        }
+                    }
                 }
-
-                ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Cedula");
+                ViewBag.IdPersonallist = db.Personal.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre + d.Apellido1 + d.Apellido2,
+                        Value = d.IdPersonal.ToString(),
+                        Selected = false
+                    };
+                });
+                ViewBag.IdPerfillist = db.Perfiles_Acceso.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.NombrePerfil,
+                        Value = d.Id_Perfil.ToString(),
+                        Selected = false
+                    };
+                });
                 //ViewBag.IdPerfiles = new SelectList(db.Perfiles, "IdPerfiles", "Nombre");
                 return View(usuario);
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al editar el usuario!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -159,8 +256,8 @@ namespace SCA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            Usuario usuario = db.Usuario.Find(id);
+            var usuarios = db.Usuario.Include(a => a.Personal).Include(a => a.Perfiles_Acceso).ToList();
+            var usuario = usuarios.Where(x => x.IdUsuario == id).FirstOrDefault();
             if (usuario == null)
             {
                 return HttpNotFound();
@@ -170,30 +267,49 @@ namespace SCA.Controllers
         }
 
         // POST: ControlInventario/Delete/5
-        [HttpPost, ActionName("Borrar")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
-                Usuario usuario = db.Usuario.Find(id);
-                db.Usuario.Remove(usuario);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var ValorAntiguoEntidad = db.Usuario.Where(x => x.IdUsuario == id).FirstOrDefault();
+                string ValorAntiguo = "Contraseña:" + ValorAntiguoEntidad.Contraseña.ToString() + " IdPerfiles:" + ValorAntiguoEntidad.IdPerfiles + " IdPersonal:" + ValorAntiguoEntidad.IdPersonal + " IdUsuario:" + ValorAntiguoEntidad.IdUsuario + " Usuario1:" + ValorAntiguoEntidad.Usuario1;
+                using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    Usuario usuario = db.Usuario.Find(id);
+                    db.Usuario.Remove(usuario);
+                    int Resultado = db.SaveChanges();
+                    if (Resultado > 0)
+                    {
+                        Ts.Complete();
+                        var UsuarioLogueado = (Usuario)Session["User"];
+                        Helpers.Helper.RegistrarMovimiento("Elimino", "Usuario", ValorAntiguo, "", UsuarioLogueado.IdUsuario);
+                        TempData["msg"] = "<script>alert('Usuario eliminado exitosamente!!');</script>";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        Ts.Dispose();
+                        ViewBag.ListaDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                        {
+                            return new SelectListItem()
+                            {
+                                Text = d.Nombre,
+                                Value = d.IdDepartamento.ToString(),
+                                Selected = false
+                            };
+                        });
+                        TempData["msg"] = "<script>alert('Error al eliminar usuario!!');</script>";
+                        return View(usuario);
+                    }
+                }
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al eliminar usuario!!');</script>";
+                return RedirectToAction("Index");
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

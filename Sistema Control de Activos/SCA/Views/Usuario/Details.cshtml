@@ -1,12 +1,12 @@
 ﻿@model SCA.Models.Usuario
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Html.Raw(TempData["msg"])
-<h2>Delete</h2>
 
-<h3>Realmente desea eliminar el usuario?</h3>
+<h2>Detalles</h2>
+
 <div>
     <h4>Usuario</h4>
     <hr />
@@ -28,11 +28,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Perfiles_Acceso.NombrePerfil)
+            @Html.DisplayNameFor(model => model.Perfiles_Acceso.Id_Perfil)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Perfiles_Acceso.NombrePerfil)
+            @Html.DisplayFor(model => model.Perfiles_Acceso.Id_Perfil)
         </dd>
 
         <dt>
@@ -52,14 +52,8 @@
         </dd>
 
     </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Borrar" class="btn btn-outline-secondary" /> |
-            @Html.ActionLink("Volver a la lista", "Index")
-        </div>
-    }
 </div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.IdUsuario  }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

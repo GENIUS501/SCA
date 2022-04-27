@@ -12,6 +12,8 @@ namespace SCA.Models
     {
         public class UsuariosMetaData
         {
+            public string Usuario1 { get; set; }
+            public int IdUsuario { get; set; }
             [Required(ErrorMessage = "Se Debe Ingresar una Cedula")]
             public int IdPersonal { get; set; }
 
@@ -21,8 +23,7 @@ namespace SCA.Models
             [Display(Name = "Contraseña")]
             [Required(ErrorMessage = "La Contraseña es Requerida")]
             [DataType(DataType.Password)]
-            public string Password { get; set; }
-
-        }
+            public string Contraseña { get; set; }
     }
+}
 }
