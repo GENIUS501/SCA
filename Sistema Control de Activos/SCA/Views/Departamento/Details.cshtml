@@ -1,12 +1,12 @@
 ﻿@model SCA.Models.Departamento
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Html.Raw(TempData["msg"])
-<h2>Eliminar</h2>
 
-<h3>Realmente desea eliminar el departamento?</h3>
+<h2>Details</h2>
+
 <div>
     <h4>Departamento</h4>
     <hr />
@@ -28,14 +28,8 @@
         </dd>
 
     </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Borrar" class="btn btn-outline-secondary" /> |
-            @Html.ActionLink("Volver a la lista", "Index")
-        </div>
-    }
 </div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new {  id = Model.IdDepartamento }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

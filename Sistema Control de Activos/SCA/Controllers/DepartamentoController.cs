@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using SCA.Models;
@@ -40,30 +41,45 @@ namespace SCA.Controllers
         // GET: Departamento/Create
         public ActionResult Create()
         {
-            //ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre");
             return View();
         }
 
         // POST: Departamento/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdDepartamento, Nombre")]Departamento departamento)
+        public ActionResult Create([Bind(Include = "IdDepartamento, Nombre")] Departamento departamento)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Departamento.Add(departamento);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        db.Departamento.Add(departamento);
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Agrego", "Departamento", "", departamento.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('Departamento Agregado exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            TempData["msg"] = "<script>alert('Error al agregar departamento!!');</script>";
+                            return View(departamento);
+                        }
+                    }
                 }
-
-                //ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre", departamento.IdDepartamento);
+                TempData["msg"] = "<script>alert('Error al agregar departamento!!');</script>";
                 return View(departamento);
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al agregar departamento!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -88,23 +104,42 @@ namespace SCA.Controllers
         // POST: Departamento/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdDepartamento, Nombre")]Departamento departamento)
+        public ActionResult Edit([Bind(Include = "IdDepartamento, Nombre")] Departamento departamento)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(departamento).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+                    var ValorAntiguoEntidad = db.Departamento.Where(x => x.IdDepartamento == departamento.IdDepartamento).FirstOrDefault();
+                    string ValorAntiguo = "IdDepartamento:" + ValorAntiguoEntidad.IdDepartamento + " Nombre:" + ValorAntiguoEntidad.Nombre;
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        db.Entry(departamento).State = EntityState.Modified;
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Edito", "Departamento", ValorAntiguo, departamento.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('Departamento editado exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            TempData["msg"] = "<script>alert('Error al editar departamento!!');</script>";
+                            return View(departamento);
+                        }
+                    }
 
-                //ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre", departamento.IdDepartamento);
+                }
+                TempData["msg"] = "<script>alert('Error al editar departamento!!');</script>";
                 return View(departamento);
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al editar departamento!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -126,30 +161,40 @@ namespace SCA.Controllers
         }
 
         // POST: Departamento/Delete/5
-        [HttpPost, ActionName("Borrar")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
-                Departamento departamento = db.Departamento.Find(id);
-                db.Departamento.Remove(departamento);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var ValorAntiguoEntidad = db.Departamento.Where(x => x.IdDepartamento == id).FirstOrDefault();
+                string ValorAntiguo = "IdDepartamento:" + ValorAntiguoEntidad.IdDepartamento + " Nombre:" + ValorAntiguoEntidad.Nombre;
+                using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    Departamento departamento = db.Departamento.Where(x => x.IdDepartamento == id).FirstOrDefault();
+                    db.Departamento.Remove(departamento);
+                    int Resultado = db.SaveChanges();
+                    if (Resultado > 0)
+                    {
+                        Ts.Complete();
+                        var UsuarioLogueado = (Usuario)Session["User"];
+                        Helpers.Helper.RegistrarMovimiento("Elimino", "Departamento", ValorAntiguo, "", UsuarioLogueado.IdUsuario);
+                        TempData["msg"] = "<script>alert('Departamento eliminado exitosamente!!');</script>";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        Ts.Dispose();
+                        TempData["msg"] = "<script>alert('Error al eliminar departamento!!');</script>";
+                        return View(departamento);
+                    }
+                }
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al eliminar departamento!!');</script>";
+                return RedirectToAction("Index");
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
