@@ -3,25 +3,25 @@
 @{
     ViewBag.Title = "Create";
 }
+@Html.Raw(TempData["msg"])
+<h2>Agregar</h2>
 
-<h2>Create</h2>
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Flotilla</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdFlotilla, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdFlotilla, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdFlotilla, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.IdFlotilla, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.IdFlotilla, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IdFlotilla, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Placa, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -88,31 +88,31 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IdDepartamento, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Nombre del departamento:</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.IdDepartamento, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdDepartamento, "", new { @class = "text-danger" })
+                @Html.DropDownList("IdDepartamento", (List<SelectListItem>)ViewBag.IdDepartamento, htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.MotivoDeshabilitar, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MotivoDeshabilitar, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MotivoDeshabilitar, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.MotivoDeshabilitar, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MotivoDeshabilitar, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MotivoDeshabilitar, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        <br />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Agregar" class="btn btn-outline-secondary" />
             </div>
         </div>
+        <br />
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Volver a la lista", "Index")
 </div>
 
 @section Scripts {

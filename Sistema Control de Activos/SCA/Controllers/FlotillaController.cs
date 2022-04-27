@@ -29,7 +29,8 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Flotilla flotilla = db.Flotilla.Find(id);
+            var flotillas = db.Flotilla.Include(x => x.Departamento).ToList();
+            var flotilla = flotillas.Where(x => x.IdFlotilla == id).FirstOrDefault();
             if (flotilla == null)
             {
                 return HttpNotFound();
@@ -40,16 +41,23 @@ namespace SCA.Controllers
         // GET: Flotilla/Create
         public ActionResult Create()
         {
-            ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre");
+            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
+            //ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre");
             return View();
         }
 
         // POST: Flotilla/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdFlotilla, Placa, Marca, Modelo, Traccion, Ano" +
-                                                   "Combustible, FechaCompra, CostoVehiculo, IdDepartamento" +
-                                                   "MotivoDeshabilitar")]Flotilla flotilla)
+        public ActionResult Create(Flotilla flotilla)
         {
             try
             {
@@ -59,8 +67,15 @@ namespace SCA.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-
-                ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre", flotilla.IdDepartamento);
+                ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre,
+                        Value = d.IdDepartamento.ToString(),
+                        Selected = false
+                    };
+                });
                 return View(flotilla);
             }
             catch
@@ -83,16 +98,22 @@ namespace SCA.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre", flotilla.IdDepartamento);
+            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
             return View(flotilla);
         }
 
         // POST: Flotilla/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdFlotilla, Placa, Marca, Modelo, Traccion, Ano" +
-                                                   "Combustible, FechaCompra, CostoVehiculo, IdDepartamento" +
-                                                   "MotivoDeshabilitar")]Flotilla flotilla)
+        public ActionResult Edit(Flotilla flotilla)
         {
             try
             {
@@ -103,7 +124,15 @@ namespace SCA.Controllers
                     return RedirectToAction("Index");
                 }
 
-                ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre", flotilla.IdDepartamento);
+                ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre,
+                        Value = d.IdDepartamento.ToString(),
+                        Selected = false
+                    };
+                });
                 return View(flotilla);
             }
             catch
@@ -145,15 +174,6 @@ namespace SCA.Controllers
             {
                 return View();
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

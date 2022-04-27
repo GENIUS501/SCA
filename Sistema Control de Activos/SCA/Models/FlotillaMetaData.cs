@@ -29,7 +29,7 @@ namespace SCA.Models
 
             [Display(Name = "Año del Vehiculo")]
             [Required(ErrorMessage = "El Año del Vehiculo es Requerido")]
-            public string Anno { get; set; }
+            public string Ano { get; set; }
 
             [Required(ErrorMessage = "Se Debe Seleccionar una Opcion")]
             public string Combustible { get; set; }
@@ -40,7 +40,7 @@ namespace SCA.Models
             public System.DateTime FechaCompra { get; set; }
 
             [Display(Name = "Costo del Vehiculo")]
-            public decimal CostoEquipo { get; set; }
+            public decimal CostoVehiculo { get; set; }
 
             [Required(ErrorMessage = "Se Debe Seleccionar una Opcion")]
             public int IdDepartamento { get; set; }
