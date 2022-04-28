@@ -10,8 +10,7 @@
 <p>
     @Html.ActionLink("Agregar Nuevo", "Create")
 </p>
-
-<table class="table table-responsive" id="Tabla">
+<table class="table table-responsive table-bordered" id="Tabla">
     <thead>
         <tr>
             <th>
@@ -23,7 +22,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.VenceLicencia)
             </th>
-            <th></th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -40,9 +39,9 @@
                     @Html.DisplayFor(modelItem => item.VenceLicencia)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Edit", "Edit", new {  id=item.IdLicencia  }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.IdLicencia }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.IdLicencia })
                 </td>
             </tr>
         }
@@ -59,7 +58,7 @@
             $('#Tabla').DataTable({
                 "searching": true,
                 "lengthChange": false,
-                dom: 'Bfrtip',
+                /*dom: 'Bfrtip',*/
                 "scrollX": true,
                 "scrollY": true,
                 language: {
