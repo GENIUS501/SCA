@@ -26,7 +26,10 @@ namespace SCA.Models
         public Nullable<int> IdPerfiles { get; set; }
         public string Usuario1 { get; set; }
         public string Contraseña { get; set; }
-    
+        public string ValorNuevo()
+        {
+            return "IdUsuario:" + IdUsuario.ToString() + " |IdPersonal:" + IdPersonal.ToString() + " |IdPerfiles:" + IdPerfiles.ToString() + "|Usuario1:" + Usuario1 + " |Contraseña:" + Contraseña;
+        }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BitacoraIngresoSalida> BitacoraIngresoSalida { get; set; }
         public virtual Perfiles_Acceso Perfiles_Acceso { get; set; }
