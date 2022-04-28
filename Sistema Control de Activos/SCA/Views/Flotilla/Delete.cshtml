@@ -4,7 +4,7 @@
     ViewBag.Title = "Delete";
 }
 @Html.Raw(TempData["msg"])
-<h2>Delete</h2>
+<h2>Eliminar</h2>
 
 <h3>Desea eliminar esta flotilla?</h3>
 <div>
@@ -106,7 +106,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <input type="submit" value="Eliminar" class="btn btn-outline-secondary" /> |
             @Html.ActionLink("Volver a la lista", "Index")
         </div>
     }

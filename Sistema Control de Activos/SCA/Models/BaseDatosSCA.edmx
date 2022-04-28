@@ -463,7 +463,6 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
           <EntitySet Name="Departamento" EntityType="BaseDatosSCAModel.Departamento" />
           <EntitySet Name="Flotilla" EntityType="BaseDatosSCAModel.Flotilla" />
           <EntitySet Name="Inventario" EntityType="BaseDatosSCAModel.Inventario" />
-          <EntitySet Name="Licencia" EntityType="BaseDatosSCAModel.Licencia" />
           <EntitySet Name="MantenimientoVehiculo" EntityType="BaseDatosSCAModel.MantenimientoVehiculo" />
           <EntitySet Name="Perfiles_Acceso" EntityType="BaseDatosSCAModel.Perfiles_Acceso" />
           <EntitySet Name="Perfiles_Permisos" EntityType="BaseDatosSCAModel.Perfiles_Permisos" />
@@ -517,10 +516,6 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
             <End Role="Departamento" EntitySet="Departamento" />
             <End Role="Personal" EntitySet="Personal" />
           </AssociationSet>
-          <AssociationSet Name="FK_Personal_Licencia" Association="BaseDatosSCAModel.FK_Personal_Licencia">
-            <End Role="Licencia" EntitySet="Licencia" />
-            <End Role="Personal" EntitySet="Personal" />
-          </AssociationSet>
           <AssociationSet Name="FK_Usuario_Personal" Association="BaseDatosSCAModel.FK_Usuario_Personal">
             <End Role="Personal" EntitySet="Personal" />
             <End Role="Usuario" EntitySet="Usuario" />
@@ -529,6 +524,11 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
           <AssociationSet Name="FK_BitacoraMovimiento_Usuario" Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="BitacoraMovimiento" EntitySet="BitacoraMovimiento" />
+          </AssociationSet>
+          <EntitySet Name="Licencia" EntityType="BaseDatosSCAModel.Licencia" />
+          <AssociationSet Name="FK_Personal_Licencia" Association="BaseDatosSCAModel.FK_Personal_Licencia">
+            <End Role="Licencia" EntitySet="Licencia" />
+            <End Role="Personal" EntitySet="Personal" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="BitacoraIngresoSalida">
@@ -619,15 +619,6 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
           <NavigationProperty Name="ControlInventario" Relationship="BaseDatosSCAModel.FK_ControlInventario_Inventario" FromRole="Inventario" ToRole="ControlInventario" />
           <NavigationProperty Name="Departamento" Relationship="BaseDatosSCAModel.FK_Inventario_Departamento" FromRole="Inventario" ToRole="Departamento" />
           <NavigationProperty Name="MantenimientoInventario" Relationship="BaseDatosSCAModel.FK_MantenimientoInventario_Inventario" FromRole="Inventario" ToRole="MantenimientoInventario" />
-        </EntityType>
-        <EntityType Name="Licencia">
-          <Key>
-            <PropertyRef Name="IdLicencia" />
-          </Key>
-          <Property Name="IdLicencia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TipoLicencia" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="VenceLicencia" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Personal" Relationship="BaseDatosSCAModel.FK_Personal_Licencia" FromRole="Licencia" ToRole="Personal" />
         </EntityType>
         <EntityType Name="MantenimientoVehiculo">
           <Key>
@@ -806,8 +797,8 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
           <NavigationProperty Name="ControlInventario" Relationship="BaseDatosSCAModel.FK_ControlInventario_Personal" FromRole="Personal" ToRole="ControlInventario" />
           <NavigationProperty Name="ControlVehiculo" Relationship="BaseDatosSCAModel.FK_ControlVehiculo_Personal" FromRole="Personal" ToRole="ControlVehiculo" />
           <NavigationProperty Name="Departamento" Relationship="BaseDatosSCAModel.FK_Personal_Departamento" FromRole="Personal" ToRole="Departamento" />
-          <NavigationProperty Name="Licencia" Relationship="BaseDatosSCAModel.FK_Personal_Licencia" FromRole="Personal" ToRole="Licencia" />
           <NavigationProperty Name="Usuario" Relationship="BaseDatosSCAModel.FK_Usuario_Personal" FromRole="Personal" ToRole="Usuario" />
+          <NavigationProperty Name="Licencia" Relationship="BaseDatosSCAModel.FK_Personal_Licencia" FromRole="Personal" ToRole="Licencia" />
         </EntityType>
         <Association Name="FK_ControlInventario_Personal">
           <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="0..1" />
@@ -845,18 +836,6 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Personal_Licencia">
-          <End Type="BaseDatosSCAModel.Licencia" Role="Licencia" Multiplicity="0..1" />
-          <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Licencia">
-              <PropertyRef Name="IdLicencia" />
-            </Principal>
-            <Dependent Role="Personal">
-              <PropertyRef Name="IdLicencia" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Usuario_Personal">
           <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="0..1" />
           <End Type="BaseDatosSCAModel.Usuario" Role="Usuario" Multiplicity="*" />
@@ -891,6 +870,27 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
             </Principal>
             <Dependent Role="BitacoraMovimiento">
               <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Licencia">
+          <Key>
+            <PropertyRef Name="IdLicencia" />
+          </Key>
+          <Property Name="IdLicencia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoLicencia" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="VenceLicencia" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Personal" Relationship="BaseDatosSCAModel.FK_Personal_Licencia" FromRole="Licencia" ToRole="Personal" />
+        </EntityType>
+        <Association Name="FK_Personal_Licencia">
+          <End Type="BaseDatosSCAModel.Licencia" Role="Licencia" Multiplicity="0..1" />
+          <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Licencia">
+              <PropertyRef Name="IdLicencia" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="IdLicencia" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -994,15 +994,6 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Licencia">
-            <EntityTypeMapping TypeName="BaseDatosSCAModel.Licencia">
-              <MappingFragment StoreEntitySet="Licencia">
-                <ScalarProperty Name="VenceLicencia" ColumnName="VenceLicencia" />
-                <ScalarProperty Name="TipoLicencia" ColumnName="TipoLicencia" />
-                <ScalarProperty Name="IdLicencia" ColumnName="IdLicencia" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MantenimientoVehiculo">
             <EntityTypeMapping TypeName="BaseDatosSCAModel.MantenimientoVehiculo">
               <MappingFragment StoreEntitySet="MantenimientoVehiculo">
@@ -1077,6 +1068,15 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
                 <ScalarProperty Name="FechaMovimiento" ColumnName="FechaMovimiento" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Licencia">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.Licencia">
+              <MappingFragment StoreEntitySet="Licencia">
+                <ScalarProperty Name="VenceLicencia" ColumnName="VenceLicencia" />
+                <ScalarProperty Name="TipoLicencia" ColumnName="TipoLicencia" />
+                <ScalarProperty Name="IdLicencia" ColumnName="IdLicencia" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

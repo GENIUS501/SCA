@@ -125,8 +125,8 @@
                         extend: 'pdf',
                         orientation: 'landscape',
                         text: '<button class="btn btn-outline-secondary"> Exportar a PDF</button>',
-                        filename: 'Reporte de usuarios',
-                        title: "D'geo \n Reporte de usuarios \n Fecha: " + d,
+                        filename: 'Reporte de flotilla',
+                        title: "D'geo \n Reporte de flotilla \n Fecha: " + d,
                         customize: function (doc) {
                            // doc.content[1].margin = [190, 0, 190, 0];
                             doc['footer'] = (function (page, pages) {
@@ -155,7 +155,7 @@
 
                         },
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4,5,6,7,8,9]
                         }
                     }
                 ]

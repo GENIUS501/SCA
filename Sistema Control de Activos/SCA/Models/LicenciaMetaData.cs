@@ -12,9 +12,6 @@ namespace SCA.Models
     {
         public class LicenciaMetaData
         {
-            [Required(ErrorMessage = "Se Debe Ingresar una Cedula")]
-            public int IdPersonal { get; set; }
-
             [Required(ErrorMessage ="El Tipo de Licencia es Requerido")]
             public string TipoLicencia { get; set; }
 
@@ -22,7 +19,7 @@ namespace SCA.Models
             [Required(ErrorMessage ="La Fecha de Vencimiento es Requerida")]
             [DataType(DataType.Date)]
             [DisplayFormat(DataFormatString ="{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-            public System.DateTime VencimientoLicencia { get; set; }
+            public System.DateTime VenceLicencia { get; set; }
         }
     }
 }

@@ -40,8 +40,8 @@ namespace SCA.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ControlVehiculo> ControlVehiculo { get; set; }
         public virtual Departamento Departamento { get; set; }
-        public virtual Licencia Licencia { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Usuario> Usuario { get; set; }
+        public virtual Licencia Licencia { get; set; }
     }
 }

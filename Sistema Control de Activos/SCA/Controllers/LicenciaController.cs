@@ -17,7 +17,7 @@ namespace SCA.Controllers
         // GET: Licencia
         public ActionResult Index()
         {
-            var lic = db.Licencia.Include(a => a.Personal);
+            var lic = db.Licencia;
             return View(lic.ToList());
         }
 
