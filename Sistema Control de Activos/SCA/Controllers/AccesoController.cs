@@ -59,6 +59,7 @@ namespace SCA.Controllers
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
+                TempData["msg"] = "<script>alert('Error desconocido!!');</script>";
                 return RedirectToAction("Login", "Acceso");
                 //   return View();
             }

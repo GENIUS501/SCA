@@ -23,7 +23,6 @@ namespace SCA.Models
         public int IdLicencia { get; set; }
         public string TipoLicencia { get; set; }
         public System.DateTime VenceLicencia { get; set; }
-
         public string ValorNuevo()
         {
             return "IdLicencia:" + IdLicencia + " |TipoLicencia:" + TipoLicencia + " |VenceLicencia:" + VenceLicencia;

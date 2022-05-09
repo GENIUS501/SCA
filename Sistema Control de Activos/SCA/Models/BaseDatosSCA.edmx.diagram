@@ -25,15 +25,15 @@
         <EntityTypeShape EntityType="BaseDatosSCAModel.Usuario" Width="1.5" PointX="5.25" PointY="12.25" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_BitacoraIngresoSalida_Usuario" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_Usuario_Perfil" />
-        <EntityTypeShape EntityType="BaseDatosSCAModel.Personal" Width="1.5" PointX="10" PointY="13.375" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.BitacoraMovimiento" Width="1.5" PointX="7.5" PointY="10.375" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.Licencia" Width="1.5" PointX="14.625" PointY="4.75" />
+        <EntityTypeShape EntityType="BaseDatosSCAModel.Personal" Width="1.5" PointX="16.875" PointY="11.25" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_ControlInventario_Personal" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_ControlVehiculo_Personal" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_Personal_Departamento" />
-        <AssociationConnector Association="BaseDatosSCAModel.FK_Usuario_Personal" />
-        <EntityTypeShape EntityType="BaseDatosSCAModel.BitacoraMovimiento" Width="1.5" PointX="7.5" PointY="10.375" />
-        <AssociationConnector Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" />
-        <EntityTypeShape EntityType="BaseDatosSCAModel.Licencia" Width="1.5" PointX="0.75" PointY="0.875" />
         <AssociationConnector Association="BaseDatosSCAModel.FK_Personal_Licencia" />
+        <AssociationConnector Association="BaseDatosSCAModel.FK_Usuario_Personal" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

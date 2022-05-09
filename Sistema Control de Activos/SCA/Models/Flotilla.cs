@@ -11,7 +11,7 @@ namespace SCA.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class Flotilla
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +20,7 @@ namespace SCA.Models
             this.ControlVehiculo = new HashSet<ControlVehiculo>();
             this.MantenimientoVehiculo = new HashSet<MantenimientoVehiculo>();
         }
-
+    
         public int IdFlotilla { get; set; }
         public int Placa { get; set; }
         public string Marca { get; set; }
@@ -34,9 +34,10 @@ namespace SCA.Models
         public Nullable<int> MotivoDeshabilitar { get; set; }
         public string ValorNuevo()
         {
-            return "Ano:" + Ano + " |Combustible:" + Combustible + " |CostoVehiculo:" + CostoVehiculo+ "|FechaCompra:"+ FechaCompra.ToString()+ " |IdDepartamento:"+ IdDepartamento+ " |IdFlotilla:"+ IdFlotilla+ " |Marca:"+ Marca+ " |Modelo:"+ Modelo+ " |Placa:"+Placa+ " |Traccion:"+ Traccion;
+            return "Ano:" + Ano + " |Combustible:" + Combustible + " |CostoVehiculo:" + CostoVehiculo + "|FechaCompra:" + FechaCompra.ToString() + " |IdDepartamento:" + IdDepartamento + " |IdFlotilla:" + IdFlotilla + " |Marca:" + Marca + " |Modelo:" + Modelo + " |Placa:" + Placa + " |Traccion:" + Traccion;
         }
-        public string ValorAntiguo(Flotilla Entidad) {
+        public string ValorAntiguo(Flotilla Entidad)
+        {
             return "Ano:" + Entidad.Ano + " |Combustible:" + Entidad.Combustible + " |CostoVehiculo:" + Entidad.CostoVehiculo + "|FechaCompra:" + Entidad.FechaCompra.ToString() + " |IdDepartamento:" + Entidad.IdDepartamento + " |IdFlotilla:" + Entidad.IdFlotilla + " |Marca:" + Entidad.Marca + " |Modelo:" + Entidad.Modelo + " |Placa:" + Entidad.Placa + " |Traccion:" + Entidad.Traccion;
         }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

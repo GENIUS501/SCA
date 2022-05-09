@@ -36,8 +36,8 @@ namespace SCA.Models
         public virtual DbSet<Perfiles_Acceso> Perfiles_Acceso { get; set; }
         public virtual DbSet<Perfiles_Permisos> Perfiles_Permisos { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
-        public virtual DbSet<Personal> Personal { get; set; }
         public virtual DbSet<BitacoraMovimiento> BitacoraMovimiento { get; set; }
         public virtual DbSet<Licencia> Licencia { get; set; }
+        public virtual DbSet<Personal> Personal { get; set; }
     }
 }

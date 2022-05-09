@@ -503,6 +503,12 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
             <End Role="Perfiles_Acceso" EntitySet="Perfiles_Acceso" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
+          <EntitySet Name="BitacoraMovimiento" EntityType="BaseDatosSCAModel.BitacoraMovimiento" />
+          <AssociationSet Name="FK_BitacoraMovimiento_Usuario" Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="BitacoraMovimiento" EntitySet="BitacoraMovimiento" />
+          </AssociationSet>
+          <EntitySet Name="Licencia" EntityType="BaseDatosSCAModel.Licencia" />
           <EntitySet Name="Personal" EntityType="BaseDatosSCAModel.Personal" />
           <AssociationSet Name="FK_ControlInventario_Personal" Association="BaseDatosSCAModel.FK_ControlInventario_Personal">
             <End Role="Personal" EntitySet="Personal" />
@@ -516,19 +522,13 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
             <End Role="Departamento" EntitySet="Departamento" />
             <End Role="Personal" EntitySet="Personal" />
           </AssociationSet>
-          <AssociationSet Name="FK_Usuario_Personal" Association="BaseDatosSCAModel.FK_Usuario_Personal">
-            <End Role="Personal" EntitySet="Personal" />
-            <End Role="Usuario" EntitySet="Usuario" />
-          </AssociationSet>
-          <EntitySet Name="BitacoraMovimiento" EntityType="BaseDatosSCAModel.BitacoraMovimiento" />
-          <AssociationSet Name="FK_BitacoraMovimiento_Usuario" Association="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="BitacoraMovimiento" EntitySet="BitacoraMovimiento" />
-          </AssociationSet>
-          <EntitySet Name="Licencia" EntityType="BaseDatosSCAModel.Licencia" />
           <AssociationSet Name="FK_Personal_Licencia" Association="BaseDatosSCAModel.FK_Personal_Licencia">
             <End Role="Licencia" EntitySet="Licencia" />
             <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Personal" Association="BaseDatosSCAModel.FK_Usuario_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="BitacoraIngresoSalida">
@@ -751,8 +751,8 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
           <Property Name="Contraseña" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="BitacoraIngresoSalida" Relationship="BaseDatosSCAModel.FK_BitacoraIngresoSalida_Usuario" FromRole="Usuario" ToRole="BitacoraIngresoSalida" />
           <NavigationProperty Name="Perfiles_Acceso" Relationship="BaseDatosSCAModel.FK_Usuario_Perfil" FromRole="Usuario" ToRole="Perfiles_Acceso" />
-          <NavigationProperty Name="Personal" Relationship="BaseDatosSCAModel.FK_Usuario_Personal" FromRole="Usuario" ToRole="Personal" />
           <NavigationProperty Name="BitacoraMovimiento" Relationship="BaseDatosSCAModel.FK_BitacoraMovimiento_Usuario" FromRole="Usuario" ToRole="BitacoraMovimiento" />
+          <NavigationProperty Name="Personal" Relationship="BaseDatosSCAModel.FK_Usuario_Personal" FromRole="Usuario" ToRole="Personal" />
         </EntityType>
         <Association Name="FK_BitacoraIngresoSalida_Usuario">
           <End Type="BaseDatosSCAModel.Usuario" Role="Usuario" Multiplicity="1" />
@@ -775,76 +775,6 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
             </Principal>
             <Dependent Role="Usuario">
               <PropertyRef Name="IdPerfiles" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Personal">
-          <Key>
-            <PropertyRef Name="IdPersonal" />
-          </Key>
-          <Property Name="IdPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Apellido1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Apellido2" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Telefono" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="Correo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="IdLicencia" Type="Int32" />
-          <Property Name="CarnetMS" Type="Int32" />
-          <Property Name="VenceCarnetMS" Type="DateTime" Precision="0" />
-          <Property Name="IdDepartamento" Type="Int32" />
-          <Property Name="MotivoDeshabilitar" Type="Int32" />
-          <NavigationProperty Name="ControlInventario" Relationship="BaseDatosSCAModel.FK_ControlInventario_Personal" FromRole="Personal" ToRole="ControlInventario" />
-          <NavigationProperty Name="ControlVehiculo" Relationship="BaseDatosSCAModel.FK_ControlVehiculo_Personal" FromRole="Personal" ToRole="ControlVehiculo" />
-          <NavigationProperty Name="Departamento" Relationship="BaseDatosSCAModel.FK_Personal_Departamento" FromRole="Personal" ToRole="Departamento" />
-          <NavigationProperty Name="Usuario" Relationship="BaseDatosSCAModel.FK_Usuario_Personal" FromRole="Personal" ToRole="Usuario" />
-          <NavigationProperty Name="Licencia" Relationship="BaseDatosSCAModel.FK_Personal_Licencia" FromRole="Personal" ToRole="Licencia" />
-        </EntityType>
-        <Association Name="FK_ControlInventario_Personal">
-          <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="0..1" />
-          <End Type="BaseDatosSCAModel.ControlInventario" Role="ControlInventario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personal">
-              <PropertyRef Name="IdPersonal" />
-            </Principal>
-            <Dependent Role="ControlInventario">
-              <PropertyRef Name="IdPersonal" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ControlVehiculo_Personal">
-          <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="0..1" />
-          <End Type="BaseDatosSCAModel.ControlVehiculo" Role="ControlVehiculo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personal">
-              <PropertyRef Name="IdPersonal" />
-            </Principal>
-            <Dependent Role="ControlVehiculo">
-              <PropertyRef Name="IdPersonal" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Personal_Departamento">
-          <End Type="BaseDatosSCAModel.Departamento" Role="Departamento" Multiplicity="0..1" />
-          <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Departamento">
-              <PropertyRef Name="IdDepartamento" />
-            </Principal>
-            <Dependent Role="Personal">
-              <PropertyRef Name="IdDepartamento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Usuario_Personal">
-          <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="0..1" />
-          <End Type="BaseDatosSCAModel.Usuario" Role="Usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personal">
-              <PropertyRef Name="IdPersonal" />
-            </Principal>
-            <Dependent Role="Usuario">
-              <PropertyRef Name="IdPersonal" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -882,6 +812,64 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
           <Property Name="VenceLicencia" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Personal" Relationship="BaseDatosSCAModel.FK_Personal_Licencia" FromRole="Licencia" ToRole="Personal" />
         </EntityType>
+        <EntityType Name="Personal">
+          <Key>
+            <PropertyRef Name="IdPersonal" />
+          </Key>
+          <Property Name="IdPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido2" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdLicencia" Type="Int32" />
+          <Property Name="CarnetMS" Type="Int32" />
+          <Property Name="VenceCarnetMS" Type="DateTime" Precision="0" />
+          <Property Name="IdDepartamento" Type="Int32" />
+          <Property Name="MotivoDeshabilitar" Type="Int32" />
+          <NavigationProperty Name="ControlInventario" Relationship="BaseDatosSCAModel.FK_ControlInventario_Personal" FromRole="Personal" ToRole="ControlInventario" />
+          <NavigationProperty Name="ControlVehiculo" Relationship="BaseDatosSCAModel.FK_ControlVehiculo_Personal" FromRole="Personal" ToRole="ControlVehiculo" />
+          <NavigationProperty Name="Departamento" Relationship="BaseDatosSCAModel.FK_Personal_Departamento" FromRole="Personal" ToRole="Departamento" />
+          <NavigationProperty Name="Licencia" Relationship="BaseDatosSCAModel.FK_Personal_Licencia" FromRole="Personal" ToRole="Licencia" />
+          <NavigationProperty Name="Usuario" Relationship="BaseDatosSCAModel.FK_Usuario_Personal" FromRole="Personal" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_ControlInventario_Personal">
+          <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="0..1" />
+          <End Type="BaseDatosSCAModel.ControlInventario" Role="ControlInventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="IdPersonal" />
+            </Principal>
+            <Dependent Role="ControlInventario">
+              <PropertyRef Name="IdPersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ControlVehiculo_Personal">
+          <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="0..1" />
+          <End Type="BaseDatosSCAModel.ControlVehiculo" Role="ControlVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="IdPersonal" />
+            </Principal>
+            <Dependent Role="ControlVehiculo">
+              <PropertyRef Name="IdPersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personal_Departamento">
+          <End Type="BaseDatosSCAModel.Departamento" Role="Departamento" Multiplicity="0..1" />
+          <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="IdDepartamento" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Personal_Licencia">
           <End Type="BaseDatosSCAModel.Licencia" Role="Licencia" Multiplicity="0..1" />
           <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="*" />
@@ -891,6 +879,18 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
             </Principal>
             <Dependent Role="Personal">
               <PropertyRef Name="IdLicencia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Personal">
+          <End Type="BaseDatosSCAModel.Personal" Role="Personal" Multiplicity="0..1" />
+          <End Type="BaseDatosSCAModel.Usuario" Role="Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="IdPersonal" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdPersonal" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1040,24 +1040,6 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Personal">
-            <EntityTypeMapping TypeName="BaseDatosSCAModel.Personal">
-              <MappingFragment StoreEntitySet="Personal">
-                <ScalarProperty Name="MotivoDeshabilitar" ColumnName="MotivoDeshabilitar" />
-                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
-                <ScalarProperty Name="VenceCarnetMS" ColumnName="VenceCarnetMS" />
-                <ScalarProperty Name="CarnetMS" ColumnName="CarnetMS" />
-                <ScalarProperty Name="IdLicencia" ColumnName="IdLicencia" />
-                <ScalarProperty Name="Correo" ColumnName="Correo" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="Apellido2" ColumnName="Apellido2" />
-                <ScalarProperty Name="Apellido1" ColumnName="Apellido1" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="IdPersonal" ColumnName="IdPersonal" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BitacoraMovimiento">
             <EntityTypeMapping TypeName="BaseDatosSCAModel.BitacoraMovimiento">
               <MappingFragment StoreEntitySet="BitacoraMovimiento">
@@ -1077,6 +1059,24 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
                 <ScalarProperty Name="VenceLicencia" ColumnName="VenceLicencia" />
                 <ScalarProperty Name="TipoLicencia" ColumnName="TipoLicencia" />
                 <ScalarProperty Name="IdLicencia" ColumnName="IdLicencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personal">
+            <EntityTypeMapping TypeName="BaseDatosSCAModel.Personal">
+              <MappingFragment StoreEntitySet="Personal">
+                <ScalarProperty Name="MotivoDeshabilitar" ColumnName="MotivoDeshabilitar" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="VenceCarnetMS" ColumnName="VenceCarnetMS" />
+                <ScalarProperty Name="CarnetMS" ColumnName="CarnetMS" />
+                <ScalarProperty Name="IdLicencia" ColumnName="IdLicencia" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Apellido2" ColumnName="Apellido2" />
+                <ScalarProperty Name="Apellido1" ColumnName="Apellido1" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdPersonal" ColumnName="IdPersonal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
