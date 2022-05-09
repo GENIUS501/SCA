@@ -23,7 +23,15 @@ namespace SCA.Models
         public int IdLicencia { get; set; }
         public string TipoLicencia { get; set; }
         public System.DateTime VenceLicencia { get; set; }
-    
+
+        public string ValorNuevo()
+        {
+            return "IdLicencia:" + IdLicencia + " |TipoLicencia:" + TipoLicencia + " |VenceLicencia:" + VenceLicencia;
+        }
+        public string ValorAntiguo(Licencia Entidad)
+        {
+            return "IdLicencia:" + Entidad.IdLicencia + " |TipoLicencia:" + Entidad.TipoLicencia + " |VenceLicencia:" + Entidad.VenceLicencia;
+        }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Personal> Personal { get; set; }
     }
