@@ -181,8 +181,9 @@ namespace SCA.Controllers
                 var ValorAntiguo = db.Licencia.Where(x => x.IdLicencia == id).FirstOrDefault();
                 using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    Licencia licencia = db.Licencia.Find(id);
-                    db.Licencia.Remove(licencia);
+                    Licencia licencia = db.Licencia.Where(x => x.IdLicencia == id).FirstOrDefault();
+                    //db.Licencia.Remove(licencia);
+                    db.Entry(licencia).State = EntityState.Deleted;
                     db.SaveChanges();
                     int Resultado = db.SaveChanges();
                     if (Resultado > 0)
