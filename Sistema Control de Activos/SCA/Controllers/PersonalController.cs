@@ -17,8 +17,7 @@ namespace SCA.Controllers
         // GET: Personal
         public ActionResult Index()
         {
-            var per = db.Personal.Include(a => a.Licencia);
-            var perso = db.Personal.Include(a => a.Departamento);
+            var per = db.Personal.Include(a => a.Licencia).Include(x=>x.Departamento);
             return View(per.ToList());
         }
 

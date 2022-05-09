@@ -1,0 +1,175 @@
+﻿@model IEnumerable<SCA.Models.Personal>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Personal</h2>
+
+<p>
+    @Html.ActionLink("Agregar nuevo", "Create")
+</p>
+<table class="table table-bordered table-responsive" id="Tabla">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdPersonal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cedula)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Correo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdLicencia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarnetMS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VenceCarnetMS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdDepartamento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MotivoDeshabilitar)
+        </th>
+        <th>Acciones</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPersonal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Correo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdLicencia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarnetMS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VenceCarnetMS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdDepartamento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MotivoDeshabilitar)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.IdPersonal  }) |
+                @Html.ActionLink("Details", "Details", new {  id=item.IdPersonal  }) |
+                @Html.ActionLink("Delete", "Delete", new {  id=item.IdPersonal  })
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts{
+    <script>
+    var Usuario = '@Session["Usuario"].ToString()';//agarra el valor del usuario logueado
+    var f = new Date();
+    var d = f.getDate() + "/" + f.getMonth() + "/" + f.getFullYear() + "   " + " hora: " + f.getHours() + ":" + f.getMinutes();
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#Tabla').DataTable({
+                "searching": true,
+                "lengthChange": false,
+                dom: 'Bfrtip',
+                "scrollX": true,
+                language: {
+                    sLengthMenu: "_MENU_",
+                    decimal: "",
+                    emptyTable: "No hay información",
+                    info: "Mostrando _START_ a _END_ de _TOTAL_",
+                    infoEmpty: "Mostrando 0 de 0",
+                    infoPostFix: "",
+                    search: "Buscar",
+                    thousands: ",",
+                    loadingRecords: "Cargando...",
+                    processing: "<div class='lds-dual-ring'></div>",
+                    zeroRecords: "No se encontraron resultados",
+                    paginate: {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                }, buttons: [
+                    {
+                        extend: 'pdf',
+                        orientation: 'landscape',
+                        text: '<button class="btn btn-outline-secondary"> Exportar a PDF</button>',
+                        filename: 'Reporte de inventarios',
+                        title: "D'geo \n Reporte de inventarios \n Fecha: " + d,
+                        customize: function (doc) {
+                            /*                            doc.content[1].margin = [80, 0, 80, 0];*/
+                            doc['footer'] = (function (page, pages) {
+                                return {
+                                    columns: [
+                                        {
+                                            alignment: 'left',
+                                            text:
+                                                [
+                                                    { text: 'Usuario: ' + Usuario, italics: true }
+                                                ]
+                                        },
+                                        {
+                                            alignment: 'right',
+                                            text: [
+                                                'Pagina',
+                                                { text: page.toString(), talics: true },
+                                                'de',
+                                                { text: page.toString(), talics: true },
+                                            ]
+                                        }
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+
+                        },
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}
