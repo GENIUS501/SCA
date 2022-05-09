@@ -22,7 +22,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.VenceLicencia)
             </th>
-            <th>Acciones</th>
+            <th>
+                Acciones
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -39,9 +41,9 @@
                     @Html.DisplayFor(modelItem => item.VenceLicencia)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new {  id=item.IdLicencia  }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.IdLicencia }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.IdLicencia })
+                    @Html.ActionLink("Editar", "Edit", new { id = item.IdLicencia }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.IdLicencia }) |
+                    @Html.ActionLink("Borrar", "Delete", new { id = item.IdLicencia })
                 </td>
             </tr>
         }
@@ -59,8 +61,8 @@
                 "searching": true,
                 "lengthChange": false,
                 /*dom: 'Bfrtip',*/
-                "scrollX": true,
-                "scrollY": true,
+                //"scrollX": true,
+                //"scrollY": true,
                 language: {
                     sLengthMenu: "_MENU_",
                     decimal: "",
