@@ -40,8 +40,24 @@ namespace SCA.Controllers
         // GET: Personal/Create
         public ActionResult Create()
         {
-            ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre");
-            ViewBag.IdLicencia = new SelectList(db.Licencia, "IdLicencia", "TipoLicencia");
+            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
+            ViewBag.IdLicencia = db.Licencia.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.TipoLicencia,
+                    Value = d.IdLicencia.ToString(),
+                    Selected = false
+                };
+            });
             return View();
         }
 
