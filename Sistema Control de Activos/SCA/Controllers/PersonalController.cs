@@ -18,7 +18,7 @@ namespace SCA.Controllers
         // GET: Personal
         public ActionResult Index()
         {
-            var per = db.Personal.Include(a => a.Licencia).Include(x=>x.Departamento);
+            var per = db.Personal.Include(a => a.Licencia).Include(x => x.Departamento);
             return View(per.ToList());
         }
 
@@ -30,7 +30,7 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Personal personal = db.Personal.Find(id);
+            Personal personal = db.Personal.Include(a => a.Licencia).Include(x => x.Departamento).FirstOrDefault(x => x.IdPersonal == id);
             if (personal == null)
             {
                 return HttpNotFound();
@@ -250,9 +250,8 @@ namespace SCA.Controllers
                 var ValorAntiguo = db.Personal.Where(x => x.IdPersonal == id).FirstOrDefault();
                 using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    Personal persona = db.Personal.Where(x => x.IdPersonal == id).FirstOrDefault();
+                    var persona = db.Personal.Where(x => x.IdPersonal == id).FirstOrDefault();
                     db.Personal.Remove(persona);
-                    db.SaveChanges();
                     int Resultado = db.SaveChanges();
                     if (Resultado > 0)
                     {
@@ -272,7 +271,8 @@ namespace SCA.Controllers
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al eliminar la persona!!');</script>";
+                return RedirectToAction("Index");
             }
         }
     }

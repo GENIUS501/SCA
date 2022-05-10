@@ -6,7 +6,7 @@
 }
 
 <h2>Personal</h2>
-
+@Html.Raw(TempData["msg"])
 <p>
     @Html.ActionLink("Agregar nuevo", "Create")
 </p>
@@ -91,9 +91,9 @@
                 @Html.DisplayFor(modelItem => item.MotivoDeshabilitar)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.IdPersonal  }) |
-                @Html.ActionLink("Details", "Details", new {  id=item.IdPersonal  }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.IdPersonal  })
+                @Html.ActionLink("Editar", "Edit", new { id = item.IdPersonal }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.IdPersonal }) |
+                @Html.ActionLink("Borrar", "Delete", new { id = item.IdPersonal })
             </td>
         </tr>
     }
