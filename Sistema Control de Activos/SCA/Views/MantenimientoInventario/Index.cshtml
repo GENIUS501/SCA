@@ -10,64 +10,66 @@
 <p>
     @Html.ActionLink("Agregar nuevo", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.IdMantenimientoInventario)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IdInventario)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoMantenimiento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CostoMantenimiento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaMantenimiento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaProximoMantenimiento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DescripcionServicio)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table table-bordered table-responsive" id="Tabla">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdMantenimientoInventario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdInventario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoMantenimiento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CostoMantenimiento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaMantenimiento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaProximoMantenimiento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescripcionServicio)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.IdMantenimientoInventario }) |
-                @Html.ActionLink("Details", "Details", new { id = item.IdMantenimientoInventario }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.IdMantenimientoInventario })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMantenimientoInventario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdInventario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoMantenimiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CostoMantenimiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaMantenimiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaProximoMantenimiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescripcionServicio)
+            </th>
+            <th>Acciones</th>
         </tr>
-    }
-
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdMantenimientoInventario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdInventario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoMantenimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostoMantenimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaMantenimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaProximoMantenimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescripcionServicio)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.IdMantenimientoInventario }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.IdMantenimientoInventario }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.IdMantenimientoInventario })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 @section scripts{
     <script>
