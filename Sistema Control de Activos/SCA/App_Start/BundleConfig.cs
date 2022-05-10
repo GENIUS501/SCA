@@ -16,7 +16,7 @@ namespace SCA
                         "~/Content/lib/tempusdominus/js/moment-timezone.min.js",
                         "~/Content/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js",
                         "~/Content/lib/isotope/isotope.pkgd.min.js",
-                        "~/Content/lib/lightbox/js/lightbox.min.js",
+                        //"~/Content/lib/lightbox/js/lightbox.min.js",
                         "~/Content/js/main.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -34,7 +34,7 @@ namespace SCA
                      "~/Content/img/favicon.ico",
                      "~/Content/lib/owlcarousel/assets/owl.carousel.min.css",
                      "~/Content/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css",
-                     "~/Content/lib/lightbox/css/lightbox.min.css",
+                     //"~/Content/lib/lightbox/css/lightbox.min.css",
                      "~/Content/css/bootstrap.min.css",
                      "~/Content/css/style.css"));
         }
