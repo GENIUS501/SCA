@@ -241,30 +241,39 @@ namespace SCA.Controllers
         }
 
         // POST: Personal/Delete/5
-        [HttpPost, ActionName("Borrar")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
-                Personal personal = db.Personal.Find(id);
-                db.Personal.Remove(personal);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var ValorAntiguo = db.Personal.Where(x => x.IdPersonal == id).FirstOrDefault();
+                using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    Personal persona = db.Personal.Where(x => x.IdPersonal == id).FirstOrDefault();
+                    db.Personal.Remove(persona);
+                    db.SaveChanges();
+                    int Resultado = db.SaveChanges();
+                    if (Resultado > 0)
+                    {
+                        Ts.Complete();
+                        var UsuarioLogueado = (Usuario)Session["User"];
+                        Helpers.Helper.RegistrarMovimiento("Elimino", "Personal", persona.ValorAntiguo(ValorAntiguo), "", UsuarioLogueado.IdUsuario); ;
+                        TempData["msg"] = "<script>alert('Persona eliminada exitosamente!!');</script>";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        Ts.Dispose();
+                        TempData["msg"] = "<script>alert('Error al eliminar la persona!!');</script>";
+                        return RedirectToAction("Index");
+                    }
+                }
             }
             catch
             {
                 return View();
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
