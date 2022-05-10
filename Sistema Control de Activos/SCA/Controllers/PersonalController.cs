@@ -64,9 +64,7 @@ namespace SCA.Controllers
         // POST: Personal/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdPersonal, Cedula, Nombre, Apellido1, Apellido2" +
-                                                   "Telefono, Correo, IdLicencia, CarnetMS, VenceCarnetMS" +
-                                                   "IdDepartamento, MotivoDeshabilitar")]Personal personal)
+        public ActionResult Create(Personal personal)
         {
             try
             {

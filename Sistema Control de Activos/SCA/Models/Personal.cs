@@ -34,7 +34,14 @@ namespace SCA.Models
         public Nullable<System.DateTime> VenceCarnetMS { get; set; }
         public Nullable<int> IdDepartamento { get; set; }
         public Nullable<int> MotivoDeshabilitar { get; set; }
-    
+        public string ValorNuevo()
+        {
+            return "IdPersonal:" + IdPersonal + " |Cedula:" + Cedula + " |Nombre:" + Nombre + "|Apellido1:" + Apellido1.ToString() + " |Apellido2:" + Apellido2 + " |Telefono:" + Telefono + " |Correo:" + Correo + " |IdLicencia:" + IdLicencia + " |CarnetMS:" + CarnetMS + " |VenceCarnetMS:" + VenceCarnetMS+ " |IdDepartamento:"+ IdDepartamento+ " |MotivoDeshabilitar:" + MotivoDeshabilitar;
+        }
+        public string ValorAntiguo(Personal Entidad)
+        {
+            return "IdPersonal:" + Entidad.IdPersonal + " |Cedula:" + Entidad.Cedula + " |Nombre:" + Entidad.Nombre + "|Apellido1:" + Entidad.Apellido1.ToString() + " |Apellido2:" + Entidad.Apellido2 + " |Telefono:" + Entidad.Telefono + " |Correo:" + Entidad.Correo + " |IdLicencia:" + Entidad.IdLicencia + " |CarnetMS:" + Entidad.CarnetMS + " |VenceCarnetMS:" + Entidad.VenceCarnetMS + " |IdDepartamento:" + Entidad.IdDepartamento + " |MotivoDeshabilitar:" + Entidad.MotivoDeshabilitar;
+        }   
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ControlInventario> ControlInventario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
