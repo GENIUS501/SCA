@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using SCA.Models;
@@ -64,24 +65,39 @@ namespace SCA.Controllers
         // POST: Personal/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Personal personal)
+        public ActionResult Create(Personal Modelo)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Personal.Add(personal);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        db.Personal.Add(Modelo);
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Agrego", "Personal", "", Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('Persona Agregada exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            TempData["msg"] = "<script>alert('Error al agregar la persona!!');</script>";
+                            return View(Modelo);
+                        }
+                    }
                 }
-
-                ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre", personal.IdDepartamento);
-                ViewBag.IdLicencia = new SelectList(db.Licencia, "IdLicencia", "TipoLicencia", personal.IdLicencia);
-                return View(personal);
+                TempData["msg"] = "<script>alert('Error al agregar la persona!!');</script>";
+                return View(Modelo);
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al agregar la persona!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -99,34 +115,111 @@ namespace SCA.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre", personal.IdDepartamento);
-            ViewBag.IdLicencia = new SelectList(db.Licencia, "IdLicencia", "TipoLicencia", personal.IdLicencia);
+            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
+            ViewBag.IdLicencia = db.Licencia.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.TipoLicencia,
+                    Value = d.IdLicencia.ToString(),
+                    Selected = false
+                };
+            });
             return View(personal);
         }
 
         // POST: Personal/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdPersonal, Cedula, Nombre, Apellido1, Apellido2" +
-                                                   "Telefono, Correo, IdLicencia, CarnetMS, VenceCarnetMS" +
-                                                   "IdDepartamento, MotivoDeshabilitar")]Personal personal)
+        public ActionResult Edit(Personal Modelo)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(personal).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    var ValorAntiguo = db.Personal.Where(x => x.IdPersonal == Modelo.IdPersonal).FirstOrDefault();
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        var Objbd = db.Personal.Where(x => x.IdPersonal == Modelo.IdPersonal).FirstOrDefault();
+                        Objbd.IdLicencia = Modelo.IdLicencia;
+                        Objbd.Nombre = Modelo.Nombre;
+                        Objbd.Apellido1 = Modelo.Apellido1;
+                        Objbd.Apellido2 = Modelo.Apellido2;
+                        Objbd.IdPersonal = Modelo.IdPersonal;
+                        Objbd.IdDepartamento = Modelo.IdDepartamento;
+                        Objbd.Cedula = Modelo.Cedula;
+                        Objbd.CarnetMS = Modelo.CarnetMS;
+                        Objbd.Correo = Modelo.Correo;
+                        Objbd.VenceCarnetMS = Modelo.VenceCarnetMS;
+                        Objbd.MotivoDeshabilitar = Modelo.MotivoDeshabilitar;
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Edito", "Personal", Modelo.ValorAntiguo(ValorAntiguo), Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('Persona editada exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                            {
+                                return new SelectListItem()
+                                {
+                                    Text = d.Nombre,
+                                    Value = d.IdDepartamento.ToString(),
+                                    Selected = false
+                                };
+                            });
+                            ViewBag.IdLicencia = db.Licencia.ToList().ConvertAll(d =>
+                            {
+                                return new SelectListItem()
+                                {
+                                    Text = d.TipoLicencia,
+                                    Value = d.IdLicencia.ToString(),
+                                    Selected = false
+                                };
+                            });
+                            TempData["msg"] = "<script>alert('Error al editar la persona!!');</script>";
+                            return View(Modelo);
+                        }
+                    }
                 }
-
-                ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre", personal.IdDepartamento);
-                ViewBag.IdLicencia = new SelectList(db.Licencia, "IdLicencia", "TipoLicencia", personal.IdLicencia);
-                return View(personal);
+                ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre,
+                        Value = d.IdDepartamento.ToString(),
+                        Selected = false
+                    };
+                });
+                ViewBag.IdLicencia = db.Licencia.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.TipoLicencia,
+                        Value = d.IdLicencia.ToString(),
+                        Selected = false
+                    };
+                });
+                TempData["msg"] = "<script>alert('Error al editar la persona!!');</script>";
+                return View(Modelo);
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al editar la persona!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
