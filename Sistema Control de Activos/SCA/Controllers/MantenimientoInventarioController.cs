@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using SCA.Models;
@@ -29,7 +30,7 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            MantenimientoInventario mantenimientoinventario = db.MantenimientoInventario.Find(id);
+            MantenimientoInventario mantenimientoinventario = db.MantenimientoInventario.Include(a => a.IdMantenimientoInventario == id).FirstOrDefault();
             if (mantenimientoinventario == null)
             {
                 return HttpNotFound();
@@ -40,32 +41,72 @@ namespace SCA.Controllers
         // GET: MantenimientoInventario/Create
         public ActionResult Create()
         {
-            ViewBag.IdInventario = new SelectList(db.Inventario, "IdInventario", "Nombre");
+            ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdInventario.ToString(),
+                    Selected = false
+                };
+            });
             return View();
         }
 
         // POST: MantenimientoInventario/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdMantenimientoInventario, IdInventario, TipoMantenimiento" +
-                                                   "CostoMantenimiento, FechaMantenimiento, FechaProximoMantenimiento" +
-                                                   "DescripcionServicio")]MantenimientoInventario mantenimientoinventario)
+        public ActionResult Create(MantenimientoInventario Modelo)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.MantenimientoInventario.Add(mantenimientoinventario);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        db.MantenimientoInventario.Add(Modelo);
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Agrego", "MantenimientoInventario", "", Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('Mantenimiento Inventario Agregada exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            TempData["msg"] = "<script>alert('Error al agregar el mantenimiento de inventario!!');</script>";
+                            ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
+                            {
+                                return new SelectListItem()
+                                {
+                                    Text = d.Nombre,
+                                    Value = d.IdInventario.ToString(),
+                                    Selected = false
+                                };
+                            });
+                            return View(Modelo);
+                        }
+                    }
                 }
-
-                ViewBag.IdInventario = new SelectList(db.Inventario, "IdInventario", "Nombre");
-                return View(mantenimientoinventario);
+                TempData["msg"] = "<script>alert('Error al agregar el mantenimiento de inventario!!');</script>";
+                ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre,
+                        Value = d.IdInventario.ToString(),
+                        Selected = false
+                    };
+                });
+                return View(Modelo);
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al agregar el mantenimiento de inventario!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -90,25 +131,64 @@ namespace SCA.Controllers
         // POST: MantenimientoInventario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdMantenimientoInventario, IdInventario, TipoMantenimiento" +
-                                                   "CostoMantenimiento, FechaMantenimiento, FechaProximoMantenimiento" +
-                                                   "DescripcionServicio")]MantenimientoInventario mantenimientoinventario)
+        public ActionResult Edit(MantenimientoInventario Modelo)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(mantenimientoinventario).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    var ValorAntiguo = db.MantenimientoInventario.Where(x => x.IdInventario == Modelo.IdMantenimientoInventario).FirstOrDefault();
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        var Objbd = db.MantenimientoInventario.Where(x => x.IdInventario == Modelo.IdMantenimientoInventario).FirstOrDefault();
+                        Objbd.IdInventario = Modelo.IdInventario;
+                        Objbd.IdMantenimientoInventario = Modelo.IdMantenimientoInventario;
+                        Objbd.CostoMantenimiento = Modelo.CostoMantenimiento;
+                        Objbd.DescripcionServicio = Modelo.DescripcionServicio;
+                        Objbd.FechaMantenimiento = Modelo.FechaMantenimiento;
+                        Objbd.FechaProximoMantenimiento = Modelo.FechaProximoMantenimiento;
+                        Objbd.TipoMantenimiento = Modelo.TipoMantenimiento;
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Edito", "MantenimientoInventario", Modelo.ValorAntiguo(ValorAntiguo), Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('MantenimientoInventario editado exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
+                            {
+                                return new SelectListItem()
+                                {
+                                    Text = d.Nombre,
+                                    Value = d.IdInventario.ToString(),
+                                    Selected = false
+                                };
+                            });
+                            TempData["msg"] = "<script>alert('Error al editar el mantenimientoInventario!!');</script>";
+                            return View(Modelo);
+                        }
+                    }
                 }
-
-                ViewBag.IdInventario = new SelectList(db.Inventario, "IdInventario", "Nombre", mantenimientoinventario.IdInventario);
-                return View(mantenimientoinventario);
+                ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre,
+                        Value = d.IdInventario.ToString(),
+                        Selected = false
+                    };
+                });
+                return View(Modelo);
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al editar el mantenimientoInventario!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -130,30 +210,39 @@ namespace SCA.Controllers
         }
 
         // POST: MantenimientoInventario/Delete/5
-        [HttpPost, ActionName("Borrar")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
-                MantenimientoInventario mantenimientoinventario = db.MantenimientoInventario.Find(id);
-                db.MantenimientoInventario.Remove(mantenimientoinventario);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var ValorAntiguo = db.Personal.Where(x => x.IdPersonal == id).FirstOrDefault();
+                using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    var persona = db.Personal.Where(x => x.IdPersonal == id).FirstOrDefault();
+                    db.Personal.Remove(persona);
+                    int Resultado = db.SaveChanges();
+                    if (Resultado > 0)
+                    {
+                        Ts.Complete();
+                        var UsuarioLogueado = (Usuario)Session["User"];
+                        Helpers.Helper.RegistrarMovimiento("Elimino", "MantenimientoInventario", persona.ValorAntiguo(ValorAntiguo), "", UsuarioLogueado.IdUsuario); ;
+                        TempData["msg"] = "<script>alert('mantenimiento inventario eliminado exitosamente!!');</script>";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        Ts.Dispose();
+                        TempData["msg"] = "<script>alert('Error al eliminar el mantenimiento inventario!!');</script>";
+                        return RedirectToAction("Index");
+                    }
+                }
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al eliminar el mantenimiento inventario!!');</script>";
+                return RedirectToAction("Index");
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

@@ -3,14 +3,14 @@
 @{
     ViewBag.Title = "Edit";
 }
-
+@Html.Raw(TempData["msg"])
 <h2>Edit</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>MantenimientoInventario</h4>
         <hr />
