@@ -39,7 +39,7 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            MantenimientoInventario mantenimientoinventario = db.MantenimientoInventario.Include(a => a.IdMantenimientoInventario == id).FirstOrDefault();
+            MantenimientoInventario mantenimientoinventario = db.MantenimientoInventario.Include(a => a.Inventario).Where(x=>x.IdMantenimientoInventario==id).FirstOrDefault();
             if (mantenimientoinventario == null)
             {
                 return HttpNotFound();
@@ -127,13 +127,21 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            MantenimientoInventario mantenimientoinventario = db.MantenimientoInventario.Find(id);
+            MantenimientoInventario mantenimientoinventario = db.MantenimientoInventario.Include(a => a.Inventario).Where(x=>x.IdMantenimientoInventario==id).FirstOrDefault();
             if (mantenimientoinventario == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.IdInventario = new SelectList(db.Inventario, "IdInventario", "Nombre", mantenimientoinventario.IdInventario);
+            ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdInventario.ToString(),
+                    Selected = false
+                };
+            });
             return View(mantenimientoinventario);
         }
 
@@ -225,17 +233,17 @@ namespace SCA.Controllers
         {
             try
             {
-                var ValorAntiguo = db.Personal.Where(x => x.IdPersonal == id).FirstOrDefault();
+                var ValorAntiguo = db.MantenimientoInventario.Where(x => x.IdMantenimientoInventario == id).FirstOrDefault();
                 using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    var persona = db.Personal.Where(x => x.IdPersonal == id).FirstOrDefault();
-                    db.Personal.Remove(persona);
+                    var persona = db.MantenimientoInventario.Where(x => x.IdMantenimientoInventario == id).FirstOrDefault();
+                    db.MantenimientoInventario.Remove(persona);
                     int Resultado = db.SaveChanges();
                     if (Resultado > 0)
                     {
                         Ts.Complete();
                         var UsuarioLogueado = (Usuario)Session["User"];
-                        Helpers.Helper.RegistrarMovimiento("Elimino", "MantenimientoInventario", persona.ValorAntiguo(ValorAntiguo), "", UsuarioLogueado.IdUsuario); ;
+                        Helpers.Helper.RegistrarMovimiento("Elimino", "MantenimientoInventario", persona.ValorAntiguo(ValorAntiguo), "", UsuarioLogueado.IdUsuario); 
                         TempData["msg"] = "<script>alert('mantenimiento inventario eliminado exitosamente!!');</script>";
                         return RedirectToAction("Index");
                     }
