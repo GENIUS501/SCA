@@ -19,15 +19,6 @@ namespace SCA.Controllers
         public ActionResult Index()
         {
             var ManInv = db.MantenimientoInventario.Include(a => a.Inventario);
-            ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
-            {
-                return new SelectListItem()
-                {
-                    Text = d.Nombre,
-                    Value = d.IdInventario.ToString(),
-                    Selected = false
-                };
-            });
             return View(ManInv.ToList());
         }
 

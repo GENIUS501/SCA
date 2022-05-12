@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using SCA.Models;
@@ -40,28 +41,65 @@ namespace SCA.Controllers
         // GET: MantenimientoVehiculo/Create
         public ActionResult Create()
         {
-            ViewBag.IdFlotilla = new SelectList(db.Flotilla, "IdFlotilla", "Placa");
+            ViewBag.IdFlotilla = db.Flotilla.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Placa.ToString(),
+                    Value = d.IdFlotilla.ToString(),
+                    Selected = false
+                };
+            });
             return View();
         }
 
         // POST: MantenimientoVehiculo/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdMantenimientoVehiculo, IdFlotilla, TipoMentenimiento, KilometrajeActual" +
-                                                   "ProximoKilometraje, CostoMantenimiento, FechaMantenimiento " +
-                                                   "DescripcionServicio")] MantenimientoVehiculo mantenimientovehiculo)
+        public ActionResult Create(MantenimientoVehiculo Modelo)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.MantenimientoVehiculo.Add(mantenimientovehiculo);
+                    {
+                        using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                        {
+                            db.MantenimientoInventario.Add(Modelo);
+                            int Resultado = db.SaveChanges();
+                            if (Resultado > 0)
+                            {
+                                Ts.Complete();
+                                var UsuarioLogueado = (Usuario)Session["User"];
+                                Helpers.Helper.RegistrarMovimiento("Agrego", "MantenimientoInventario", "", Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                                TempData["msg"] = "<script>alert('Mantenimiento Inventario Agregada exitosamente!!');</script>";
+                                return RedirectToAction("Index");
+                            }
+                            else
+                            {
+                                Ts.Dispose();
+                                TempData["msg"] = "<script>alert('Error al agregar el mantenimiento de inventario!!');</script>";
+                                ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
+                                {
+                                    return new SelectListItem()
+                                    {
+                                        Text = d.Nombre,
+                                        Value = d.IdInventario.ToString(),
+                                        Selected = false
+                                    };
+                                });
+                                return View(Modelo);
+                            }
+                        }
+                    }
+                    TempData["msg"] = "<script>alert('Error al agregar el mantenimiento de inventario!!');</script>";
+                    db.MantenimientoVehiculo.Add(Modelo);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
 
                 ViewBag.IdFlotilla = new SelectList(db.Flotilla, "IdFlotilla", "Placa");
-                return View(mantenimientovehiculo);
+                return View(Modelo);
             }
             catch
             {
@@ -77,34 +115,32 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            MantenimientoVehiculo mantenimientovehiculo = db.MantenimientoVehiculo.Find(id);
-            if (mantenimientovehiculo == null)
+            MantenimientoVehiculo Modelo = db.MantenimientoVehiculo.Find(id);
+            if (Modelo == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.IdFlotilla = new SelectList(db.Flotilla, "IdFlotilla", "Placa", mantenimientovehiculo.IdFlotilla);
-            return View(mantenimientovehiculo);
+            ViewBag.IdFlotilla = new SelectList(db.Flotilla, "IdFlotilla", "Placa", Modelo.IdFlotilla);
+            return View(Modelo);
         }
 
         // POST: MantenimientoInventario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdMantenimientoVehiculo, IdFlotilla, TipoMentenimiento, KilometrajeActual" +
-                                                   "ProximoKilometraje, CostoMantenimiento, FechaMantenimiento " +
-                                                   "DescripcionServicio")] MantenimientoVehiculo mantenimientovehiculo)
+        public ActionResult Edit(MantenimientoVehiculo Modelo)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(mantenimientovehiculo).State = EntityState.Modified;
+                    db.Entry(Modelo).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
 
-                ViewBag.IdFlotilla = new SelectList(db.Flotilla, "IdFlotilla", "Placa", mantenimientovehiculo.IdFlotilla);
-                return View(mantenimientovehiculo);
+                ViewBag.IdFlotilla = new SelectList(db.Flotilla, "IdFlotilla", "Placa", Modelo.IdFlotilla);
+                return View(Modelo);
             }
             catch
             {
@@ -130,9 +166,9 @@ namespace SCA.Controllers
         }
 
         // POST: MantenimientoInventario/Delete/5
-        [HttpPost, ActionName("Borrar")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
@@ -147,13 +183,5 @@ namespace SCA.Controllers
             }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
