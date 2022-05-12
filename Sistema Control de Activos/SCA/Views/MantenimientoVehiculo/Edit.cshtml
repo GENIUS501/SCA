@@ -3,31 +3,30 @@
 @{
     ViewBag.Title = "Edit";
 }
-
-<h2>Edit</h2>
+@Html.Raw(TempData["msg"])
+<h2>Editar</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>MantenimientoVehiculo</h4>
+        <h4>Mantenimiento de vehiculo</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.IdMantenimientoVehiculo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.IdMantenimientoVehiculo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.IdMantenimientoVehiculo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.IdMantenimientoVehiculo, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IdFlotilla, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Placa:</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.IdFlotilla, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdFlotilla, "", new { @class = "text-danger" })
+                @Html.DropDownList("IdFlotilla", (List<SelectListItem>)ViewBag.IdFlotilla, htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
 
@@ -62,12 +61,17 @@
                 @Html.ValidationMessageFor(model => model.CostoMantenimiento, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        @{
+            var FechaMantenimiento = DateTime.Now;
+            if (Model.FechaMantenimiento.HasValue)
+            {
+                FechaMantenimiento = (DateTime)Model.FechaMantenimiento;
+            }
+        }
         <div class="form-group">
             @Html.LabelFor(model => model.FechaMantenimiento, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaMantenimiento, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FechaMantenimiento, "", new { @class = "text-danger" })
+                <input type="date" class="form-control" value="@FechaMantenimiento.ToString("yyyy-MM-dd")" name="FechaMantenimiento" required />
             </div>
         </div>
 
@@ -78,17 +82,18 @@
                 @Html.ValidationMessageFor(model => model.DescripcionServicio, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <br />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Editar" class="btn btn-outline-secondary" />
             </div>
         </div>
+        <br />
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Volver a la lista", "Index")
 </div>
 
 @section Scripts {

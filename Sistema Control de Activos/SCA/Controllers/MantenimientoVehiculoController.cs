@@ -30,7 +30,7 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            MantenimientoVehiculo mantenimientovehiculo = db.MantenimientoVehiculo.Find(id);
+            MantenimientoVehiculo mantenimientovehiculo = db.MantenimientoVehiculo.Include(x => x.Flotilla).Where(x=>x.IdFlotilla==id).FirstOrDefault();
             if (mantenimientovehiculo == null)
             {
                 return HttpNotFound();
@@ -65,26 +65,26 @@ namespace SCA.Controllers
                     {
                         using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                         {
-                            db.MantenimientoInventario.Add(Modelo);
+                            db.MantenimientoVehiculo.Add(Modelo);
                             int Resultado = db.SaveChanges();
                             if (Resultado > 0)
                             {
                                 Ts.Complete();
                                 var UsuarioLogueado = (Usuario)Session["User"];
-                                Helpers.Helper.RegistrarMovimiento("Agrego", "MantenimientoInventario", "", Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
-                                TempData["msg"] = "<script>alert('Mantenimiento Inventario Agregada exitosamente!!');</script>";
+                                Helpers.Helper.RegistrarMovimiento("Agrego", "MantenimientoVehiculo", "", Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                                TempData["msg"] = "<script>alert('Mantenimiento vehiculo Agregada exitosamente!!');</script>";
                                 return RedirectToAction("Index");
                             }
                             else
                             {
                                 Ts.Dispose();
-                                TempData["msg"] = "<script>alert('Error al agregar el mantenimiento de inventario!!');</script>";
-                                ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
+                                TempData["msg"] = "<script>alert('Error al agregar el mantenimiento de vehiculo!!');</script>";
+                                ViewBag.IdFlotilla = db.Flotilla.ToList().ConvertAll(d =>
                                 {
                                     return new SelectListItem()
                                     {
-                                        Text = d.Nombre,
-                                        Value = d.IdInventario.ToString(),
+                                        Text = d.Placa.ToString(),
+                                        Value = d.IdFlotilla.ToString(),
                                         Selected = false
                                     };
                                 });
@@ -92,18 +92,23 @@ namespace SCA.Controllers
                             }
                         }
                     }
-                    TempData["msg"] = "<script>alert('Error al agregar el mantenimiento de inventario!!');</script>";
-                    db.MantenimientoVehiculo.Add(Modelo);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
                 }
-
-                ViewBag.IdFlotilla = new SelectList(db.Flotilla, "IdFlotilla", "Placa");
+                TempData["msg"] = "<script>alert('Error al agregar el mantenimiento de vehiculo!!');</script>";
+                ViewBag.IdFlotilla = db.Flotilla.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Placa.ToString(),
+                        Value = d.IdFlotilla.ToString(),
+                        Selected = false
+                    };
+                });
                 return View(Modelo);
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al agregar el mantenimiento de vehiculo!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -121,7 +126,15 @@ namespace SCA.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.IdFlotilla = new SelectList(db.Flotilla, "IdFlotilla", "Placa", Modelo.IdFlotilla);
+            ViewBag.IdFlotilla = db.Flotilla.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Placa.ToString(),
+                    Value = d.IdFlotilla.ToString(),
+                    Selected = false
+                };
+            });
             return View(Modelo);
         }
 
@@ -134,17 +147,58 @@ namespace SCA.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(Modelo).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    var ValorAntiguo = db.MantenimientoVehiculo.Where(x => x.IdFlotilla == Modelo.IdFlotilla).FirstOrDefault();
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        var Objbd = db.MantenimientoVehiculo.Where(x => x.IdFlotilla == Modelo.IdFlotilla).FirstOrDefault();
+                        Objbd.CostoMantenimiento = Modelo.CostoMantenimiento;
+                        Objbd.DescripcionServicio = Modelo.DescripcionServicio;
+                        Objbd.FechaMantenimiento = Modelo.FechaMantenimiento;
+                        Objbd.IdMantenimientoVehiculo = Modelo.IdMantenimientoVehiculo;
+                        Objbd.KilometrajeActual = Modelo.KilometrajeActual;
+                        Objbd.ProximoKilometraje = Modelo.ProximoKilometraje;
+                        Objbd.TipoMantenimiento = Modelo.TipoMantenimiento;
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Edito", "MantenimientoVehiculo", Modelo.ValorAntiguo(ValorAntiguo), Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('MantenimientoVehiculo editado exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
+                            {
+                                return new SelectListItem()
+                                {
+                                    Text = d.Nombre,
+                                    Value = d.IdInventario.ToString(),
+                                    Selected = false
+                                };
+                            });
+                            TempData["msg"] = "<script>alert('Error al editar el mantenimientoVehiculo!!');</script>";
+                            return View(Modelo);
+                        }
+                    }
                 }
-
-                ViewBag.IdFlotilla = new SelectList(db.Flotilla, "IdFlotilla", "Placa", Modelo.IdFlotilla);
+                ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre,
+                        Value = d.IdInventario.ToString(),
+                        Selected = false
+                    };
+                });
                 return View(Modelo);
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('MantenimientoVehiculo editado exitosamente!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -156,7 +210,7 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            MantenimientoVehiculo mantenimientovehiculo = db.MantenimientoVehiculo.Find(id);
+            MantenimientoVehiculo mantenimientovehiculo = db.MantenimientoVehiculo.Include(x => x.Flotilla).Where(x => x.IdFlotilla == id).FirstOrDefault();
             if (mantenimientovehiculo == null)
             {
                 return HttpNotFound();
@@ -172,14 +226,32 @@ namespace SCA.Controllers
         {
             try
             {
-                MantenimientoVehiculo mantenimientovehiculo = db.MantenimientoVehiculo.Find(id);
-                db.MantenimientoVehiculo.Remove(mantenimientovehiculo);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var ValorAntiguo = db.MantenimientoVehiculo.Where(x => x.IdFlotilla == id).FirstOrDefault();
+                using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    var Objbd = db.MantenimientoVehiculo.Where(x => x.IdFlotilla == id).FirstOrDefault();
+                    db.MantenimientoVehiculo.Remove(Objbd);
+                    int Resultado = db.SaveChanges();
+                    if (Resultado > 0)
+                    {
+                        Ts.Complete();
+                        var UsuarioLogueado = (Usuario)Session["User"];
+                        Helpers.Helper.RegistrarMovimiento("Elimino", "MantenimientoVehiculo", Objbd.ValorAntiguo(ValorAntiguo), "", UsuarioLogueado.IdUsuario);
+                        TempData["msg"] = "<script>alert('mantenimiento vehiculo eliminado exitosamente!!');</script>";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        Ts.Dispose();
+                        TempData["msg"] = "<script>alert('Error al eliminar el mantenimiento vehiculo!!');</script>";
+                        return RedirectToAction("Index");
+                    }
+                }
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al eliminar el mantenimiento vehiculo!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 

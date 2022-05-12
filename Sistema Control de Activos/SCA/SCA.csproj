@@ -494,6 +494,7 @@
     <Content Include="Views\Personal\Details.cshtml" />
     <Content Include="Views\MantenimientoInventario\Index.cshtml" />
     <Content Include="Views\MantenimientoInventario\Details.cshtml" />
+    <Content Include="Views\MantenimientoVehiculo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
