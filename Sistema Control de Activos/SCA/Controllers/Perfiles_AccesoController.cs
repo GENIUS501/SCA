@@ -57,15 +57,14 @@ namespace SCA.Controllers
                             if (Resultado > 0)
                             {
                                 var Permisos = Grabar(Modelo.ModulosEscogidos, Perfil.Id_Perfil);
-                                foreach (var Item in Permisos)
+                                if (Permisos.Count > 0)
                                 {
-                                    Perfiles_Permisos PermisosGuardar = new Perfiles_Permisos();
-                                    PermisosGuardar.Id_Perfil = Item.Id_Perfil;
-                                    PermisosGuardar.Modulo = Item.Modulo;
-                                    PermisosGuardar.Modificar = Item.Modificar;
-                                    PermisosGuardar.Agregar = Item.Agregar;
-                                    PermisosGuardar.Eliminar = Item.Eliminar;
-                                    db.Perfiles_Permisos.Add(Item);
+                                    var Permisos_Anteriores = db.Perfiles_Permisos.Where(x => x.Id_Perfil == Perfil.Id_Perfil).ToList();
+                                    if (Permisos_Anteriores.Count > 0)
+                                    {
+                                        db.Perfiles_Permisos.RemoveRange(Permisos_Anteriores);
+                                    }
+                                    db.Perfiles_Permisos.AddRange(Permisos);
                                 }
                                 db.SaveChanges();
                                 Ts.Complete();
@@ -86,7 +85,7 @@ namespace SCA.Controllers
                 TempData["msg"] = "<script>alert('Error al agregar el perfil!!');</script>";
                 return View(Modelo);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 TempData["msg"] = "<script>alert('Error al agregar el perfil!!');</script>";
                 return RedirectToAction("Index");

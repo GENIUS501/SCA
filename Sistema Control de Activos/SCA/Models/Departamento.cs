@@ -28,6 +28,7 @@ namespace SCA.Models
         {
             return "IdDepartamento:" + IdDepartamento.ToString() + " Nombre:" + Nombre;
         }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Flotilla> Flotilla { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

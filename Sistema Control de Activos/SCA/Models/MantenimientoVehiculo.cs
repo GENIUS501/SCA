@@ -11,7 +11,7 @@ namespace SCA.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class MantenimientoVehiculo
     {
         public int IdMantenimientoVehiculo { get; set; }
@@ -30,6 +30,7 @@ namespace SCA.Models
         {
             return "IdMantenimientoVehiculo:" + Entidad.IdMantenimientoVehiculo + " |IdFlotilla:" + Entidad.IdFlotilla + " |TipoMantenimiento:" + Entidad.TipoMantenimiento + "|CostoMantenimiento:" + Entidad.CostoMantenimiento.ToString() + " |FechaMantenimiento:" + Entidad.FechaMantenimiento + " |KilometrajeActual:" + Entidad.KilometrajeActual + " |DescripcionServicio:" + Entidad.DescripcionServicio + " |ProximoKilometraje:" + Entidad.ProximoKilometraje;
         }
+
         public virtual Flotilla Flotilla { get; set; }
     }
 }

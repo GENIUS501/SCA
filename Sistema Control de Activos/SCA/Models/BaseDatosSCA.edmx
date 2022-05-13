@@ -133,8 +133,6 @@
           <Property Name="NombrePerfil" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Perfiles_Permisos">
           <Key>
             <PropertyRef Name="Id_Permiso" />
@@ -365,18 +363,9 @@ advertencia 6002: La tabla o vista 'BaseDatosSCA.dbo.Perfiles_Permisos' no tiene
           <EntitySet Name="MantenimientoInventario" EntityType="Self.MantenimientoInventario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MantenimientoVehiculo" EntityType="Self.MantenimientoVehiculo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Perfiles_Acceso" EntityType="Self.Perfiles_Acceso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Perfiles_Permisos" EntityType="Self.Perfiles_Permisos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personal" EntityType="Self.Personal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Perfiles_Permisos" EntityType="Self.Perfiles_Permisos" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Perfiles_Permisos].[Id_Permiso] AS [Id_Permiso], 
-    [Perfiles_Permisos].[Id_Perfil] AS [Id_Perfil], 
-    [Perfiles_Permisos].[Modulo] AS [Modulo], 
-    [Perfiles_Permisos].[Agregar] AS [Agregar], 
-    [Perfiles_Permisos].[Modificar] AS [Modificar], 
-    [Perfiles_Permisos].[Eliminar] AS [Eliminar]
-    FROM [dbo].[Perfiles_Permisos] AS [Perfiles_Permisos]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_BitacoraIngresoSalida_Usuario" Association="Self.FK_BitacoraIngresoSalida_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="BitacoraIngresoSalida" EntitySet="BitacoraIngresoSalida" />

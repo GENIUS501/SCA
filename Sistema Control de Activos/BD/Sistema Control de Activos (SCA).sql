@@ -135,7 +135,7 @@ CREATE TABLE Perfiles_Acceso(
 );
 
 CREATE TABLE [dbo].[Perfiles_Permisos](
-	[Id_Permiso] [int] IDENTITY(1,1) NOT NULL,
+	[Id_Permiso] [int] IDENTITY(1,1) PRIMARY KEY,
 	[Id_Perfil] [int] NULL,
 	[Modulo] VARCHAR(25) NULL,
 	[Agregar] [varchar](2) NULL,

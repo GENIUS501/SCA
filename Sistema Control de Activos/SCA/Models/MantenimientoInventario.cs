@@ -11,7 +11,7 @@ namespace SCA.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class MantenimientoInventario
     {
         public int IdMantenimientoInventario { get; set; }

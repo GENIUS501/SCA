@@ -11,7 +11,7 @@ namespace SCA.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Usuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +20,7 @@ namespace SCA.Models
             this.BitacoraIngresoSalida = new HashSet<BitacoraIngresoSalida>();
             this.BitacoraMovimiento = new HashSet<BitacoraMovimiento>();
         }
-    
+
         public int IdUsuario { get; set; }
         public Nullable<int> IdPersonal { get; set; }
         public Nullable<int> IdPerfiles { get; set; }
