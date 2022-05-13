@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -39,32 +40,83 @@ namespace SCA.Controllers
         // POST: Perfiles_Acceso/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(PerfilesViewModel Model)
+        public ActionResult Create(PerfilesViewModel Modelo)
         {
             try
             {
-                
-                // TODO: Add insert logic here
-
-                return View();
+                if (ModelState.IsValid)
+                {
+                    {
+                        using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                        {
+                            Perfiles_Acceso Perfil = new Perfiles_Acceso();
+                            Perfil.NombrePerfil = Modelo.NombrePerfil;
+                            Perfil.Descripcion = Modelo.Descripcion;
+                            db.Perfiles_Acceso.Add(Perfil);
+                            int Resultado = db.SaveChanges();
+                            if (Resultado > 0)
+                            {
+                                var Permisos = Grabar(Modelo.ModulosEscogidos, Perfil.Id_Perfil);
+                                foreach (var Item in Permisos)
+                                {
+                                    Perfiles_Permisos PermisosGuardar = new Perfiles_Permisos();
+                                    PermisosGuardar.Id_Perfil = Item.Id_Perfil;
+                                    PermisosGuardar.Modulo = Item.Modulo;
+                                    PermisosGuardar.Modificar = Item.Modificar;
+                                    PermisosGuardar.Agregar = Item.Agregar;
+                                    PermisosGuardar.Eliminar = Item.Eliminar;
+                                    db.Perfiles_Permisos.Add(Item);
+                                }
+                                db.SaveChanges();
+                                Ts.Complete();
+                                var UsuarioLogueado = (Usuario)Session["User"];
+                                Helpers.Helper.RegistrarMovimiento("Agrego", "Perfiles", "", Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                                TempData["msg"] = "<script>alert('Perfil Agregado exitosamente!!');</script>";
+                                return RedirectToAction("Index");
+                            }
+                            else
+                            {
+                                Ts.Dispose();
+                                TempData["msg"] = "<script>alert('Error al agregar el perfil!!');</script>";
+                                return View(Modelo);
+                            }
+                        }
+                    }
+                }
+                TempData["msg"] = "<script>alert('Error al agregar el perfil!!');</script>";
+                return View(Modelo);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al agregar el perfil!!');</script>";
+                return RedirectToAction("Index");
             }
         }
-        private bool Grabar()
+        private List<Perfiles_Permisos> Grabar(List<PerfilesViewModel.Modulos> Permisos, int IdPerfil)
         {
             try
             {
-
+                List<Perfiles_Permisos> PermisosGuardar = new List<Perfiles_Permisos>();
+                foreach (var Item in Permisos)
+                {
+                    if (Item.Checked == "true")
+                    {
+                        PermisosGuardar.Add(new Perfiles_Permisos
+                        {
+                            Id_Perfil = IdPerfil,
+                            Modulo = Item.Modulo,
+                            Agregar = "s",
+                            Eliminar = "s",
+                            Modificar = "s"
+                        });
+                    }
+                }
+                return PermisosGuardar;
             }
             catch (Exception)
             {
-
-                throw;
+                return new List<Perfiles_Permisos>();
             }
-            return true;
         }
         // GET: Perfiles_Acceso/Edit/5
         public ActionResult Edit(int id)

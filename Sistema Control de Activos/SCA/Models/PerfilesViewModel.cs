@@ -14,5 +14,13 @@ namespace SCA.Models
             public string Modulo { get; set; }
             public string Checked { get; set; }
         }
+        public string ValorNuevo()
+        {
+            return "Id_Perfil:" + Id_Perfil + " |NombrePerfil:" + NombrePerfil + " |Descripcion:" + Descripcion;
+        }
+        public string ValorAntiguo(PerfilesViewModel Entidad)
+        {
+            return "Id_Perfil:" + Id_Perfil + " |NombrePerfil:" + NombrePerfil + " |Descripcion:" + Descripcion;
+        }
     }
 }
