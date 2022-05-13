@@ -147,10 +147,11 @@ namespace SCA.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var ValorAntiguo = db.MantenimientoVehiculo.Where(x => x.IdFlotilla == Modelo.IdFlotilla).FirstOrDefault();
+                    var ValorAntiguo = db.MantenimientoVehiculo.Where(x => x.IdMantenimientoVehiculo == Modelo.IdMantenimientoVehiculo).FirstOrDefault();
                     using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        var Objbd = db.MantenimientoVehiculo.Where(x => x.IdFlotilla == Modelo.IdFlotilla).FirstOrDefault();
+                        var Objbd = db.MantenimientoVehiculo.Where(x => x.IdMantenimientoVehiculo == Modelo.IdMantenimientoVehiculo).FirstOrDefault();
+                        Objbd.IdFlotilla = Modelo.IdFlotilla;
                         Objbd.CostoMantenimiento = Modelo.CostoMantenimiento;
                         Objbd.DescripcionServicio = Modelo.DescripcionServicio;
                         Objbd.FechaMantenimiento = Modelo.FechaMantenimiento;

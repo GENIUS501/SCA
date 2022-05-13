@@ -12,7 +12,7 @@ namespace SCA.Controllers
         // GET: ReportePersonal
         public ActionResult List()
         {
-            var ReportePerfiles = new List<Perfiles>();
+           // var ReportePerfiles = new List<Perfiles>();
 
             //using (BaseDatosSCAEntities dc = new BaseDatosSCAEntities())
             //{

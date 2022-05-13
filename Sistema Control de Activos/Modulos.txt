@@ -1,0 +1,14 @@
+Departamentos
+Colaboradores
+Licencias
+Usuarios
+Personal
+ControlInventario
+ControlVehículos
+Flotilla
+MantenimientoInventario
+MantenimientoVehículos
+Perfiles
+Inventario
+BitacoraEntrada/Salida
+BitacoraMovimientos

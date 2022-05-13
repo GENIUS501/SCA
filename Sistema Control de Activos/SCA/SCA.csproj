@@ -137,6 +137,7 @@
     <Compile Include="Controllers\LicenciaController.cs" />
     <Compile Include="Controllers\MantenimientoInventarioController.cs" />
     <Compile Include="Controllers\MantenimientoVehiculoController.cs" />
+    <Compile Include="Controllers\Perfiles_AccesoController.cs" />
     <Compile Include="Controllers\PersonalController.cs" />
     <Compile Include="Controllers\ReporteControlInventarioController.cs" />
     <Compile Include="Controllers\ReporteControlVehiculoController.cs" />
@@ -209,7 +210,7 @@
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MantenimientoVehiculoMetaData.cs" />
-    <Compile Include="Models\PerfilesMetaData.cs" />
+    <Compile Include="Models\PerfilesViewModel.cs" />
     <Compile Include="Models\Perfiles_Acceso.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
@@ -495,6 +496,8 @@
     <Content Include="Views\MantenimientoInventario\Index.cshtml" />
     <Content Include="Views\MantenimientoInventario\Details.cshtml" />
     <Content Include="Views\MantenimientoVehiculo\Index.cshtml" />
+    <Content Include="Views\Perfiles_Acceso\Index.cshtml" />
+    <Content Include="Views\Perfiles_Acceso\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
