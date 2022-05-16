@@ -35,7 +35,7 @@
                 @Html.DisplayNameFor(model => model.Correo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdLicencia)
+                @Html.DisplayNameFor(model => model.Licencia.TipoLicencia)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CarnetMS)
@@ -75,7 +75,7 @@
                     @Html.DisplayFor(modelItem => item.Correo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdLicencia)
+                    @Html.DisplayFor(modelItem => item.Licencia.TipoLicencia)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CarnetMS)

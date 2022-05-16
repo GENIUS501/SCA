@@ -85,7 +85,7 @@ namespace SCA.Controllers
                 TempData["msg"] = "<script>alert('Error al agregar el perfil!!');</script>";
                 return View(Modelo);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 TempData["msg"] = "<script>alert('Error al agregar el perfil!!');</script>";
                 return RedirectToAction("Index");
@@ -120,23 +120,31 @@ namespace SCA.Controllers
         // GET: Perfiles_Acceso/Edit/5
         public ActionResult Edit(int Id)
         {
-            var Perfil = db.Perfiles_Acceso.Where(x => x.Id_Perfil == Id).FirstOrDefault();
-            var PerfilPermiso = db.Perfiles_Permisos.Where(x => x.Id_Perfil == Id).ToList();
-            PerfilesViewModel Modelo = new PerfilesViewModel();
-            Modelo.Id_Perfil = Perfil.Id_Perfil;
-            Modelo.Descripcion = Perfil.Descripcion;
-            Modelo.NombrePerfil = Perfil.NombrePerfil;
-            Modelo.ModulosEscogidos = new List<PerfilesViewModel.Modulos>();
-            foreach (var Item in PerfilPermiso)
+            try
             {
-                Modelo.ModulosEscogidos.Add(new PerfilesViewModel.Modulos
+                var Perfil = db.Perfiles_Acceso.Where(x => x.Id_Perfil == Id).FirstOrDefault();
+                var PerfilPermiso = db.Perfiles_Permisos.Where(x => x.Id_Perfil == Id).ToList();
+                PerfilesViewModel Modelo = new PerfilesViewModel();
+                Modelo.Id_Perfil = Perfil.Id_Perfil;
+                Modelo.Descripcion = Perfil.Descripcion;
+                Modelo.NombrePerfil = Perfil.NombrePerfil;
+                Modelo.ModulosEscogidos = new List<PerfilesViewModel.Modulos>();
+                foreach (var Item in PerfilPermiso)
+                {
+                    Modelo.ModulosEscogidos.Add(new PerfilesViewModel.Modulos
                     {
                         Modulo = Item.Modulo,
                         Checked = "true",
                     }
-                );
+                    );
+                }
+                return View(Modelo);
             }
-            return View(Modelo);
+            catch (Exception)
+            {
+                return View();
+            }
+
         }
 
         // POST: Perfiles_Acceso/Edit/5
@@ -146,8 +154,58 @@ namespace SCA.Controllers
         {
             try
             {
-                // TODO: Add update logic here
-
+                if (ModelState.IsValid)
+                {
+                    var ValorAntiguo = db.Personal.Where(x => x.IdPersonal == Modelo.IdPersonal).FirstOrDefault();
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        var Objbd = db.Personal.Where(x => x.IdPersonal == Modelo.IdPersonal).FirstOrDefault();
+                        Objbd.IdLicencia = Modelo.IdLicencia;
+                        Objbd.Nombre = Modelo.Nombre;
+                        Objbd.Apellido1 = Modelo.Apellido1;
+                        Objbd.Apellido2 = Modelo.Apellido2;
+                        Objbd.IdPersonal = Modelo.IdPersonal;
+                        Objbd.IdDepartamento = Modelo.IdDepartamento;
+                        Objbd.Cedula = Modelo.Cedula;
+                        Objbd.CarnetMS = Modelo.CarnetMS;
+                        Objbd.Correo = Modelo.Correo;
+                        Objbd.VenceCarnetMS = Modelo.VenceCarnetMS;
+                        Objbd.MotivoDeshabilitar = Modelo.MotivoDeshabilitar;
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Edito", "Personal", Modelo.ValorAntiguo(ValorAntiguo), Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('Persona editada exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                            {
+                                return new SelectListItem()
+                                {
+                                    Text = d.Nombre,
+                                    Value = d.IdDepartamento.ToString(),
+                                    Selected = false
+                                };
+                            });
+                            ViewBag.IdLicencia = db.Licencia.ToList().ConvertAll(d =>
+                            {
+                                return new SelectListItem()
+                                {
+                                    Text = d.TipoLicencia,
+                                    Value = d.IdLicencia.ToString(),
+                                    Selected = false
+                                };
+                            });
+                            TempData["msg"] = "<script>alert('Error al editar la persona!!');</script>";
+                            return View(Modelo);
+                        }
+                    }
+                }
                 return RedirectToAction("Index");
             }
             catch
