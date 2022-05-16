@@ -150,62 +150,62 @@ namespace SCA.Controllers
         // POST: Perfiles_Acceso/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(PerfilesViewModel Modelo)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var ValorAntiguo = db.Personal.Where(x => x.IdPersonal == Modelo.IdPersonal).FirstOrDefault();
-                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                    {
-                        var Objbd = db.Personal.Where(x => x.IdPersonal == Modelo.IdPersonal).FirstOrDefault();
-                        Objbd.IdLicencia = Modelo.IdLicencia;
-                        Objbd.Nombre = Modelo.Nombre;
-                        Objbd.Apellido1 = Modelo.Apellido1;
-                        Objbd.Apellido2 = Modelo.Apellido2;
-                        Objbd.IdPersonal = Modelo.IdPersonal;
-                        Objbd.IdDepartamento = Modelo.IdDepartamento;
-                        Objbd.Cedula = Modelo.Cedula;
-                        Objbd.CarnetMS = Modelo.CarnetMS;
-                        Objbd.Correo = Modelo.Correo;
-                        Objbd.VenceCarnetMS = Modelo.VenceCarnetMS;
-                        Objbd.MotivoDeshabilitar = Modelo.MotivoDeshabilitar;
-                        int Resultado = db.SaveChanges();
-                        if (Resultado > 0)
-                        {
-                            Ts.Complete();
-                            var UsuarioLogueado = (Usuario)Session["User"];
-                            Helpers.Helper.RegistrarMovimiento("Edito", "Personal", Modelo.ValorAntiguo(ValorAntiguo), Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
-                            TempData["msg"] = "<script>alert('Persona editada exitosamente!!');</script>";
-                            return RedirectToAction("Index");
-                        }
-                        else
-                        {
-                            Ts.Dispose();
-                            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
-                            {
-                                return new SelectListItem()
-                                {
-                                    Text = d.Nombre,
-                                    Value = d.IdDepartamento.ToString(),
-                                    Selected = false
-                                };
-                            });
-                            ViewBag.IdLicencia = db.Licencia.ToList().ConvertAll(d =>
-                            {
-                                return new SelectListItem()
-                                {
-                                    Text = d.TipoLicencia,
-                                    Value = d.IdLicencia.ToString(),
-                                    Selected = false
-                                };
-                            });
-                            TempData["msg"] = "<script>alert('Error al editar la persona!!');</script>";
-                            return View(Modelo);
-                        }
-                    }
-                }
+                //if (ModelState.IsValid)
+                //{
+                //    var ValorAntiguo = db.Personal.Where(x => x.IdPersonal == Modelo.IdPersonal).FirstOrDefault();
+                //    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                //    {
+                //        var Objbd = db.Personal.Where(x => x.IdPersonal == Modelo.IdPersonal).FirstOrDefault();
+                //        Objbd.IdLicencia = Modelo.IdLicencia;
+                //        Objbd.Nombre = Modelo.Nombre;
+                //        Objbd.Apellido1 = Modelo.Apellido1;
+                //        Objbd.Apellido2 = Modelo.Apellido2;
+                //        Objbd.IdPersonal = Modelo.IdPersonal;
+                //        Objbd.IdDepartamento = Modelo.IdDepartamento;
+                //        Objbd.Cedula = Modelo.Cedula;
+                //        Objbd.CarnetMS = Modelo.CarnetMS;
+                //        Objbd.Correo = Modelo.Correo;
+                //        Objbd.VenceCarnetMS = Modelo.VenceCarnetMS;
+                //        Objbd.MotivoDeshabilitar = Modelo.MotivoDeshabilitar;
+                //        int Resultado = db.SaveChanges();
+                //        if (Resultado > 0)
+                //        {
+                //            Ts.Complete();
+                //            var UsuarioLogueado = (Usuario)Session["User"];
+                //            Helpers.Helper.RegistrarMovimiento("Edito", "Personal", Modelo.ValorAntiguo(ValorAntiguo), Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                //            TempData["msg"] = "<script>alert('Persona editada exitosamente!!');</script>";
+                //            return RedirectToAction("Index");
+                //        }
+                //        else
+                //        {
+                //            Ts.Dispose();
+                //            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                //            {
+                //                return new SelectListItem()
+                //                {
+                //                    Text = d.Nombre,
+                //                    Value = d.IdDepartamento.ToString(),
+                //                    Selected = false
+                //                };
+                //            });
+                //            ViewBag.IdLicencia = db.Licencia.ToList().ConvertAll(d =>
+                //            {
+                //                return new SelectListItem()
+                //                {
+                //                    Text = d.TipoLicencia,
+                //                    Value = d.IdLicencia.ToString(),
+                //                    Selected = false
+                //                };
+                //            });
+                //            TempData["msg"] = "<script>alert('Error al editar la persona!!');</script>";
+                //            return View(Modelo);
+                //        }
+                //    }
+                //}
                 return RedirectToAction("Index");
             }
             catch
