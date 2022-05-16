@@ -498,6 +498,7 @@
     <Content Include="Views\MantenimientoVehiculo\Index.cshtml" />
     <Content Include="Views\Perfiles_Acceso\Index.cshtml" />
     <Content Include="Views\Perfiles_Acceso\Create.cshtml" />
+    <Content Include="Views\Perfiles_Acceso\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

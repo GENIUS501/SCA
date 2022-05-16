@@ -85,7 +85,7 @@ namespace SCA.Controllers
                 TempData["msg"] = "<script>alert('Error al agregar el perfil!!');</script>";
                 return View(Modelo);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 TempData["msg"] = "<script>alert('Error al agregar el perfil!!');</script>";
                 return RedirectToAction("Index");
@@ -118,13 +118,30 @@ namespace SCA.Controllers
             }
         }
         // GET: Perfiles_Acceso/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int Id)
         {
-            return View();
+            var Perfil = db.Perfiles_Acceso.Where(x => x.Id_Perfil == Id).FirstOrDefault();
+            var PerfilPermiso = db.Perfiles_Permisos.Where(x => x.Id_Perfil == Id).ToList();
+            PerfilesViewModel Modelo = new PerfilesViewModel();
+            Modelo.Id_Perfil = Perfil.Id_Perfil;
+            Modelo.Descripcion = Perfil.Descripcion;
+            Modelo.NombrePerfil = Perfil.NombrePerfil;
+            Modelo.ModulosEscogidos = new List<PerfilesViewModel.Modulos>();
+            foreach (var Item in PerfilPermiso)
+            {
+                Modelo.ModulosEscogidos.Add(new PerfilesViewModel.Modulos
+                    {
+                        Modulo = Item.Modulo,
+                        Checked = "true",
+                    }
+                );
+            }
+            return View(Modelo);
         }
 
         // POST: Perfiles_Acceso/Edit/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, FormCollection collection)
         {
             try
