@@ -180,36 +180,28 @@
     <Compile Include="Models\ControlInventario.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ControlInventarioMetaData.cs" />
     <Compile Include="Models\ControlVehiculo.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ControlVehiculoMetaData.cs" />
     <Compile Include="Models\Departamento.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DepartamentoMetaData.cs" />
     <Compile Include="Models\Flotilla.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\FlotillaMetaData.cs" />
     <Compile Include="Models\Inventario.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\InventarioMetaData.cs" />
     <Compile Include="Models\Licencia.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\LicenciaMetaData.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MantenimientoInventario.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MantenimientoInventarioMetaData.cs" />
     <Compile Include="Models\MantenimientoVehiculo.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MantenimientoVehiculoMetaData.cs" />
     <Compile Include="Models\PerfilesViewModel.cs" />
     <Compile Include="Models\Perfiles_Acceso.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
@@ -217,15 +209,12 @@
     <Compile Include="Models\Perfiles_Permisos.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PermisosMetaData.cs" />
     <Compile Include="Models\Personal.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PersonalMetaData.cs" />
     <Compile Include="Models\Usuario.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UsuariosMetaData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -499,6 +488,7 @@
     <Content Include="Views\Perfiles_Acceso\Index.cshtml" />
     <Content Include="Views\Perfiles_Acceso\Create.cshtml" />
     <Content Include="Views\Perfiles_Acceso\Edit.cshtml" />
+    <Content Include="Views\Perfiles_Acceso\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

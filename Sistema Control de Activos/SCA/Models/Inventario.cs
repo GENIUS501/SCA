@@ -33,7 +33,10 @@ namespace SCA.Models
         public System.DateTime VenceGarantia { get; set; }
         public Nullable<int> IdDepartamento { get; set; }
         public Nullable<int> MotivoDeshabilitar { get; set; }
-    
+        public string ValorNuevo()
+        {
+            return "IdInventario:" + IdInventario.ToString() + " CodigoEmpresa:" + CodigoEmpresa + " Nombre:" + Nombre + " Modelo:" + Modelo + " Serie:" + Serie + " Fabricante:" + Fabricante + " FechaCompra" + FechaCompra.ToString() + " CostoEquipo:" + CostoEquipo + " Garantia:" + Garantia.ToString() + " VenceGarantia:" + VenceGarantia + " IdDepartamento:" + IdDepartamento;
+        }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ControlInventario> ControlInventario { get; set; }
         public virtual Departamento Departamento { get; set; }

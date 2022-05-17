@@ -18,7 +18,7 @@ namespace SCA.Models
         {
             return "Id_Perfil:" + Id_Perfil + " |NombrePerfil:" + NombrePerfil + " |Descripcion:" + Descripcion;
         }
-        public string ValorAntiguo(PerfilesViewModel Entidad)
+        public string ValorAntiguo(Perfiles_Acceso Entidad)
         {
             return "Id_Perfil:" + Id_Perfil + " |NombrePerfil:" + NombrePerfil + " |Descripcion:" + Descripcion;
         }

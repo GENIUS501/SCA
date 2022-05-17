@@ -1,4 +1,4 @@
-﻿@model SCA.Models.Perfiles_Acceso
+﻿@model SCA.Models.PerfilesViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -15,13 +15,13 @@
         <h4>Perfiles de acceso</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @*<div class="form-group">
-                <label class="control-label col-md-2" for="Id_Perfil">Id del perfil</label>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Id_Perfil, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Id_Perfil, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Id_Perfil">Id del perfil</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Id_Perfil, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Id_Perfil, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="control-label col-md-2" for="NombrePerfil">Nombre del perfil</label>
@@ -45,22 +45,25 @@
 
             <div class="col-3">
                 <input type="hidden" name="ModulosEscogidos[0].Modulo" value="Departamentos" />
-                <input type="checkbox" name="ModulosEscogidos[0].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[0].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "Departamentos").FirstOrDefault() != null) { @Html.Raw("Checked") }>
+
                 <label for="ModulosEscogidos_0__Checked">Departamentos</label>
+
             </div>
+
             <div class="col-3">
                 <input type="hidden" name="ModulosEscogidos[1].Modulo" value="Colaboradores" />
-                <input type="checkbox" name="ModulosEscogidos[1].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[1].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "Colaboradores").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[1].Checked">Colaboradores</label>
             </div>
             <div class="col-3">
                 <input type="hidden" name="ModulosEscogidos[2].Modulo" value="Licencias" />
-                <input type="checkbox" name="ModulosEscogidos[2].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[2].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "Licencias").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[2].Checked">Licencias</label>
             </div>
             <div class="col-3">
                 <input type="hidden" name="ModulosEscogidos[3].Modulo" value="Usuario" />
-                <input type="checkbox" name="ModulosEscogidos[3].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[3].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "Usuario").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[3].Checked">Usuarios</label>
             </div>
         </div>
@@ -68,52 +71,52 @@
             <br />
             <div class="col-3">
                 <input type="hidden" name="ModulosEscogidos[4].Modulo" value="Personal" />
-                <input type="checkbox" name="ModulosEscogidos[4].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[4].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "Personal").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[4].Checked">Personal</label>
             </div>
             <div class="col-3">
                 <input type="hidden" name="ModulosEscogidos[5].Modulo" value="ControlInventario" />
-                <input type="checkbox" name="ModulosEscogidos[5].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[5].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "ControlInventario").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[5].Checked">Control de Inventario</label>
             </div>
             <div class="col-3">
                 <input type="hidden" name="ModulosEscogidos[6].Modulo" value="ControlVehículos" />
-                <input type="checkbox" name="ModulosEscogidos[6].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[6].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "ControlVehículos").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[6].Checked">Control de Vehículos</label>
             </div>
             <div class="col-3">
                 <input type="hidden" name="ModulosEscogidos[7].Modulo" value="Flotilla" />
-                <input type="checkbox" name="ModulosEscogidos[7].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[7].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "Flotilla").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[7].Checked">Flotilla</label>
             </div>
         </div>
         <div class="row">
             <div class="col-3">
                 <input type="hidden" name="ModulosEscogidos[8].Modulo" value="MantenimientoInventario" />
-                <input type="checkbox" name="ModulosEscogidos[8].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[8].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "MantenimientoInventario").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[8].Checked">Mantenimiento de Inventario</label>
             </div>
             <div class="col-3">
                 <input type="hidden" name="ModulosEscogidos[9].Modulo" value="MantenimientoVehículos" />
-                <input type="checkbox" name="ModulosEscogidos[9].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[9].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "MantenimientoVehículos").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[9].Checked">Mantenimiento de Vehículos</label>
             </div>
             <div class="col-3">
                 <input type="hidden" name="ModulosEscogidos[10].Modulo" value="Perfiles" />
-                <input type="checkbox" name="ModulosEscogidos[10].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[10].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "Perfiles").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[10].Checked">Perfiles</label>
             </div>
             <div class="col-3">
                 <input type="hidden" name="ModulosEscogidos[11].Modulo" value="Inventario" />
-                <input type="checkbox" name="ModulosEscogidos[11].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[11].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "Inventario").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[11].Checked">Inventario</label>
             </div>
             <div class="col-8">
                 <input type="hidden" name="ModulosEscogidos[12].Modulo" value="BitacoraEntrada/Salida" />
-                <input type="checkbox" name="ModulosEscogidos[12].Checked" value="true">
+                <input type="checkbox" name="ModulosEscogidos[12].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "BitacoraEntrada/Salida").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[12].Checked">Reporte Bitácora Entrada / Salida</label>
                 <input type="hidden" name="ModulosEscogidos[13].Modulo" value="BitacoraMovimientos" />
-                &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="ModulosEscogidos[13].Checked" value="true">
+                &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="ModulosEscogidos[13].Checked" value="true" @if (Model.ModulosEscogidos.Where(x => x.Modulo == "BitacoraMovimientos").FirstOrDefault() != null) { @Html.Raw("Checked") }>
                 <label for="ModulosEscogidos[13].Checked">Reporte Bitácora Movimientos</label>
             </div>
         </div>
