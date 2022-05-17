@@ -26,6 +26,7 @@ namespace SCA.Controllers
         }
 
         // GET: Usuario/Details/5
+        [AuthorizeUser(idmodulo: "Usuario")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -42,7 +43,8 @@ namespace SCA.Controllers
         }
 
         // GET: Usuario/Create
-        [AuthorizeUserPermises(accion: "A", idmodulo: "Usuario")]
+        // [AuthorizeUserPermises(accion: "A", idmodulo: "Usuario")]
+        [AuthorizeUser(idmodulo: "Usuario")]
         public ActionResult Create()
         {
             ViewBag.IdPersonallist = db.Personal.ToList().ConvertAll(d =>
@@ -69,7 +71,8 @@ namespace SCA.Controllers
         // POST: Usuario/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthorizeUserPermises(accion: "A", idmodulo: "Usuario")]
+        //[AuthorizeUserPermises(accion: "A", idmodulo: "Usuario")]
+        [AuthorizeUser(idmodulo: "Usuario")]
         public ActionResult Create(Usuario usuario)
         {
             try
@@ -135,7 +138,8 @@ namespace SCA.Controllers
         }
 
         // GET: Usuario/Edit/5
-        [AuthorizeUserPermises(accion: "E", idmodulo: "Usuario")]
+        // [AuthorizeUserPermises(accion: "E", idmodulo: "Usuario")]
+        [AuthorizeUser(idmodulo: "Usuario")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -173,7 +177,8 @@ namespace SCA.Controllers
         // POST: Usuario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthorizeUserPermises(accion: "E", idmodulo: "Usuario")]
+        // [AuthorizeUserPermises(accion: "E", idmodulo: "Usuario")]
+        [AuthorizeUser(idmodulo: "Usuario")]
         public ActionResult Edit(Usuario usuario)
         {
             try
@@ -249,7 +254,8 @@ namespace SCA.Controllers
         }
 
         // GET: Usuario/Delete/5
-        [AuthorizeUserPermises(accion: "D", idmodulo: "Usuario")]
+        //[AuthorizeUserPermises(accion: "D", idmodulo: "Usuario")]
+        [AuthorizeUser(idmodulo: "Usuario")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -269,6 +275,7 @@ namespace SCA.Controllers
         // POST: ControlInventario/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Usuario")]
         public ActionResult Delete(int id)
         {
             try

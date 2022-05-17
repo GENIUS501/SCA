@@ -43,8 +43,8 @@
         <dd>
             @foreach (var Item in Model.ModulosEscogidos)
             {
-                Html.Raw(Item.Modulo);
-                Html.Raw("<br/>");
+                @Html.Raw(Item.Modulo);
+                @Html.Raw("<br/>");
             }
         </dd>
 

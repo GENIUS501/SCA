@@ -203,7 +203,7 @@ namespace SCA.Controllers
         public ActionResult Delete(int Id)
         {
             var Perfil = db.Perfiles_Acceso.Where(x => x.Id_Perfil == Id).FirstOrDefault();
-            var PerfilPermiso = db.Perfiles_Permisos.Where(x => x.Id_Perfil == Id).ToList();
+            var PerfilPermiso = db.Perfiles_Permisos.Where(x => x.Id_Perfil == Perfil.Id_Perfil).ToList();
             PerfilesViewModel Modelo = new PerfilesViewModel();
             Modelo.Id_Perfil = Perfil.Id_Perfil;
             Modelo.Descripcion = Perfil.Descripcion;
@@ -224,19 +224,20 @@ namespace SCA.Controllers
         // POST: Perfiles_Acceso/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Deletea(int Id)
+        public ActionResult Delete(string Id)
         {
             try
             {
-                var ValorAntiguo = db.Perfiles_Acceso.Where(x => x.Id_Perfil == Id).FirstOrDefault();
+                int Ida = int.Parse(Id);
+                var ValorAntiguo = db.Perfiles_Acceso.Where(x => x.Id_Perfil == Ida).FirstOrDefault();
                 using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    var Permisos_Anteriores = db.Perfiles_Permisos.Where(x => x.Id_Perfil == Id).ToList();
+                    var Permisos_Anteriores = db.Perfiles_Permisos.Where(x => x.Id_Perfil == Ida).ToList();
                     if (Permisos_Anteriores.Count > 0)
                     {
                         db.Perfiles_Permisos.RemoveRange(Permisos_Anteriores);
                     }
-                    var Objbd = db.Perfiles_Acceso.Where(x => x.Id_Perfil == Id).FirstOrDefault();
+                    var Objbd = db.Perfiles_Acceso.Where(x => x.Id_Perfil == Ida).FirstOrDefault();
                     db.Perfiles_Acceso.Remove(Objbd);
                     int Resultado = db.SaveChanges();
                     if (Resultado > 0)

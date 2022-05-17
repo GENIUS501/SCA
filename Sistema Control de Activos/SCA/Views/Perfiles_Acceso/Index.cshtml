@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@Html.Raw(TempData["msg"])
 <h2>Perfiles de acceso</h2>
 
 <p>
@@ -39,9 +39,9 @@
                     @Html.DisplayFor(modelItem => item.Descripcion)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new {  id=item.Id_Perfil  }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.Id_Perfil  }) |
-                    @Html.ActionLink("Delete", "Delete", new {  id=item.Id_Perfil  })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id_Perfil }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id_Perfil }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id_Perfil })
                 </td>
             </tr>
         }
