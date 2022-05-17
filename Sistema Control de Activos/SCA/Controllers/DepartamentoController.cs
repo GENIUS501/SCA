@@ -31,11 +31,14 @@ namespace SCA.Controllers
             }
 
             Departamento departamento = db.Departamento.Find(id);
+            DepartamentoViewModel Modelo = new DepartamentoViewModel();
+            Modelo.IdDepartamento = departamento.IdDepartamento;
+            Modelo.Nombre = departamento.Nombre;
             if (departamento == null)
             {
                 return HttpNotFound();
             }
-            return View(departamento);
+            return View(Modelo);
         }
 
         // GET: Departamento/Create
@@ -47,7 +50,7 @@ namespace SCA.Controllers
         // POST: Departamento/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdDepartamento, Nombre")] Departamento departamento)
+        public ActionResult Create(DepartamentoViewModel departamento)
         {
             try
             {
@@ -55,7 +58,10 @@ namespace SCA.Controllers
                 {
                     using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        db.Departamento.Add(departamento);
+                        Departamento Obj = new Departamento();
+                        Obj.IdDepartamento = departamento.IdDepartamento;
+                        Obj.Nombre = departamento.Nombre;
+                        db.Departamento.Add(Obj);
                         int Resultado = db.SaveChanges();
                         if (Resultado > 0)
                         {
@@ -92,19 +98,22 @@ namespace SCA.Controllers
             }
 
             Departamento departamento = db.Departamento.Find(id);
+            DepartamentoViewModel Modelo = new DepartamentoViewModel();
+            Modelo.IdDepartamento = departamento.IdDepartamento;
+            Modelo.Nombre = departamento.Nombre;
             if (departamento == null)
             {
                 return HttpNotFound();
             }
 
             //ViewBag.IdDepartamento = new SelectList(db.Departamento, "IdDepartamento", "Nombre", departamento.IdDepartamento);
-            return View(departamento);
+            return View(Modelo);
         }
 
         // POST: Departamento/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdDepartamento, Nombre")] Departamento departamento)
+        public ActionResult Edit(DepartamentoViewModel departamento)
         {
             try
             {
@@ -114,7 +123,9 @@ namespace SCA.Controllers
                     string ValorAntiguo = "IdDepartamento:" + ValorAntiguoEntidad.IdDepartamento + " Nombre:" + ValorAntiguoEntidad.Nombre;
                     using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        db.Entry(departamento).State = EntityState.Modified;
+                        Departamento Obj = db.Departamento.Where(x => x.IdDepartamento == departamento.IdDepartamento).FirstOrDefault();
+                        Obj.IdDepartamento = departamento.IdDepartamento;
+                        Obj.Nombre = departamento.Nombre;
                         int Resultado = db.SaveChanges();
                         if (Resultado > 0)
                         {
@@ -152,12 +163,15 @@ namespace SCA.Controllers
             }
 
             Departamento departamento = db.Departamento.Find(id);
+            DepartamentoViewModel Modelo = new DepartamentoViewModel();
+            Modelo.IdDepartamento = departamento.IdDepartamento;
+            Modelo.Nombre = departamento.Nombre;
             if (departamento == null)
             {
                 return HttpNotFound();
             }
 
-            return View(departamento);
+            return View(Modelo);
         }
 
         // POST: Departamento/Delete/5

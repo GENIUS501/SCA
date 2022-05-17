@@ -8,6 +8,12 @@ namespace SCA.Models
 {
     public class PerfilesViewModel : Perfiles_Acceso
     {
+        [Display(Name = "Nombre del perfil")]
+        [Required(ErrorMessage = "El Nombre del perfil es Requerido")]
+        public string NombrePerfil { get; set; }
+        [Display(Name = "Descripcion")]
+        [Required(ErrorMessage = "La descripcion es Requerida")]
+        public string Descripcion { get; set; }
         public List<Modulos> ModulosEscogidos { get; set; }
         public class Modulos
         {
