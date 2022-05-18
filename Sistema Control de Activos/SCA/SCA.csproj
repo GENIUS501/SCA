@@ -183,6 +183,7 @@
     <Compile Include="Models\ControlVehiculo.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ControlVehiculoViewModel.cs" />
     <Compile Include="Models\Departamento.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
