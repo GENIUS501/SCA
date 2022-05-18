@@ -17,9 +17,8 @@ namespace SCA.Controllers
         // GET: ControlVehiculo
         public ActionResult Index()
         {
-            var ColVeh = db.ControlVehiculo.Include(a => a.Flotilla);
-            var CoVe = db.ControlVehiculo.Include(a => a.Personal);
-            return View(ColVeh.ToList());
+            var Model = db.ControlVehiculo.Include(a => a.Flotilla).Include(a => a.Personal).ToList();
+            return View(Model);
         }
 
         // GET: ControlVehiculo/Details/5
@@ -41,8 +40,7 @@ namespace SCA.Controllers
         // GET: ControlVehiculo/Create
         public ActionResult Create()
         {
-            ViewBag.IdFlotilla = new SelectList(db.Flotilla, "IdFlotilla", "Placa");
-            ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Nombre");
+
             return View();
         }
 

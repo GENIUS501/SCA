@@ -1,4 +1,4 @@
-﻿@model SCA.Models.ControlVehiculo
+﻿@model SCA.Models.ControlVehiculoViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -15,27 +15,25 @@
         <h4>ControlVehiculo</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.IdControlVehiculo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.IdControlVehiculo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.IdControlVehiculo, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.IdFlotilla, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.IdFlotilla, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdFlotilla, "", new { @class = "text-danger" })
+                @Html.DropDownList("IdFlotilla", (List<SelectListItem>)ViewBag.IdFlotilla, htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.IdPersonal, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.IdPersonal, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdPersonal, "", new { @class = "text-danger" })
+                @Html.DropDownList("IdPersonal", (List<SelectListItem>)ViewBag.IdPersonallist, htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
 
