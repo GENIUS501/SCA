@@ -17,6 +17,7 @@ namespace SCA.Models
         [Display(Name = "Estado del vehiculo")]
         [Required(ErrorMessage = "El estado del vehiculo es Requerido")]
         public int EstadoVehiculo { get; set; }
+        [Display(Name = "Fecha de salida")]
         public System.DateTime FechaSalida { get; set; }
         public int KilometrajeSalida { get; set; }
         public System.DateTime FechaIngresa { get; set; }
