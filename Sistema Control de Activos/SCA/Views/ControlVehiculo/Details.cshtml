@@ -1,14 +1,14 @@
 ﻿@model SCA.Models.ControlVehiculo
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Borrar</h2>
+<h2>Detalles</h2>
 
-<h3>Realmente desea eliminar el control del vehículo?</h3>
 <div>
-    <h4>ControlVehiculo</h4>
+    <h4>Control de Vehículo</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -84,13 +84,8 @@
         </dd>
 
     </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Borrar" class="btn btn-outline-secondary" /> |
-            @Html.ActionLink("Volver a la lista", "Index")
-        </div>
-    }
 </div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new {  id = Model.IdControlVehiculo }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

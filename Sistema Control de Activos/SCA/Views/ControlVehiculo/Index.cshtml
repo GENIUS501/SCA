@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@Html.Raw(TempData["msg"])
 <h2>Control de vehículos</h2>
 
 <p>
@@ -75,9 +75,9 @@
                     @Html.DisplayFor(modelItem => item.Anomalias)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.IdControlVehiculo }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.IdControlVehiculo }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.IdControlVehiculo })
+                    @Html.ActionLink("Editar", "Edit", new { id = item.IdControlVehiculo }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.IdControlVehiculo }) |
+                    @Html.ActionLink("Borrar", "Delete", new { id = item.IdControlVehiculo })
                 </td>
             </tr>
         }

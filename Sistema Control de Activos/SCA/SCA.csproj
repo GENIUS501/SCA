@@ -492,6 +492,7 @@
     <Content Include="Views\Perfiles_Acceso\Edit.cshtml" />
     <Content Include="Views\Perfiles_Acceso\Delete.cshtml" />
     <Content Include="Views\ControlVehiculo\Index.cshtml" />
+    <Content Include="Views\ControlVehiculo\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

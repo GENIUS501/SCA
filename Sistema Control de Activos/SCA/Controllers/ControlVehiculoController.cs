@@ -31,7 +31,7 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ControlVehiculo controlvehiculo = db.ControlVehiculo.Find(id);
+            ControlVehiculo controlvehiculo = db.ControlVehiculo.Include(a => a.Flotilla).Include(a => a.Personal).Where(x => x.IdControlVehiculo == id).FirstOrDefault();
             if (controlvehiculo == null)
             {
                 return HttpNotFound();
@@ -124,7 +124,7 @@ namespace SCA.Controllers
                 TempData["msg"] = "<script>alert('Error al agregar el control de vehículo!!');</script>";
                 return View(Modelo);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 TempData["msg"] = "<script>alert('Error al agregar el control de vehículo!!');</script>";
                 return RedirectToAction("Index");
@@ -139,9 +139,17 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ControlVehiculo controlvehiculo = db.ControlVehiculo.Find(id);
-            var ControlJson = JsonConvert.SerializeObject(controlvehiculo);
-            var Modelo = JsonConvert.DeserializeObject<ControlVehiculoViewModel>(ControlJson);
+            ControlVehiculo controlvehiculo = db.ControlVehiculo.Where(x => x.IdControlVehiculo == id).FirstOrDefault();
+            ControlVehiculoViewModel Modelo = new ControlVehiculoViewModel();
+            Modelo.Anomalias = controlvehiculo.Anomalias;
+            Modelo.EstadoVehiculo = controlvehiculo.EstadoVehiculo;
+            Modelo.FechaIngresa = controlvehiculo.FechaIngresa;
+            Modelo.FechaSalida = controlvehiculo.FechaSalida;
+            Modelo.IdFlotilla = controlvehiculo.IdFlotilla;
+            Modelo.IdPersonal = controlvehiculo.IdPersonal;
+            Modelo.KilometrajeIngresa = controlvehiculo.KilometrajeIngresa;
+            Modelo.KilometrajeSalida = controlvehiculo.KilometrajeSalida;
+            Modelo.IdControlVehiculo = controlvehiculo.IdControlVehiculo;
             if (controlvehiculo == null)
             {
                 return HttpNotFound();
@@ -177,18 +185,60 @@ namespace SCA.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(Modelo).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    var ValorAntiguoEntidad = db.ControlVehiculo.Where(x => x.IdControlVehiculo == Modelo.IdControlVehiculo).FirstOrDefault();
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        var Objbd = db.ControlVehiculo.Where(x => x.IdControlVehiculo == Modelo.IdControlVehiculo).FirstOrDefault();
+                        Objbd.Anomalias = Modelo.Anomalias;
+                        Objbd.EstadoVehiculo = Modelo.EstadoVehiculo;
+                        Objbd.FechaIngresa = Modelo.FechaIngresa;
+                        Objbd.FechaSalida = Modelo.FechaSalida;
+                        Objbd.IdFlotilla = Modelo.IdFlotilla;
+                        Objbd.IdPersonal = Modelo.IdPersonal;
+                        Objbd.KilometrajeIngresa = Modelo.KilometrajeIngresa;
+                        Objbd.KilometrajeSalida = Modelo.KilometrajeSalida;
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
+                        {
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Edito", "ControlVehiculo", Modelo.ValorAntiguo(ValorAntiguoEntidad), Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('Control de vehículo editado exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            TempData["msg"] = "<script>alert('Error al editar el control de vehículo!!');</script>";
+                            return View(Modelo);
+                        }
+                    }
                 }
-
-                ViewBag.IdFlotilla = new SelectList(db.Flotilla, "IdFlotilla", "Placa", Modelo.IdFlotilla);
-                ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Nombre", Modelo.IdPersonal);
+                ViewBag.IdFlotilla = db.Flotilla.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Placa.ToString(),
+                        Value = d.IdFlotilla.ToString(),
+                        Selected = false
+                    };
+                });
+                ViewBag.IdPersonallist = db.Personal.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre + d.Apellido1 + d.Apellido2,
+                        Value = d.IdPersonal.ToString(),
+                        Selected = false
+                    };
+                });
+                TempData["msg"] = "<script>alert('Error al editar el control de vehículo!!');</script>";
                 return View(Modelo);
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al editar el control de vehículo!!');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -201,15 +251,12 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ControlVehiculo controlvehiculo = db.ControlVehiculo.Find(id);
-            var ControlJson = JsonConvert.SerializeObject(controlvehiculo);
-            var Modelo = JsonConvert.DeserializeObject<ControlVehiculoViewModel>(ControlJson);
+            ControlVehiculo controlvehiculo = db.ControlVehiculo.Include(a => a.Flotilla).Include(a => a.Personal).Where(x => x.IdControlVehiculo == id).FirstOrDefault();
             if (controlvehiculo == null)
             {
                 return HttpNotFound();
             }
-
-            return View(Modelo);
+            return View(controlvehiculo);
         }
 
         // POST: ControlInventario/Delete/5
@@ -219,24 +266,35 @@ namespace SCA.Controllers
         {
             try
             {
-                ControlVehiculo controlvehiculo = db.ControlVehiculo.Find(id);
-                db.ControlVehiculo.Remove(controlvehiculo);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                int ida = int.Parse(id);
+                ControlVehiculoViewModel Modelo = new ControlVehiculoViewModel();
+                var ValorAntiguoEntidad = db.ControlVehiculo.Where(x => x.IdControlVehiculo == ida).FirstOrDefault();
+                using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    ControlVehiculo Objbd = db.ControlVehiculo.Where(x => x.IdControlVehiculo == ida).FirstOrDefault();
+                    db.ControlVehiculo.Remove(Objbd);
+                    int Resultado = db.SaveChanges();
+                    if (Resultado > 0)
+                    {
+                        Ts.Complete();
+                        var UsuarioLogueado = (Usuario)Session["User"];
+                        Helpers.Helper.RegistrarMovimiento("Elimino", "ControlVehiculo", Modelo.ValorAntiguo(ValorAntiguoEntidad), "", UsuarioLogueado.IdUsuario);
+                        TempData["msg"] = "<script>alert('Control de vehículo eliminado exitosamente!!');</script>";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        Ts.Dispose();
+                        TempData["msg"] = "<script>alert('Error al eliminar Control de vehículo!!');</script>";
+                        return View(Objbd);
+                    }
+                }
             }
             catch
             {
-                return View();
+                TempData["msg"] = "<script>alert('Error al eliminar Control de vehículo!!');</script>";
+                return RedirectToAction("Index");
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
