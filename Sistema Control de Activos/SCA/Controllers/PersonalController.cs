@@ -97,6 +97,24 @@ namespace SCA.Controllers
                     }
                 }
                 TempData["msg"] = "<script>alert('Error al agregar la persona!!');</script>";
+                ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre,
+                        Value = d.IdDepartamento.ToString(),
+                        Selected = false
+                    };
+                });
+                ViewBag.IdLicencia = db.Licencia.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.TipoLicencia,
+                        Value = d.IdLicencia.ToString(),
+                        Selected = false
+                    };
+                });
                 return View(Modelo);
             }
             catch

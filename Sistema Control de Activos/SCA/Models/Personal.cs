@@ -41,6 +41,8 @@ namespace SCA.Models
         public string Telefono { get; set; }
         [Display(Name = "Correo electronico")]
         [Required(ErrorMessage = "El correo electronico es requerido")]
+        [EmailAddress(ErrorMessage = "Debe escribir un correo electrónico válido")]
+        [MaxLength(200, ErrorMessage = "200 caracteres como máximo")]
         [DataType(DataType.EmailAddress)]
         public string Correo { get; set; }
         [Display(Name = "Tipo de licencia")]
