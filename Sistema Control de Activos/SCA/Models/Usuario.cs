@@ -11,6 +11,7 @@ namespace SCA.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class Usuario
     {
@@ -20,11 +21,24 @@ namespace SCA.Models
             this.BitacoraIngresoSalida = new HashSet<BitacoraIngresoSalida>();
             this.BitacoraMovimiento = new HashSet<BitacoraMovimiento>();
         }
-
+        [Display(Name = "Id del usuario")]
         public int IdUsuario { get; set; }
+        [Display(Name = "Persona")]
         public Nullable<int> IdPersonal { get; set; }
+        [Display(Name = "Perfil de acceso")]
         public Nullable<int> IdPerfiles { get; set; }
+        [Display(Name = "Nombre de Usuario")]
         public string Usuario1 { get; set; }
+        [Display(Name = "Contraseña")]
+        [StringLength(100, ErrorMessage = "La contraseña debe de tener al menos {2} caracteres", MinimumLength = 8)]
+        [DataType(DataType.Password)]
+        [RegularExpression(@"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])[\w\d]{8,}$", ErrorMessage = "La contraseña debe de tener un mínimo de 8 caracteres, con lo siguiente: " +
+            "<ul>" +
+            "<li>Al menos una <strong>mayúscula</strong></li>" +
+            "<li>Al menos una <strong>minúscula</strong></li>" +
+            "<li>Al menos un <strong>número</strong></li>" +
+            "<li><strong>No</strong> debe tener caracteres especiales ni espacios</li>" +
+            "</ul>")]
         public string Contraseña { get; set; }
         public string ValorNuevo()
         {
