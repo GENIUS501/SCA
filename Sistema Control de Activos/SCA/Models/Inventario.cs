@@ -42,10 +42,15 @@ namespace SCA.Models
         [Required(ErrorMessage = "La fecha de compra es requerida")]
         public System.DateTime FechaCompra { get; set; }
         [Display(Name = "Costo del equipo")]
-        [Required(ErrorMessage = "El Tipo de combustible es requerido")]
+        [Required(ErrorMessage = "El costo del equipo es requerido")]
         public int CostoEquipo { get; set; }
+        [Display(Name = "Garantia")]
+        [Required(ErrorMessage = "La garantia es requerida")]
         public int Garantia { get; set; }
+        [Display(Name = "Vencimiento de garantia")]
+        [Required(ErrorMessage = "El Vencimiento de garantia es requerido")]
         public System.DateTime VenceGarantia { get; set; }
+        [Display(Name = "Departamento")]
         public Nullable<int> IdDepartamento { get; set; }
         public Nullable<int> MotivoDeshabilitar { get; set; }
         public string ValorNuevo()
