@@ -11,7 +11,8 @@ namespace SCA.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Inventario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,14 +21,28 @@ namespace SCA.Models
             this.ControlInventario = new HashSet<ControlInventario>();
             this.MantenimientoInventario = new HashSet<MantenimientoInventario>();
         }
-        [Display(Name = "Costo del vehículo")]
+        [Display(Name = "Id del inventario")]
         public int IdInventario { get; set; }
+        [Display(Name = "Codigo de la empresa")]
+        [Required(ErrorMessage = "El codigo de la empresa es requerido")]
         public string CodigoEmpresa { get; set; }
+        [Display(Name = "Nombre")]
+        [Required(ErrorMessage = "El Nombre es requerido")]
         public string Nombre { get; set; }
+        [Display(Name = "Modelo")]
+        [Required(ErrorMessage = "El Modelo es requerido")]
         public string Modelo { get; set; }
+        [Display(Name = "Serie")]
+        [Required(ErrorMessage = "La serie es requerida")]
         public string Serie { get; set; }
+        [Display(Name = "Fabricante")]
+        [Required(ErrorMessage = "El Fabricante es requerido")]
         public string Fabricante { get; set; }
+        [Display(Name = "Fecha de compra")]
+        [Required(ErrorMessage = "La fecha de compra es requerida")]
         public System.DateTime FechaCompra { get; set; }
+        [Display(Name = "Costo del equipo")]
+        [Required(ErrorMessage = "El Tipo de combustible es requerido")]
         public int CostoEquipo { get; set; }
         public int Garantia { get; set; }
         public System.DateTime VenceGarantia { get; set; }
