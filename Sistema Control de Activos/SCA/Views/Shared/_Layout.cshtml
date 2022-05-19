@@ -61,14 +61,14 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Controles</a>
                         <div class="dropdown-menu m-0">
-                            <a href="@Url.Action("Index","Perfiles_Acceso")" class="dropdown-item">Control de inventarios</a>
+                            <a href="@Url.Action("Index","ControlInventario")" class="dropdown-item">Control de inventarios</a>
                             <a href="@Url.Action("Index","ControlVehiculo")" class="dropdown-item">Control de vehículos</a>
                         </div>
                     </div>
                     <a href="@Url.Action("Index","Departamento")" class="nav-item nav-link">Departamento</a>
                     <a href="@Url.Action("Index","Inventario")" class="nav-item nav-link">Inventario</a>
                     <a href="@Url.Action("Index","Flotilla")" class="nav-item nav-link">Flotilla</a>
-                    <a href="@Url.Action("Index","Usuario")" class="nav-item nav-link">ayuda</a>
+                    <a href="@Url.Action("Index","Usuario")" class="nav-item nav-link" target="_blank">ayuda</a>
                     <a class="nav-item nav-link bg-primary text-white px-5 ms-3 d-none d-lg-block">Usuario: @Session["Usuario"].ToString()</a>
                     @*<a href="" class="nav-item nav-link bg-primary text-white px-5 ms-3 d-none d-lg-block">Get A Quote <i class="bi bi-arrow-right"></i></a>*@
                 </div>

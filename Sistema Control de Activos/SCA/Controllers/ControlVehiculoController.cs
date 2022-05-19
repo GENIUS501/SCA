@@ -72,34 +72,32 @@ namespace SCA.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                        ControlVehiculo Objbd = new ControlVehiculo();
+                        Objbd.Anomalias = Modelo.Anomalias;
+                        Objbd.EstadoVehiculo = Modelo.EstadoVehiculo;
+                        Objbd.FechaIngresa = Modelo.FechaIngresa;
+                        Objbd.FechaSalida = Modelo.FechaSalida;
+                        Objbd.IdFlotilla = Modelo.IdFlotilla;
+                        Objbd.IdPersonal = Modelo.IdPersonal;
+                        Objbd.KilometrajeIngresa = Modelo.KilometrajeIngresa;
+                        Objbd.KilometrajeSalida = Modelo.KilometrajeSalida;
+                        db.ControlVehiculo.Add(Objbd);
+                        int Resultado = db.SaveChanges();
+                        if (Resultado > 0)
                         {
-                            ControlVehiculo Objbd = new ControlVehiculo();
-                            Objbd.Anomalias = Modelo.Anomalias;
-                            Objbd.EstadoVehiculo = Modelo.EstadoVehiculo;
-                            Objbd.FechaIngresa = Modelo.FechaIngresa;
-                            Objbd.FechaSalida = Modelo.FechaSalida;
-                            Objbd.IdFlotilla = Modelo.IdFlotilla;
-                            Objbd.IdPersonal = Modelo.IdPersonal;
-                            Objbd.KilometrajeIngresa = Modelo.KilometrajeIngresa;
-                            Objbd.KilometrajeSalida = Modelo.KilometrajeSalida;
-                            db.ControlVehiculo.Add(Objbd);
-                            int Resultado = db.SaveChanges();
-                            if (Resultado > 0)
-                            {
-                                Ts.Complete();
-                                var UsuarioLogueado = (Usuario)Session["User"];
-                                Helpers.Helper.RegistrarMovimiento("Agrego", "ControlVehiculo", "", Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
-                                TempData["msg"] = "<script>alert('Control de vehículo Agregado exitosamente!!');</script>";
-                                return RedirectToAction("Index");
-                            }
-                            else
-                            {
-                                Ts.Dispose();
-                                TempData["msg"] = "<script>alert('Error al agregar el control de vehículo!!');</script>";
-                                return View(Modelo);
-                            }
+                            Ts.Complete();
+                            var UsuarioLogueado = (Usuario)Session["User"];
+                            Helpers.Helper.RegistrarMovimiento("Agrego", "ControlVehiculo", "", Modelo.ValorNuevo(), UsuarioLogueado.IdUsuario);
+                            TempData["msg"] = "<script>alert('Control de vehículo Agregado exitosamente!!');</script>";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Ts.Dispose();
+                            TempData["msg"] = "<script>alert('Error al agregar el control de vehículo!!');</script>";
+                            return View(Modelo);
                         }
                     }
                 }

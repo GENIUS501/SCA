@@ -180,6 +180,7 @@
     <Compile Include="Models\ControlInventario.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ControlInventarioViewModel.cs" />
     <Compile Include="Models\ControlVehiculo.cs">
       <DependentUpon>BaseDatosSCA.tt</DependentUpon>
     </Compile>
@@ -493,6 +494,7 @@
     <Content Include="Views\Perfiles_Acceso\Delete.cshtml" />
     <Content Include="Views\ControlVehiculo\Index.cshtml" />
     <Content Include="Views\ControlVehiculo\Details.cshtml" />
+    <Content Include="Views\ControlInventario\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
