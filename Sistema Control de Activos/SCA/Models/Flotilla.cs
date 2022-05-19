@@ -29,18 +29,25 @@ namespace SCA.Models
         [Display(Name = "Marca del vehículo")]
         [Required(ErrorMessage = "La marca es requerida")]
         public string Marca { get; set; }
-        [Display(Name = "Modelo del vehiculo")]
+        [Display(Name = "Modelo del vehículo")]
         [Required(ErrorMessage = "El Modelo es requerido")]
         public string Modelo { get; set; }
-        [Display(Name = "Traccion del vehiculo")]
+        [Display(Name = "Traccion del vehículo")]
         [Required(ErrorMessage = "La traccion es requerida")]
         public int Traccion { get; set; }
         [Display(Name = "Año de fabricacion del vehículo")]
         [Required(ErrorMessage = "El año es requerido")]
         public int Ano { get; set; }
+        [Display(Name = "Tipo de combustible del vehículo")]
+        [Required(ErrorMessage = "El Tipo de combustible es requerido")]
         public int Combustible { get; set; }
+        [Display(Name = "Fecha de compra del vehículo")]
+        [Required(ErrorMessage = "La fecha de compra es requerida")]
         public System.DateTime FechaCompra { get; set; }
+        [Display(Name = "Costo del vehículo")]
+        [Required(ErrorMessage = "El Tipo de combustible es requerido")]
         public int CostoVehiculo { get; set; }
+        [Display(Name = "Departamento")]
         public Nullable<int> IdDepartamento { get; set; }
         public Nullable<int> MotivoDeshabilitar { get; set; }
         public string ValorNuevo()

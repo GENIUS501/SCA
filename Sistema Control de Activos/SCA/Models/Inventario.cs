@@ -20,7 +20,7 @@ namespace SCA.Models
             this.ControlInventario = new HashSet<ControlInventario>();
             this.MantenimientoInventario = new HashSet<MantenimientoInventario>();
         }
-    
+        [Display(Name = "Costo del vehículo")]
         public int IdInventario { get; set; }
         public string CodigoEmpresa { get; set; }
         public string Nombre { get; set; }
