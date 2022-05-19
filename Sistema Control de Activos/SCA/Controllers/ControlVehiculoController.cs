@@ -7,6 +7,7 @@ using System.Net;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using Filters;
 using Newtonsoft.Json;
 using SCA.Models;
 
@@ -17,6 +18,7 @@ namespace SCA.Controllers
         private BaseDatosSCAEntities db = new BaseDatosSCAEntities();
 
         // GET: ControlVehiculo
+        [AuthorizeUser(idmodulo: "ControlVehículos")]
         public ActionResult Index()
         {
             var Model = db.ControlVehiculo.Include(a => a.Flotilla).Include(a => a.Personal).ToList();
@@ -24,6 +26,7 @@ namespace SCA.Controllers
         }
 
         // GET: ControlVehiculo/Details/5
+        [AuthorizeUser(idmodulo: "ControlVehículos")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -40,6 +43,7 @@ namespace SCA.Controllers
         }
 
         // GET: ControlVehiculo/Create
+        [AuthorizeUser(idmodulo: "ControlVehículos")]
         public ActionResult Create()
         {
             ViewBag.IdFlotilla = db.Flotilla.ToList().ConvertAll(d =>
@@ -66,6 +70,7 @@ namespace SCA.Controllers
         // POST: ControlVehiculo/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "ControlVehículos")]
         public ActionResult Create(ControlVehiculoViewModel Modelo)
         {
             try
@@ -130,6 +135,7 @@ namespace SCA.Controllers
         }
 
         // GET: ControlInventario/Edit/5
+        [AuthorizeUser(idmodulo: "ControlVehículos")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -177,6 +183,7 @@ namespace SCA.Controllers
         // POST: ControlInventario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "ControlVehículos")]
         public ActionResult Edit(ControlVehiculoViewModel Modelo)
         {
             try
@@ -242,6 +249,7 @@ namespace SCA.Controllers
 
         // GET: ControlInventario/Delete/5
         [HttpGet]
+        [AuthorizeUser(idmodulo: "ControlVehículos")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -260,6 +268,7 @@ namespace SCA.Controllers
         // POST: ControlInventario/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "ControlVehículos")]
         public ActionResult Delete(string id)
         {
             try

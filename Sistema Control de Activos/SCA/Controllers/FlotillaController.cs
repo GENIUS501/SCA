@@ -7,6 +7,7 @@ using System.Net;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using Filters;
 using SCA.Models;
 
 namespace SCA.Controllers
@@ -16,6 +17,7 @@ namespace SCA.Controllers
         private BaseDatosSCAEntities db = new BaseDatosSCAEntities();
 
         // GET: Flotilla
+        [AuthorizeUser(idmodulo: "Flotilla")]
         public ActionResult Index()
         {
             try
@@ -30,6 +32,7 @@ namespace SCA.Controllers
         }
 
         // GET: Flotilla/Details/5
+        [AuthorizeUser(idmodulo: "Flotilla")]
         public ActionResult Details(int? id)
         {
             try
@@ -54,6 +57,7 @@ namespace SCA.Controllers
         }
 
         // GET: Flotilla/Create
+        [AuthorizeUser(idmodulo: "Flotilla")]
         public ActionResult Create()
         {
             try
@@ -79,6 +83,7 @@ namespace SCA.Controllers
         // POST: Flotilla/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Flotilla")]
         public ActionResult Create(Flotilla flotilla)
         {
             try
@@ -134,6 +139,7 @@ namespace SCA.Controllers
         }
 
         // GET: Flotilla/Edit/5
+        [AuthorizeUser(idmodulo: "Flotilla")]
         public ActionResult Edit(int? id)
         {
             try
@@ -169,6 +175,7 @@ namespace SCA.Controllers
         // POST: Flotilla/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Flotilla")]
         public ActionResult Edit(Flotilla flotilla)
         {
             try
@@ -236,6 +243,7 @@ namespace SCA.Controllers
         }
 
         // GET: Flotilla/Delete/5
+        [AuthorizeUser(idmodulo: "Flotilla")]
         public ActionResult Delete(int? id)
         {
             try
@@ -262,6 +270,7 @@ namespace SCA.Controllers
         // POST: Flotilla/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Flotilla")]
         public ActionResult Delete(int id)
         {
             try

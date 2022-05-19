@@ -7,6 +7,7 @@ using System.Net;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using Filters;
 using SCA.Models;
 
 namespace SCA.Controllers
@@ -16,6 +17,7 @@ namespace SCA.Controllers
         private BaseDatosSCAEntities db = new BaseDatosSCAEntities();
 
         // GET: Departamento
+        [AuthorizeUser(idmodulo: "Departamentos")]
         public ActionResult Index()
         {
             var Model = db.Departamento.ToList();
@@ -23,6 +25,7 @@ namespace SCA.Controllers
         }
 
         // GET: Departamento/Details/5
+        [AuthorizeUser(idmodulo: "Departamentos")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -42,6 +45,7 @@ namespace SCA.Controllers
         }
 
         // GET: Departamento/Create
+        [AuthorizeUser(idmodulo: "Departamentos")]
         public ActionResult Create()
         {
             return View();
@@ -50,6 +54,7 @@ namespace SCA.Controllers
         // POST: Departamento/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Departamentos")]
         public ActionResult Create(DepartamentoViewModel departamento)
         {
             try
@@ -90,6 +95,7 @@ namespace SCA.Controllers
         }
 
         // GET: Departamento/Edit/5
+        [AuthorizeUser(idmodulo: "Departamentos")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -113,6 +119,7 @@ namespace SCA.Controllers
         // POST: Departamento/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Departamentos")]
         public ActionResult Edit(DepartamentoViewModel departamento)
         {
             try
@@ -155,6 +162,7 @@ namespace SCA.Controllers
         }
 
         // GET: Departamento/Delete/5
+        [AuthorizeUser(idmodulo: "Departamentos")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -177,6 +185,7 @@ namespace SCA.Controllers
         // POST: Departamento/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Departamentos")]
         public ActionResult Delete(int id)
         {
             try

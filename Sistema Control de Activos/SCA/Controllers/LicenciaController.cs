@@ -7,6 +7,7 @@ using System.Net;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using Filters;
 using SCA.Models;
 
 namespace SCA.Controllers
@@ -16,6 +17,7 @@ namespace SCA.Controllers
         private BaseDatosSCAEntities db = new BaseDatosSCAEntities();
 
         // GET: Licencia
+        [AuthorizeUser(idmodulo: "Licencias")]
         public ActionResult Index()
         {
             var lic = db.Licencia;
@@ -23,6 +25,7 @@ namespace SCA.Controllers
         }
 
         // GET: Licencia/Details/5
+        [AuthorizeUser(idmodulo: "Licencias")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -39,6 +42,7 @@ namespace SCA.Controllers
         }
 
         // GET: Licencia/Create
+        [AuthorizeUser(idmodulo: "Licencias")]
         public ActionResult Create()
         {
             return View();
@@ -47,6 +51,7 @@ namespace SCA.Controllers
         // POST: Licencia/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Licencias")]
         public ActionResult Create(/*[Bind(Include = "IdLicencia, IdPersonal, TipoLicencia, VenceLicencia")]*/Licencia licencia)
         {
             try
@@ -85,6 +90,7 @@ namespace SCA.Controllers
         }
 
         // GET: Licencia/Edit/5
+        [AuthorizeUser(idmodulo: "Licencias")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -105,6 +111,7 @@ namespace SCA.Controllers
         // POST: Licencia/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Licencias")]
         public ActionResult Edit(/*[Bind(Include = "IdLicencia, IdPersonal, TipoLicencia, VenceLicencia")]*/Licencia licencia)
         {
             try
@@ -155,6 +162,7 @@ namespace SCA.Controllers
         }
 
         // GET: Licencia/Delete/5
+        [AuthorizeUser(idmodulo: "Licencias")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -174,6 +182,7 @@ namespace SCA.Controllers
         // POST: Departamento/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Licencias")]
         public ActionResult Delete(int id)
         {
             try

@@ -7,6 +7,7 @@ using System.Net;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using Filters;
 using SCA.Models;
 
 namespace SCA.Controllers
@@ -16,6 +17,7 @@ namespace SCA.Controllers
         private BaseDatosSCAEntities db = new BaseDatosSCAEntities();
 
         // GET: MantenimientoInventario
+        [AuthorizeUser(idmodulo: "MantenimientoInventario")]
         public ActionResult Index()
         {
             var ManInv = db.MantenimientoInventario.Include(a => a.Inventario);
@@ -23,6 +25,7 @@ namespace SCA.Controllers
         }
 
         // GET: MantenimientoInventario/Details/5
+        [AuthorizeUser(idmodulo: "MantenimientoInventario")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -39,6 +42,7 @@ namespace SCA.Controllers
         }
 
         // GET: MantenimientoInventario/Create
+        [AuthorizeUser(idmodulo: "MantenimientoInventario")]
         public ActionResult Create()
         {
             ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
@@ -56,6 +60,7 @@ namespace SCA.Controllers
         // POST: MantenimientoInventario/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "MantenimientoInventario")]
         public ActionResult Create(MantenimientoInventario Modelo)
         {
             try
@@ -111,6 +116,7 @@ namespace SCA.Controllers
         }
 
         // GET: MantenimientoInventario/Edit/5
+        [AuthorizeUser(idmodulo: "MantenimientoInventario")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -139,6 +145,7 @@ namespace SCA.Controllers
         // POST: MantenimientoInventario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "MantenimientoInventario")]
         public ActionResult Edit(MantenimientoInventario Modelo)
         {
             try
@@ -201,6 +208,7 @@ namespace SCA.Controllers
         }
 
         // GET: MantenimientoInventario/Delete/5
+        [AuthorizeUser(idmodulo: "MantenimientoInventario")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -220,6 +228,7 @@ namespace SCA.Controllers
         // POST: MantenimientoInventario/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "MantenimientoInventario")]
         public ActionResult Delete(int id)
         {
             try

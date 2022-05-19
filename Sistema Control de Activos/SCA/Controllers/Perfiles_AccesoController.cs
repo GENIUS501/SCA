@@ -1,4 +1,5 @@
-﻿using SCA.Models;
+﻿using Filters;
+using SCA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace SCA.Controllers
     {
         private BaseDatosSCAEntities db = new BaseDatosSCAEntities();
         // GET: Perfiles_Acceso
+        [AuthorizeUser(idmodulo: "Perfiles")]
         public ActionResult Index()
         {
             var Modelo = db.Perfiles_Acceso.ToList();
@@ -19,12 +21,14 @@ namespace SCA.Controllers
         }
 
         // GET: Perfiles_Acceso/Details/5
+        [AuthorizeUser(idmodulo: "Perfiles")]
         public ActionResult Details(int id)
         {
             return View();
         }
 
         // GET: Perfiles_Acceso/Create
+        [AuthorizeUser(idmodulo: "Perfiles")]
         public ActionResult Create()
         {
             PerfilesViewModel Modelo = new PerfilesViewModel();
@@ -40,6 +44,7 @@ namespace SCA.Controllers
         // POST: Perfiles_Acceso/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Perfiles")]
         public ActionResult Create(PerfilesViewModel Modelo)
         {
             try
@@ -117,6 +122,7 @@ namespace SCA.Controllers
             }
         }
         // GET: Perfiles_Acceso/Edit/5
+        [AuthorizeUser(idmodulo: "Perfiles")]
         public ActionResult Edit(int Id)
         {
             try
@@ -149,6 +155,7 @@ namespace SCA.Controllers
         // POST: Perfiles_Acceso/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Perfiles")]
         public ActionResult Edit(PerfilesViewModel Modelo)
         {
             try
@@ -200,6 +207,7 @@ namespace SCA.Controllers
 
         // GET: Perfiles_Acceso/Delete/5
         [HttpGet]
+        [AuthorizeUser(idmodulo: "Perfiles")]
         public ActionResult Delete(int Id)
         {
             var Perfil = db.Perfiles_Acceso.Where(x => x.Id_Perfil == Id).FirstOrDefault();
@@ -224,6 +232,7 @@ namespace SCA.Controllers
         // POST: Perfiles_Acceso/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Perfiles")]
         public ActionResult Delete(string Id)
         {
             try

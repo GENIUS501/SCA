@@ -7,6 +7,7 @@ using System.Net;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using Filters;
 using SCA.Models;
 
 namespace SCA.Controllers
@@ -16,6 +17,7 @@ namespace SCA.Controllers
         private BaseDatosSCAEntities db = new BaseDatosSCAEntities();
 
         // GET: Inventario
+        [AuthorizeUser(idmodulo: "Inventario")]
         public ActionResult Index()
         {
             var inv = db.Inventario.Include(a => a.Departamento);
@@ -23,6 +25,7 @@ namespace SCA.Controllers
         }
 
         // GET: Inventario/Details/5
+        [AuthorizeUser(idmodulo: "Inventario")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -40,6 +43,7 @@ namespace SCA.Controllers
         }
 
         // GET: Inventario/Create
+        [AuthorizeUser(idmodulo: "Inventario")]
         public ActionResult Create()
         {
             ViewBag.ListaDepartamento = db.Departamento.ToList().ConvertAll(d =>
@@ -57,6 +61,7 @@ namespace SCA.Controllers
         // POST: Inventario/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Inventario")]
         public ActionResult Create(Inventario inventario)
         {
             try
@@ -112,6 +117,7 @@ namespace SCA.Controllers
         }
 
         // GET: Inventario/Edit/5
+        [AuthorizeUser(idmodulo: "Inventario")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -139,6 +145,7 @@ namespace SCA.Controllers
         // POST: Inventario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Inventario")]
         public ActionResult Edit(Inventario inventario)
         {
             try
@@ -209,6 +216,7 @@ namespace SCA.Controllers
         }
 
         // GET: Inventario/Delete/5
+        [AuthorizeUser(idmodulo: "Inventario")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -228,6 +236,7 @@ namespace SCA.Controllers
         // POST: Inventario/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(idmodulo: "Inventario")]
         public ActionResult Delete(int id)
         {
             try
