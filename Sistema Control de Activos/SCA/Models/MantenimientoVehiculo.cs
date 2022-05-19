@@ -11,16 +11,31 @@ namespace SCA.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class MantenimientoVehiculo
     {
+        [Display(Name = "Id del mantenimiento del vehiculo")]
         public int IdMantenimientoVehiculo { get; set; }
+        [Display(Name = "Flotilla")]
         public Nullable<int> IdFlotilla { get; set; }
+        [Display(Name = "Tipo de mantenimiento")]
+        [Required(ErrorMessage = "El tipo de mantenimiento es requerido")]
         public int TipoMantenimiento { get; set; }
+        [Display(Name = "Kilometraje actual")]
+        [Required(ErrorMessage = "El kilometraje es requerido")]
         public int KilometrajeActual { get; set; }
+        [Display(Name = "Proximo kilometraje")]
+        [Required(ErrorMessage = "El kilometraje es requerido")]
         public int ProximoKilometraje { get; set; }
+        [Display(Name = "Costo del mantenimiento")]
+        [Required(ErrorMessage = "El costo del mantenimiento es requerido")]
         public int CostoMantenimiento { get; set; }
+        [Display(Name = "Fecha del mantenimiento")]
+        [Required(ErrorMessage = "La fecha del mantenimiento es requerida")]
         public Nullable<System.DateTime> FechaMantenimiento { get; set; }
+        [Display(Name = "Descripcion del servicio")]
+        [Required(ErrorMessage = "La descripcion del servicio es requerida")]
         public string DescripcionServicio { get; set; }
         public string ValorNuevo()
         {

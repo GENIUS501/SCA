@@ -11,7 +11,8 @@ namespace SCA.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Licencia
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,9 +20,13 @@ namespace SCA.Models
         {
             this.Personal = new HashSet<Personal>();
         }
-    
+        [Display(Name = "Vencimiento de garantia")]
         public int IdLicencia { get; set; }
+        [Display(Name = "Tipo de licencia")]
+        [Required(ErrorMessage = "El tipo de licencia es requerido")]
         public string TipoLicencia { get; set; }
+        [Display(Name = "Vencimiento de licencia")]
+        [Required(ErrorMessage = "El Vencimiento de licencia es requerido")]
         public System.DateTime VenceLicencia { get; set; }
         public string ValorNuevo()
         {

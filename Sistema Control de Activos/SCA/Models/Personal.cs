@@ -11,7 +11,8 @@ namespace SCA.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Personal
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,17 +22,37 @@ namespace SCA.Models
             this.ControlVehiculo = new HashSet<ControlVehiculo>();
             this.Usuario = new HashSet<Usuario>();
         }
-    
+        [Display(Name = "Id de la persona")]
         public int IdPersonal { get; set; }
+        [Display(Name = "Cédula")]
+        [Required(ErrorMessage = "La cédula es requerida")]
         public string Cedula { get; set; }
+        [Display(Name = "Nombre")]
+        [Required(ErrorMessage = "El nombre es requerido")]
         public string Nombre { get; set; }
+        [Display(Name = "Primer apellido")]
+        [Required(ErrorMessage = "El primer apellido es requerido")]
         public string Apellido1 { get; set; }
+        [Display(Name = "Segundo apellido")]
+        [Required(ErrorMessage = "El segundo apellido es requerido")]
         public string Apellido2 { get; set; }
+        [Display(Name = "Telefono")]
+        [Required(ErrorMessage = "El telefono es requerido")]
         public string Telefono { get; set; }
+        [Display(Name = "Correo electronico")]
+        [Required(ErrorMessage = "El correo electronico es requerido")]
+        [DataType(DataType.EmailAddress)]
         public string Correo { get; set; }
+        [Display(Name = "Tipo de licencia")]
+        [Required(ErrorMessage = "El tipo de licencia es requerido")]
         public Nullable<int> IdLicencia { get; set; }
+        [Display(Name = "Carnet MS")]
+        [Required(ErrorMessage = "El carnet MS es requerido")]
         public Nullable<int> CarnetMS { get; set; }
+        [Display(Name = "Vencimiento de carnet ms")]
+        [Required(ErrorMessage = "El vencimiento de carnet ms es requerido")]
         public Nullable<System.DateTime> VenceCarnetMS { get; set; }
+        [Display(Name = "Departamento")]
         public Nullable<int> IdDepartamento { get; set; }
         public Nullable<int> MotivoDeshabilitar { get; set; }
         public string ValorNuevo()

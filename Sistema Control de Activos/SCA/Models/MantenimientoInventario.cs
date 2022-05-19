@@ -11,15 +11,28 @@ namespace SCA.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class MantenimientoInventario
     {
+        [Display(Name = "Id del mantenimiento de inventario")]
         public int IdMantenimientoInventario { get; set; }
+        [Display(Name = "Inventario")]
         public Nullable<int> IdInventario { get; set; }
+        [Display(Name = "Tipo de mantenimiento")]
+        [Required(ErrorMessage = "El Tipo de mantenimiento es requerido")]
         public int TipoMantenimiento { get; set; }
+        [Display(Name = "Costo del mantenimiento")]
+        [Required(ErrorMessage = "El costo del mantenimiento es requerido")]
         public int CostoMantenimiento { get; set; }
+        [Display(Name = "Fecha del mantenimiento")]
+        [Required(ErrorMessage = "La fecha del mantenimiento es requerido")]
         public Nullable<System.DateTime> FechaMantenimiento { get; set; }
+        [Display(Name = "Fecha del proximo mantenimiento")]
+        [Required(ErrorMessage = "La fecha del proximo mantenimiento es requerido")]
         public Nullable<System.DateTime> FechaProximoMantenimiento { get; set; }
+        [Display(Name = "Descripcion del servicio")]
+        [Required(ErrorMessage = "La descripcion del  servicio es requerida")]
         public string DescripcionServicio { get; set; }
         public string ValorNuevo()
         {
