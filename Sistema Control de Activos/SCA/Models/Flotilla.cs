@@ -11,7 +11,8 @@ namespace SCA.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Flotilla
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,12 +21,22 @@ namespace SCA.Models
             this.ControlVehiculo = new HashSet<ControlVehiculo>();
             this.MantenimientoVehiculo = new HashSet<MantenimientoVehiculo>();
         }
-    
+        [Display(Name = "Id de la flotilla")]
         public int IdFlotilla { get; set; }
+        [Display(Name = "Placa")]
+        [Required(ErrorMessage = "La placa es requerida")]
         public int Placa { get; set; }
+        [Display(Name = "Marca del vehículo")]
+        [Required(ErrorMessage = "La marca es requerida")]
         public string Marca { get; set; }
+        [Display(Name = "Modelo del vehiculo")]
+        [Required(ErrorMessage = "El Modelo es requerido")]
         public string Modelo { get; set; }
+        [Display(Name = "Traccion del vehiculo")]
+        [Required(ErrorMessage = "La traccion es requerida")]
         public int Traccion { get; set; }
+        [Display(Name = "Año de fabricacion del vehículo")]
+        [Required(ErrorMessage = "El año es requerido")]
         public int Ano { get; set; }
         public int Combustible { get; set; }
         public System.DateTime FechaCompra { get; set; }
