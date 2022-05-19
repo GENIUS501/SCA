@@ -167,9 +167,25 @@ namespace SCA.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.IdInventario = new SelectList(db.Inventario, "IdInventario", "Nombre", controlinventario.IdInventario);
-            ViewBag.IdPersonal = new SelectList(db.Personal, "IdPersonal", "Nombre", controlinventario.IdPersonal);
-            return View(controlinventario);
+            ViewBag.IdInventario = db.Inventario.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdInventario.ToString(),
+                    Selected = false
+                };
+            });
+            ViewBag.IdPersonallist = db.Personal.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre + d.Apellido1 + d.Apellido2,
+                    Value = d.IdPersonal.ToString(),
+                    Selected = false
+                };
+            });
+            return View(Modelo);
         }
 
         // POST: ControlInventario/Edit/5

@@ -19,7 +19,7 @@ namespace SCA.Models
         public int EstadoActivo { get; set; }
         [Display(Name = "Fecha de salida ")]
         public System.DateTime FechaSalida { get; set; }
-        [Display(Name = "Estado de ingreso")]
+        [Display(Name = "Fecha de ingreso")]
         public System.DateTime FechaIngresa { get; set; }
         [Display(Name = "Anomalias")]
         public string Anomalias { get; set; }

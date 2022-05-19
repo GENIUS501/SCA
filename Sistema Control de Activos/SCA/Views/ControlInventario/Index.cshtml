@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@Html.Raw(TempData["msg"])
 <h2>Control de inventario</h2>
 
 <p>
@@ -14,13 +14,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdControlInventario)
+                Id de control de inventario
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdInventario)
+                Nombre inventario
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdPersonal)
+                Nombre de la persona
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EstadoActivo)
@@ -34,7 +34,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Anomalias)
             </th>
-            <th></th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -45,10 +45,10 @@
                     @Html.DisplayFor(modelItem => item.IdControlInventario)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdInventario)
+                    @Html.DisplayFor(modelItem => item.Inventario.Nombre)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdPersonal)
+                    @Html.DisplayFor(modelItem => item.Personal.Nombre)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.EstadoActivo)
