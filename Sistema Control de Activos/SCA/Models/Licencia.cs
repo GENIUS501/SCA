@@ -20,7 +20,7 @@ namespace SCA.Models
         {
             this.Personal = new HashSet<Personal>();
         }
-        [Display(Name = "Vencimiento de garantia")]
+        [Display(Name = "Id de la licencia")]
         public int IdLicencia { get; set; }
         [Display(Name = "Tipo de licencia")]
         [Required(ErrorMessage = "El tipo de licencia es requerido")]
