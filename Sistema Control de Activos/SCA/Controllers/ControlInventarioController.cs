@@ -18,10 +18,42 @@ namespace SCA.Controllers
 
         // GET: ControlInventario
         [AuthorizeUser(idmodulo: "ControlInventario")]
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(string Codigo, string Colaborador, string IdDepartamento, string Estado, string FechaIni, string FechaFin)
         {
-            var Modelo = db.ControlInventario.Include(a => a.Inventario).Include(a => a.Personal);
-            return View(Modelo.ToList());
+            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
+            var Modelo = db.ControlInventario.Include(a => a.Inventario).Include(a => a.Personal).ToList();
+            if (Codigo != null)
+            {
+                Modelo = Modelo.Where(x => x.Inventario.CodigoEmpresa.Contains(Codigo)).ToList();
+            }
+            if (IdDepartamento != null)
+            {
+                int id = int.Parse(IdDepartamento);
+                Modelo = Modelo.Where(x => x.Inventario.IdDepartamento == id).ToList();
+            }
+            if (Colaborador != null)
+            {
+                Modelo = Modelo.Where(x => x.Personal.Nombre.Contains(Colaborador)).ToList();
+            }
+            if (Estado != null)
+            {
+                int id = int.Parse(Estado);
+                Modelo = Modelo.Where(x => x.EstadoActivo == id).ToList();
+            }
+            if (FechaIni != null && FechaFin != null)
+            {
+                Modelo = Modelo.Where(x => x.FechaIngresa >= Convert.ToDateTime(FechaIni) && x.FechaIngresa <= Convert.ToDateTime(FechaFin) || x.FechaSalida >= Convert.ToDateTime(FechaIni) && x.FechaSalida <= Convert.ToDateTime(FechaFin)).ToList();
+            }
+            return View(Modelo);
         }
 
         // GET: ControlInventario/Details/5
@@ -33,7 +65,7 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ControlInventario Modelo = db.ControlInventario.Include(a => a.Inventario).Include(a => a.Personal).Where(x=>x.IdControlInventario==id).FirstOrDefault();
+            ControlInventario Modelo = db.ControlInventario.Include(a => a.Inventario).Include(a => a.Personal).Where(x => x.IdControlInventario == id).FirstOrDefault();
             if (Modelo == null)
             {
                 return HttpNotFound();
@@ -78,7 +110,7 @@ namespace SCA.Controllers
                 {
                     using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        ControlInventario  Objbd = new ControlInventario();
+                        ControlInventario Objbd = new ControlInventario();
                         Objbd.Anomalias = Modelo.Anomalias;
                         Objbd.IdInventario = Modelo.IdInventario;
                         Objbd.FechaIngresa = Modelo.FechaIngresa;

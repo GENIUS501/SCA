@@ -57,7 +57,7 @@
         <div class="form-group">
             <label class="control-label col-md-10">Fecha de compra:</label>
             <div class="col-md-10">
-                <input type="text" name="FechaCompra" value="@Request.QueryString["FechaCompra"]" required />
+                <input type="date" name="FechaCompra" value="@Request.QueryString["FechaCompra"]" required />
             </div>
         </div>
         <br />
@@ -73,6 +73,7 @@
         <button class="btn btn-outline-secondary" type="submit">Limpiar</button>
     </form>
 </div>
+<br />
 <table class="table table-bordered table-responsive" id="Tabla">
     <thead>
         <tr>

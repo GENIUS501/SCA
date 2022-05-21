@@ -40,7 +40,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EstadoActivo)
+            @if (Model.EstadoActivo > 0)
+            {
+                @Html.Raw("Bueno");
+            }
+            else
+            {
+                @Html.Raw("Malo");
+            }
         </dd>
 
         <dt>
