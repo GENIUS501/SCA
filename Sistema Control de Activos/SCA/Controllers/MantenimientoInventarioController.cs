@@ -18,10 +18,45 @@ namespace SCA.Controllers
 
         // GET: MantenimientoInventario
         [AuthorizeUser(idmodulo: "MantenimientoInventario")]
-        public ActionResult Index()
+        public ActionResult Index(string Codigodgeo, string ModeloP, string Serie, string IdDepartamento, string Tipo, string FechaIni, string FechaFin)
         {
-            var ManInv = db.MantenimientoInventario.Include(a => a.Inventario);
-            return View(ManInv.ToList());
+            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
+            var Modelo = db.MantenimientoInventario.Include(a => a.Inventario).ToList();
+            if (Codigodgeo != null)
+            {
+                Modelo = Modelo.Where(x => x.Inventario.CodigoEmpresa.Contains(Codigodgeo)).ToList();
+            }
+            if (ModeloP != null)
+            {
+                Modelo = Modelo.Where(x => x.Inventario.Modelo.Contains(ModeloP)).ToList();
+            }
+            if (Serie != null)
+            {
+                Modelo = Modelo.Where(x => x.Inventario.Serie.Contains(Serie)).ToList();
+            }
+            if (IdDepartamento != null)
+            {
+                int id = int.Parse(IdDepartamento);
+                Modelo = Modelo.Where(x => x.Inventario.IdDepartamento == id).ToList();
+            }
+            if (Tipo != null)
+            {
+                int id = int.Parse(Tipo);
+                Modelo = Modelo.Where(x => x.TipoMantenimiento == id).ToList();
+            }
+            if (FechaIni != null && FechaFin != null)
+            {
+                Modelo = Modelo.Where(x => x.FechaMantenimiento >= Convert.ToDateTime(FechaIni) && x.FechaMantenimiento <= Convert.ToDateTime(FechaFin)).ToList();
+            }
+            return View(Modelo);
         }
 
         // GET: MantenimientoInventario/Details/5
@@ -33,7 +68,7 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            MantenimientoInventario mantenimientoinventario = db.MantenimientoInventario.Include(a => a.Inventario).Where(x=>x.IdMantenimientoInventario==id).FirstOrDefault();
+            MantenimientoInventario mantenimientoinventario = db.MantenimientoInventario.Include(a => a.Inventario).Where(x => x.IdMantenimientoInventario == id).FirstOrDefault();
             if (mantenimientoinventario == null)
             {
                 return HttpNotFound();
@@ -124,7 +159,7 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            MantenimientoInventario mantenimientoinventario = db.MantenimientoInventario.Include(a => a.Inventario).Where(x=>x.IdMantenimientoInventario==id).FirstOrDefault();
+            MantenimientoInventario mantenimientoinventario = db.MantenimientoInventario.Include(a => a.Inventario).Where(x => x.IdMantenimientoInventario == id).FirstOrDefault();
             if (mantenimientoinventario == null)
             {
                 return HttpNotFound();
@@ -152,12 +187,11 @@ namespace SCA.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var ValorAntiguo = db.MantenimientoInventario.Where(x => x.IdInventario == Modelo.IdMantenimientoInventario).FirstOrDefault();
+                    var ValorAntiguo = db.MantenimientoInventario.Where(x => x.IdMantenimientoInventario == Modelo.IdMantenimientoInventario).FirstOrDefault();
                     using (TransactionScope Ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        var Objbd = db.MantenimientoInventario.Where(x => x.IdInventario == Modelo.IdMantenimientoInventario).FirstOrDefault();
+                        var Objbd = db.MantenimientoInventario.Where(x => x.IdMantenimientoInventario == Modelo.IdMantenimientoInventario).FirstOrDefault();
                         Objbd.IdInventario = Modelo.IdInventario;
-                        Objbd.IdMantenimientoInventario = Modelo.IdMantenimientoInventario;
                         Objbd.CostoMantenimiento = Modelo.CostoMantenimiento;
                         Objbd.DescripcionServicio = Modelo.DescripcionServicio;
                         Objbd.FechaMantenimiento = Modelo.FechaMantenimiento;
@@ -243,7 +277,7 @@ namespace SCA.Controllers
                     {
                         Ts.Complete();
                         var UsuarioLogueado = (Usuario)Session["User"];
-                        Helpers.Helper.RegistrarMovimiento("Elimino", "MantenimientoInventario", persona.ValorAntiguo(ValorAntiguo), "", UsuarioLogueado.IdUsuario); 
+                        Helpers.Helper.RegistrarMovimiento("Elimino", "MantenimientoInventario", persona.ValorAntiguo(ValorAntiguo), "", UsuarioLogueado.IdUsuario);
                         TempData["msg"] = "<script>alert('mantenimiento inventario eliminado exitosamente!!');</script>";
                         return RedirectToAction("Index");
                     }

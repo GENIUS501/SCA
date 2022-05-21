@@ -32,7 +32,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TipoMantenimiento)
+            @if (Model.TipoMantenimiento > 0)
+            {
+                @Html.Raw("Correctivo");
+            }
+            else
+            {
+                @Html.Raw("Preventivo");
+            }
         </dd>
 
         <dt>
