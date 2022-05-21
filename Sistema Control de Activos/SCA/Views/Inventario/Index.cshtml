@@ -68,6 +68,25 @@
             </div>
         </div>
     </form>
+    <br />
+    <form method="get" class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-10">Fecha de compra:</label>
+            <div class="col-md-10">
+                <input type="date" name="FechaCompra" value="@Request.QueryString["FechaCompra"]" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form class="col-3">
+        <br />
+        <button class="btn btn-outline-secondary" type="submit">Limpiar</button>
+    </form>
 </div>
 <br />
 <table class="table table-responsive table-bordered" id="Tabla">

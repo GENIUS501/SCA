@@ -18,7 +18,8 @@ namespace SCA.Controllers
 
         // GET: Inventario
         [AuthorizeUser(idmodulo: "Inventario")]
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(string Codigodgeo, string IdDepartamento,string Serie,string Modelo, string FechaCompra)
         {
             ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
             {
@@ -29,8 +30,30 @@ namespace SCA.Controllers
                     Selected = false
                 };
             });
-            var inv = db.Inventario.Include(a => a.Departamento);
-            return View(inv.ToList());
+            var inv = db.Inventario.Include(a => a.Departamento).ToList();
+            if (Codigodgeo!=null)
+            {
+                inv = inv.Where(x => x.CodigoEmpresa.Contains(Codigodgeo)).ToList();
+            }
+            if (IdDepartamento!=null)
+            {
+                int id = int.Parse(IdDepartamento);
+                inv = inv.Where(x => x.IdDepartamento==id).ToList();
+            }
+            if (Serie!=null)
+            {
+                inv = inv.Where(x => x.Serie.Contains(Serie)).ToList();
+            }
+            if (Modelo!=null)
+            {
+                inv = inv.Where(x => x.Modelo.Contains(Modelo)).ToList();
+            }
+            if (FechaCompra!=null)
+            {
+
+                inv = inv.Where(x => x.FechaCompra==Convert.ToDateTime(FechaCompra)).ToList();
+            }
+            return View(inv);
         }
 
         // GET: Inventario/Details/5
