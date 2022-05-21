@@ -16,13 +16,13 @@
         <div class="form-group">
             <label class="control-label col-md-10">Codigo D'geo:</label>
             <div class="col-md-10">
-                <input type="text" name="Codigo" value="@Request.QueryString["Codigo"]" required />
+                <input type="text" class="form-control" name="Codigo" value="@Request.QueryString["Codigo"]" required />
             </div>
         </div>
         <br />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+                <input type="submit" class="form-control" value="Buscar" class="btn btn-outline-secondary" />
             </div>
         </div>
     </form>
@@ -30,7 +30,7 @@
         <div class="form-group">
             <label class="control-label col-md-5">Colaborador:</label>
             <div class="col-md-10">
-                <input type="text" name="Colaborador" value="@Request.QueryString["Colaborador"]" required />
+                <input type="text" class="form-control" name="Colaborador" value="@Request.QueryString["Colaborador"]" required />
             </div>
         </div>
         <br />
@@ -76,11 +76,11 @@
             <div class="col-md-10 row">
                 <div class="col-4">
                     <label class="control-label col-md-10">Fecha inicial:</label>
-                    <input type="date" name="FechaIni" value="@Request.QueryString["FechaIni"]" required />
+                    <input type="date" class="form-control" name="FechaIni" value="@Request.QueryString["FechaIni"]" required />
                 </div>
                 <div class="col-4">
                     <label class="control-label col-md-10">Fecha Final:</label>
-                    <input type="date" name="FechaFin" value="@Request.QueryString["FechaFin"]" required />
+                    <input type="date" class="form-control" name="FechaFin" value="@Request.QueryString["FechaFin"]" required />
                 </div>
             </div>
         </div>

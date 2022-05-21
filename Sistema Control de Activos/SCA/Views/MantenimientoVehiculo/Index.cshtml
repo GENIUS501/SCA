@@ -15,7 +15,7 @@
         <div class="form-group">
             <label class="control-label col-md-10">Placa:</label>
             <div class="col-md-10">
-                <input type="number" name="Placa" value="@Request.QueryString["Placa"]" required />
+                <input type="number" class="form-control" name="Placa" value="@Request.QueryString["Placa"]" required />
             </div>
         </div>
         <br />
@@ -29,7 +29,7 @@
         <div class="form-group">
             <label class="control-label col-md-5">Marca:</label>
             <div class="col-md-10">
-                <input type="text" name="Marca" value="@Request.QueryString["Marca"]" required />
+                <input type="text" class="form-control" name="Marca" value="@Request.QueryString["Marca"]" required />
             </div>
         </div>
         <br />
@@ -75,11 +75,11 @@
             <div class="col-md-10 row">
                 <div class="col-4">
                     <label class="control-label col-md-10">Fecha inicial:</label>
-                    <input type="date" name="FechaIni" value="@Request.QueryString["FechaIni"]" required />
+                    <input type="date" class="form-control" name="FechaIni" value="@Request.QueryString["FechaIni"]" required />
                 </div>
                 <div class="col-4">
                     <label class="control-label col-md-10">Fecha Final:</label>
-                    <input type="date" name="FechaFin" value="@Request.QueryString["FechaFin"]" required />
+                    <input type="date" class="form-control" name="FechaFin" value="@Request.QueryString["FechaFin"]" required />
                 </div>
             </div>
         </div>
