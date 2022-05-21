@@ -10,6 +10,92 @@
 <p>
     @Html.ActionLink("Agregar Nuevo", "Create")
 </p>
+<div class="row">
+    <form method="get" class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-10">Placa:</label>
+            <div class="col-md-10">
+                <input type="number" name="Placa" value="@Request.QueryString["Placa"]" required />
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-5">Marca:</label>
+            <div class="col-md-10">
+                <input type="text" name="Marca" value="@Request.QueryString["Marca"]" required />
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form method="get" class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-10">Departamento:</label>
+            <div class="col-md-10">
+                @Html.DropDownList("IdDepartamento", (List<SelectListItem>)ViewBag.IdDepartamento, htmlAttributes: new { @class = "form-control", @required = "required" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form method="get" class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-10">Tipo de mantenimiento:</label>
+            <div class="col-md-10">
+                <select name="Tipo" class="form-control">
+                    <option value="0">Preventivo</option>
+                    <option value="1">Correctivo</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form method="get" class="col-8">
+        <div class="form-group">
+            <div class="col-md-10 row">
+                <div class="col-4">
+                    <label class="control-label col-md-10">Fecha inicial:</label>
+                    <input type="date" name="FechaIni" value="@Request.QueryString["FechaIni"]" required />
+                </div>
+                <div class="col-4">
+                    <label class="control-label col-md-10">Fecha Final:</label>
+                    <input type="date" name="FechaFin" value="@Request.QueryString["FechaFin"]" required />
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <br />
+    <form class="">
+        <br />
+        <button class="btn btn-outline-secondary" type="submit">Limpiar</button>
+    </form>
+</div>
 <table class="table table-bordered table-responsive" id="Tabla">
     <thead>
         <tr>
@@ -48,10 +134,17 @@
                     @Html.DisplayFor(modelItem => item.IdMantenimientoVehiculo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdFlotilla)
+                    @Html.DisplayFor(modelItem => item.Flotilla.Placa)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TipoMantenimiento)
+                    @if (item.TipoMantenimiento > 0)
+                    {
+                        @Html.Raw("Correctivo");
+                    }
+                    else
+                    {
+                        @Html.Raw("Preventivo");
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.KilometrajeActual)
@@ -112,8 +205,8 @@
                         extend: 'pdf',
                         orientation: 'landscape',
                         text: '<button class="btn btn-outline-secondary"> Exportar a PDF</button>',
-                        filename: 'Reporte de inventarios',
-                        title: "D'geo \n Reporte de inventarios \n Fecha: " + d,
+                        filename: 'Reporte de mantenimiento de vehiculos',
+                        title: "D'geo \n Reporte de mantenimiento vehiculos \n Fecha: " + d,
                         customize: function (doc) {
                             /*                            doc.content[1].margin = [80, 0, 80, 0];*/
                             doc['footer'] = (function (page, pages) {
@@ -142,7 +235,7 @@
 
                         },
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
                         }
                     }
                 ]

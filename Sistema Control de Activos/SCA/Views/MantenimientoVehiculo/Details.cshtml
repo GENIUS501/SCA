@@ -1,14 +1,14 @@
 ﻿@model SCA.Models.MantenimientoVehiculo
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Borrar</h2>
+<h2>Details</h2>
 
-<h3>Realmente desea borrar el mantenimiento del vehiculo?</h3>
 <div>
-    <h4>Mantenimiento del vehiculo</h4>
+    <h4>MantenimientoVehiculo</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -20,7 +20,7 @@
         </dd>
 
         <dt>
-            Placa
+            @Html.DisplayNameFor(model => model.Flotilla.Placa)
         </dt>
 
         <dd>
@@ -83,13 +83,8 @@
         </dd>
 
     </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Borrar" class="btn btn-outline-secondary" /> |
-            @Html.ActionLink("Volver a la lista", "Index")
-        </div>
-    }
 </div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new {  id = Model.IdMantenimientoVehiculo }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

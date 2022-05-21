@@ -18,10 +18,42 @@ namespace SCA.Controllers
 
         // GET: MantenimientoVehiculo
         [AuthorizeUser(idmodulo: "MantenimientoVehículos")]
-        public ActionResult Index()
+        public ActionResult Index(string Placa, string Marca, string IdDepartamento, string Tipo, string FechaIni, string FechaFin)
         {
-            var ManVeh = db.MantenimientoVehiculo.Include(a => a.Flotilla);
-            return View(ManVeh.ToList());
+            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
+            var Modelo = db.MantenimientoVehiculo.Include(a => a.Flotilla).ToList();
+            if (Placa != null)
+            {
+                int id = int.Parse(Placa);
+                Modelo = Modelo.Where(x => x.Flotilla.Placa == id).ToList();
+            }
+            if (Marca != null)
+            {
+                Modelo = Modelo.Where(x => x.Flotilla.Marca.Contains(Marca)).ToList();
+            }
+            if (IdDepartamento != null)
+            {
+                int id = int.Parse(IdDepartamento);
+                Modelo = Modelo.Where(x => x.Flotilla.IdDepartamento == id).ToList();
+            }
+            if (Tipo != null)
+            {
+                int id = int.Parse(Tipo);
+                Modelo = Modelo.Where(x => x.TipoMantenimiento == id).ToList();
+            }
+            if (FechaIni != null && FechaFin != null)
+            {
+                Modelo = Modelo.Where(x => x.FechaMantenimiento >= Convert.ToDateTime(FechaIni) && x.FechaMantenimiento <= Convert.ToDateTime(FechaFin)).ToList();
+            }
+            return View(Modelo);
         }
 
         // GET: MantenimientoVehiculo/Details/5
@@ -33,7 +65,7 @@ namespace SCA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            MantenimientoVehiculo mantenimientovehiculo = db.MantenimientoVehiculo.Include(x => x.Flotilla).Where(x=>x.IdFlotilla==id).FirstOrDefault();
+            MantenimientoVehiculo mantenimientovehiculo = db.MantenimientoVehiculo.Include(x => x.Flotilla).Where(x => x.IdFlotilla == id).FirstOrDefault();
             if (mantenimientovehiculo == null)
             {
                 return HttpNotFound();
