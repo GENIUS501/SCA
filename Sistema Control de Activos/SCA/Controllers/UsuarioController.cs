@@ -18,11 +18,42 @@ namespace SCA.Controllers
 
         // GET: Usuario
         [AuthorizeUser(idmodulo: "Usuario")]
-        public ActionResult Index()
+        public ActionResult Index(string Nombre, string IdDepartamento,string IdPerfiles)
         {
-            var user = db.Usuario.Include(a => a.Personal).Include(a => a.Perfiles_Acceso);
-            // var use = db.Usuario.Include(a => a.Perfiles);
-            return View(user.ToList());
+            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
+            ViewBag.IdPerfillist = db.Perfiles_Acceso.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.NombrePerfil,
+                    Value = d.Id_Perfil.ToString(),
+                    Selected = false
+                };
+            });
+            var user = db.Usuario.Include(a => a.Personal).Include(a => a.Perfiles_Acceso).ToList();
+            if (Nombre != null)
+            {
+                user = user.Where(x => x.Personal.Nombre.Contains(Nombre)).ToList();
+            }
+            if (IdDepartamento != null)
+            {
+                int id = int.Parse(IdDepartamento);
+                user = user.Where(x => x.Personal.IdDepartamento == id).ToList();
+            }
+            if (IdPerfiles != null)
+            {
+                int id = int.Parse(IdPerfiles);
+                user = user.Where(x => x.IdPerfiles == id).ToList();
+            }
+            return View(user);
         }
 
         // GET: Usuario/Details/5

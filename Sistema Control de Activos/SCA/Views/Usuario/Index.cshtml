@@ -11,6 +11,55 @@
     @Html.ActionLink("Agregar nuevo", "Create")
 </p>
 <br />
+<div class="row">
+    <form method="get" class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-10">Nombre:</label>
+            <div class="col-md-10">
+                <input type="text" name="Nombre" value="@Request.QueryString["Nombre"]" required />
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-5">Departamento:</label>
+            <div class="col-md-10">
+                @Html.DropDownList("IdDepartamento", (List<SelectListItem>)ViewBag.IdDepartamento, htmlAttributes: new { @class = "form-control", @required = "required" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-10">Perfil de acceso:</label>
+            <div class="col-md-10">
+                @Html.DropDownList("IdPerfiles", (List<SelectListItem>)ViewBag.IdPerfillist, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form class="col-3">
+        <br /><br /><br /><br />
+        <button class="btn btn-outline-secondary" type="submit">Limpiar</button>
+    </form>
+</div>
+<br />
 <table class="table table-responsive table-bordered" id="Tabla">
     <thead>
         <tr>
