@@ -75,45 +75,7 @@
                         "next": "Siguiente",
                         "previous": "Anterior"
                     },
-                }, buttons: [
-                    {
-                        extend: 'pdf',
-                        orientation: 'landscape',
-                        text: '<button class="btn btn-outline-secondary"> Exportar a PDF</button>',
-                        filename: 'Reporte de perfiles',
-                        title: "D'geo \n Reporte de perfiles \n Fecha: " + d,
-                        customize: function (doc) {
-                                                        doc.content[1].margin = [280, 0, 280, 0];
-                            doc['footer'] = (function (page, pages) {
-                                return {
-                                    columns: [
-                                        {
-                                            alignment: 'left',
-                                            text:
-                                                [
-                                                    { text: 'Usuario: ' + Usuario, italics: true }
-                                                ]
-                                        },
-                                        {
-                                            alignment: 'right',
-                                            text: [
-                                                'Pagina',
-                                                { text: page.toString(), talics: true },
-                                                'de',
-                                                { text: page.toString(), talics: true },
-                                            ]
-                                        }
-                                    ],
-                                    margin: [10, 0]
-                                }
-                            });
-
-                        },
-                        exportOptions: {
-                            columns: [0, 1, 2]
-                        }
-                    }
-                ]
+                }
             });
         });
     </script>

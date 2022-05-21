@@ -182,7 +182,7 @@
     <script>
     var Usuario = '@Session["Usuario"].ToString()';//agarra el valor del usuario logueado
     var f = new Date();
-    var d = f.getDate() + "/" + f.getMonth() + "/" + f.getFullYear() + "   " + " hora: " + f.getHours() + ":" + f.getMinutes();
+        var d = f.getDate() + "/" + (f.getMonth() + 1).toString() + "/" + f.getFullYear() + "   " + " hora: " + f.getHours() + ":" + f.getMinutes();
         $(document).ready(function () {
             $('#Tabla').DataTable({
                 "searching": true,
@@ -230,9 +230,9 @@
                                         {
                                             alignment: 'right',
                                             text: [
-                                                'Pagina',
+                                                'Pagina ',
                                                 { text: page.toString(), talics: true },
-                                                'de',
+                                                ' de ',
                                                 { text: page.toString(), talics: true },
                                             ]
                                         }

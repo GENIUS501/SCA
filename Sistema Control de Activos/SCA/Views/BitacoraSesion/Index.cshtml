@@ -1,66 +1,18 @@
-﻿@model IEnumerable<SCA.Models.MantenimientoVehiculo>
+﻿@model IEnumerable<SCA.Models.BitacoraIngresoSalida>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Html.Raw(TempData["msg"])
-<h2>Mantenimiento de vehiculos</h2>
 
-<p>
-    @Html.ActionLink("Agregar Nuevo", "Create")
-</p>
+<h2>Index</h2>
+<br />
 <div class="row">
     <form method="get" class="col-3">
         <div class="form-group">
-            <label class="control-label col-md-10">Placa:</label>
+            <label class="control-label col-md-10">Nombre:</label>
             <div class="col-md-10">
-                <input type="number" name="Placa" value="@Request.QueryString["Placa"]" required />
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
-            </div>
-        </div>
-    </form>
-    <form class="col-3">
-        <div class="form-group">
-            <label class="control-label col-md-5">Marca:</label>
-            <div class="col-md-10">
-                <input type="text" name="Marca" value="@Request.QueryString["Marca"]" required />
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
-            </div>
-        </div>
-    </form>
-    <form method="get" class="col-3">
-        <div class="form-group">
-            <label class="control-label col-md-10">Departamento:</label>
-            <div class="col-md-10">
-                @Html.DropDownList("IdDepartamento", (List<SelectListItem>)ViewBag.IdDepartamento, htmlAttributes: new { @class = "form-control", @required = "required" })
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
-            </div>
-        </div>
-    </form>
-    <form method="get" class="col-3">
-        <div class="form-group">
-            <label class="control-label col-md-10">Tipo de mantenimiento:</label>
-            <div class="col-md-10">
-                <select name="Tipo" class="form-control">
-                    <option value="0">Preventivo</option>
-                    <option value="1">Correctivo</option>
-                </select>
+                <input type="text" name="Nombre" value="@Request.QueryString["Nombre"]" required />
             </div>
         </div>
         <br />
@@ -96,34 +48,19 @@
         <button class="btn btn-outline-secondary" type="submit">Limpiar</button>
     </form>
 </div>
+<br />
 <table class="table table-bordered table-responsive" id="Tabla">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdMantenimientoVehiculo)
+                @Html.DisplayNameFor(model => model.IdUsuario)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Flotilla.Placa)
+                @Html.DisplayNameFor(model => model.FechaIngreso)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TipoMantenimiento)
+                @Html.DisplayNameFor(model => model.FechaSalida)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KilometrajeActual)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProximoKilometraje)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CostoMantenimiento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaMantenimiento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DescripcionServicio)
-            </th>
-            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -131,40 +68,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdMantenimientoVehiculo)
+                    @Html.DisplayFor(modelItem => item.IdUsuario)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Flotilla.Placa)
+                    @Html.DisplayFor(modelItem => item.FechaIngreso)
                 </td>
                 <td>
-                    @if (item.TipoMantenimiento > 0)
-                    {
-                        @Html.Raw("Correctivo");
-                    }
-                    else
-                    {
-                        @Html.Raw("Preventivo");
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KilometrajeActual)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProximoKilometraje)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CostoMantenimiento)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaMantenimiento)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DescripcionServicio)
-                </td>
-                <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.IdFlotilla }) |
-                    @Html.ActionLink("Detalles", "Details", new { id = item.IdFlotilla }) |
-                    @Html.ActionLink("Borrar", "Delete", new { id = item.IdFlotilla })
+                    @Html.DisplayFor(modelItem => item.FechaSalida)
                 </td>
             </tr>
         }
@@ -174,14 +84,12 @@
     <script>
     var Usuario = '@Session["Usuario"].ToString()';//agarra el valor del usuario logueado
     var f = new Date();
-        var d = f.getDate() + "/" + (f.getMonth() + 1).toString() + "/" + f.getFullYear() + "   " + " hora: " + f.getHours() + ":" + f.getMinutes();
+    var d = f.getDate() + "/" + f.getMonth() + "/" + f.getFullYear() + "   " + " hora: " + f.getHours() + ":" + f.getMinutes();
         $(document).ready(function () {
             $('#Tabla').DataTable({
                 "searching": true,
                 "lengthChange": false,
                 dom: 'Bfrtip',
-                "scrollX": true,
-                "scrollY": true,
                 language: {
                     sLengthMenu: "_MENU_",
                     decimal: "",
@@ -205,10 +113,10 @@
                         extend: 'pdf',
                         orientation: 'landscape',
                         text: '<button class="btn btn-outline-secondary"> Exportar a PDF</button>',
-                        filename: 'Reporte de mantenimiento de vehiculos',
-                        title: "D'geo \n Reporte de mantenimiento vehiculos \n Fecha: " + d,
+                        filename: 'Bitacora de ingresos y salidas',
+                        title: "D'geo \n Bitacora de ingresos y salidas \n Fecha: " + d,
                         customize: function (doc) {
-                            /*                            doc.content[1].margin = [80, 0, 80, 0];*/
+                                                        doc.content[1].margin = [280, 0, 280, 0];
                             doc['footer'] = (function (page, pages) {
                                 return {
                                     columns: [
@@ -235,7 +143,7 @@
 
                         },
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                            columns: [0, 1, 2]
                         }
                     }
                 ]

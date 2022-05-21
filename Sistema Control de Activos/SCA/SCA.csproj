@@ -482,11 +482,11 @@
     <Content Include="Views\ControlInventario\Details.cshtml" />
     <Content Include="Views\MantenimientoVehiculo\Details.cshtml" />
     <Content Include="Views\Perfiles_Acceso\Details.cshtml" />
+    <Content Include="Views\BitacoraSesion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\BitacoraMovimientos\" />
-    <Folder Include="Views\BitacoraSesion\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
