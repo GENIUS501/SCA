@@ -18,12 +18,40 @@ namespace SCA.Controllers
 
         // GET: Flotilla
         [AuthorizeUser(idmodulo: "Flotilla")]
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(string Placa, string Marca, string IdDepartamento, string FechaCompra)
         {
             try
             {
-                var flot = db.Flotilla.Include(a => a.Departamento);
-                return View(flot.ToList());
+                ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = d.Nombre,
+                        Value = d.IdDepartamento.ToString(),
+                        Selected = false
+                    };
+                });
+                var flot = db.Flotilla.Include(a => a.Departamento).ToList();
+                if (Placa != null)
+                {
+                    int id = int.Parse(Placa);
+                    flot = flot.Where(x => x.Placa == id).ToList();
+                }
+                if (Marca != null)
+                {
+                    flot = flot.Where(x => x.Marca.Contains(Marca)).ToList();
+                }
+                if (IdDepartamento != null)
+                {
+                    int id = int.Parse(IdDepartamento);
+                    flot = flot.Where(x => x.IdDepartamento==id).ToList();
+                }
+                if (FechaCompra != null)
+                {
+                    flot = flot.Where(x => x.FechaCompra==Convert.ToDateTime(FechaCompra)).ToList();
+                }
+                return View(flot);
             }
             catch (Exception)
             {
