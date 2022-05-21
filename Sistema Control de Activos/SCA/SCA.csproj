@@ -379,6 +379,7 @@
     <Content Include="Content\scss\bootstrap\scss\_type.scss" />
     <Content Include="Content\scss\bootstrap\scss\_utilities.scss" />
     <Content Include="Content\scss\bootstrap\scss\_variables.scss" />
+    <Content Include="Files\Ayuda.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\datatable\css\buttons.dataTables.min.css" />
     <Content Include="Scripts\datatable\css\colReorder.dataTables.min.css" />
