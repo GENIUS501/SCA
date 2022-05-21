@@ -50,8 +50,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Traccion, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Traccion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Traccion, "", new { @class = "text-danger" })
+                <select name="Traccion" class="form-control">
+                    <option value="0">4x2</option>
+                    <option value="1" @if (Model.Traccion > 0) { @Html.Raw("selected") }>4x4</option>
+                </select>
             </div>
         </div>
 
@@ -66,8 +68,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Combustible, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Combustible, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Combustible, "", new { @class = "text-danger" })
+                <select name="Combustible" class="form-control">
+                    <option value="0">Gasolina</option>
+                    <option value="1" @if (Model.Traccion > 0) { @Html.Raw("selected") }>Diesel</option>
+                </select>
             </div>
         </div>
 

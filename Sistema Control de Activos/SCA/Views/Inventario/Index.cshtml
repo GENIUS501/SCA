@@ -160,7 +160,14 @@
                     @Html.DisplayFor(modelItem => item.CostoEquipo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Garantia)
+                    @if (item.Garantia > 0)
+                    {
+                        @Html.Raw("Si");
+                    }
+                    else
+                    {
+                        @Html.Raw("No");
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.VenceGarantia)

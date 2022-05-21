@@ -48,7 +48,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Traccion)
+            @if (Model.Traccion > 0)
+            {
+                @Html.Raw("4x4");
+            }
+            else
+            {
+                @Html.Raw("4x2");
+            }
         </dd>
 
         <dt>
@@ -64,7 +71,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Combustible)
+            @if (Model.Combustible > 0)
+            {
+                @Html.Raw("Diesel");
+            }
+            else
+            {
+                @Html.Raw("Gasolina");
+            }
         </dd>
 
         <dt>
@@ -102,6 +116,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Editar", "Edit", new {  id = Model.IdFlotilla }) |
+    @Html.ActionLink("Volver a la lista", "Index")
 </p>

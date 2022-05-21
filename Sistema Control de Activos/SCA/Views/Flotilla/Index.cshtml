@@ -127,13 +127,27 @@
                     @Html.DisplayFor(modelItem => item.Modelo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Traccion)
+                    @if (item.Traccion > 0)
+                    {
+                        @Html.Raw("4x4");
+                    }
+                    else
+                    {
+                        @Html.Raw("4x2");
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Ano)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Combustible)
+                    @if (item.Combustible > 0)
+                    {
+                        @Html.Raw("Diesel");
+                    }
+                    else
+                    {
+                        @Html.Raw("Gasolina");
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaCompra)
