@@ -80,7 +80,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CarnetMS)
+            @if (Model.CarnetMS > 0)
+            {
+                @Html.Raw("Si");
+            }
+            else
+            {
+                @Html.Raw("No");
+            }
         </dd>
 
         <dt>

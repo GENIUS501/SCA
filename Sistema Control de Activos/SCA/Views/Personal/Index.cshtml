@@ -109,7 +109,14 @@
                     @Html.DisplayFor(modelItem => item.Licencia.TipoLicencia)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CarnetMS)
+                    @if (item.CarnetMS > 0)
+                    {
+                        @Html.Raw("Si");
+                    }
+                    else
+                    {
+                        @Html.Raw("No");
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.VenceCarnetMS)
