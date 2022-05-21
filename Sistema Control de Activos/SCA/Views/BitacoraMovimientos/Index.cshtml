@@ -1,18 +1,37 @@
-﻿@model IEnumerable<SCA.Models.BitacoraIngresoSalida>
+﻿@model IEnumerable<SCA.Models.BitacoraMovimiento>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Bitacora de ingresos y salidas</h2>
+<h2>Bitacora de movimientos</h2>
+
 <br />
 <div class="row">
     <form method="get" class="col-3">
         <div class="form-group">
-            <label class="control-label col-md-10">Nombre:</label>
+            <label class="control-label col-md-10">Nombre de usuario:</label>
             <div class="col-md-10">
                 <input type="text" class="form-control" name="Nombre" value="@Request.QueryString["Nombre"]" required />
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form method="get" class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-10">Tipo de mantenimiento:</label>
+            <div class="col-md-10">
+                <select name="Tipo" class="form-control">
+                    <option value="Agrego">Agrego</option>
+                    <option value="Edito">Edito</option>
+                    <option value="Elimino">Elimino</option>
+                </select>
             </div>
         </div>
         <br />
@@ -56,10 +75,19 @@
                 Nombre de usuario
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaIngreso)
+                @Html.DisplayNameFor(model => model.FechaMovimiento)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaSalida)
+                @Html.DisplayNameFor(model => model.TipoMovimiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModuloAfectado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ValorAntiguo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ValorNuevo)
             </th>
         </tr>
     </thead>
@@ -71,10 +99,19 @@
                     @Html.DisplayFor(modelItem => item.Usuario.Usuario1)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaIngreso)
+                    @Html.DisplayFor(modelItem => item.FechaMovimiento)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaSalida)
+                    @Html.DisplayFor(modelItem => item.TipoMovimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModuloAfectado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ValorAntiguo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ValorNuevo)
                 </td>
             </tr>
         }
@@ -90,6 +127,8 @@
                 "searching": true,
                 "lengthChange": false,
                 dom: 'Bfrtip',
+                "scrollX": true,
+                "scrollY": true,
                 language: {
                     sLengthMenu: "_MENU_",
                     decimal: "",
@@ -113,10 +152,10 @@
                         extend: 'pdf',
                         orientation: 'landscape',
                         text: '<button class="btn btn-outline-secondary"> Exportar a PDF</button>',
-                        filename: 'Bitacora de ingresos y salidas',
-                        title: "D'geo \n Bitacora de ingresos y salidas \n Fecha: " + d,
+                        filename: 'Bitacora de movimientos',
+                        title: "D'geo \n Bitacora de movimientos \n Fecha: " + d,
                         customize: function (doc) {
-                                                        doc.content[1].margin = [280, 0, 280, 0];
+                         doc.content[1].margin = [190, 0, 190, 0];
                             doc['footer'] = (function (page, pages) {
                                 return {
                                     columns: [
@@ -143,7 +182,7 @@
 
                         },
                         exportOptions: {
-                            columns: [0, 1, 2]
+                            columns: [0, 1, 2,3]
                         }
                     }
                 ]
