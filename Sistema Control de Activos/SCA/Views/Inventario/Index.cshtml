@@ -10,6 +10,66 @@
 <p>
     @Html.ActionLink("Agregar Nuevo", "Create")
 </p>
+<br />
+<div class="row">
+    <form method="get" class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-10">Codigo D'geo:</label>
+            <div class="col-md-10">
+                <input type="text" name="Codigodgeo" value="@Request.QueryString["Codigodgeo"]" required />
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-5">Departamento:</label>
+            <div class="col-md-10">
+                @Html.DropDownList("IdDepartamento", (List<SelectListItem>)ViewBag.IdDepartamento, htmlAttributes: new { @class = "form-control", @required = "required" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form method="get" class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-10">Modelo:</label>
+            <div class="col-md-10">
+                <input type="text" name="Modelo" value="@Request.QueryString["Modelo"]" required />
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form method="get" class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-10">Serie:</label>
+            <div class="col-md-10">
+                <input type="text" name="Serie" value="@Request.QueryString["Serie"]" required />
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+</div>
+<br />
 <table class="table table-responsive table-bordered" id="Tabla">
     <thead>
         <tr>

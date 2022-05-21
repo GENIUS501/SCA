@@ -20,6 +20,15 @@ namespace SCA.Controllers
         [AuthorizeUser(idmodulo: "Inventario")]
         public ActionResult Index()
         {
+            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
             var inv = db.Inventario.Include(a => a.Departamento);
             return View(inv.ToList());
         }

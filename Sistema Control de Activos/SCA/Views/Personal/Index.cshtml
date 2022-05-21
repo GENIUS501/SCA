@@ -10,6 +10,37 @@
 <p>
     @Html.ActionLink("Agregar nuevo", "Create")
 </p>
+<div class="row">
+    <form method="get" class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-10">Nombre de la persona:</label>
+            <div class="col-md-10">
+                <input type="text" name="Nombre" value="@Request.QueryString["Nombre"]" required />
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+    <form class="col-3">
+        <div class="form-group">
+            <label class="control-label col-md-5">Departamento:</label>
+            <div class="col-md-10">
+                @Html.DropDownList("IdDepartamento", (List<SelectListItem>)ViewBag.IdDepartamento, htmlAttributes: new { @class = "form-control", @required = "required" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </form>
+</div>
+<br />
 <table class="table table-bordered table-responsive" id="Tabla">
     <thead>
         <tr>
@@ -44,7 +75,7 @@
                 @Html.DisplayNameFor(model => model.VenceCarnetMS)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Departamento.Nombre)
+                Departamento
             </th>
             <th>Acciones</th>
         </tr>
@@ -100,7 +131,7 @@
     <script>
         var Usuario = '@Session["Usuario"].ToString()';//agarra el valor del usuario logueado
         var f = new Date();
-        var d = f.getDate() + "/" + f.getMonth() + "/" + f.getFullYear() + "   " + " hora: " + f.getHours() + ":" + f.getMinutes();
+        var d = f.getDate() + "/" + (f.getMonth() + 1).toString() + "/" + f.getFullYear() + "   " + " hora: " + f.getHours() + ":" + f.getMinutes();
         $(document).ready(function () {
             $('#Tabla').DataTable({
                 "searching": true,
@@ -131,10 +162,10 @@
                         extend: 'pdf',
                         orientation: 'landscape',
                         text: '<button class="btn btn-outline-secondary"> Exportar a PDF</button>',
-                        filename: 'Reporte de usuarios',
-                        title: "D'geo \n Reporte de usuarios \n Fecha: " + d,
+                        filename: 'Reporte de colaboradores',
+                        title: "D'geo \n Reporte de colaboradores \n Fecha: " + d,
                         customize: function (doc) {
-                            doc.content[1].margin = [190, 0, 190, 0];
+                            doc.content[1].margin = [100, 0, 100, 0];
                             doc['footer'] = (function (page, pages) {
                                 return {
                                     columns: [
@@ -161,7 +192,7 @@
 
                         },
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4,5,6,7,8,9,10]
                         }
                     }
                 ]

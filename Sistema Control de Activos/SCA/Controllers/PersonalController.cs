@@ -18,10 +18,28 @@ namespace SCA.Controllers
 
         // GET: Personal
         [AuthorizeUser(idmodulo: "Personal")]
-        public ActionResult Index()
+        public ActionResult Index(string Nombre, string IdDepartamento)
         {
-            var per = db.Personal.Include(a => a.Licencia).Include(x => x.Departamento);
-            return View(per.ToList());
+            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
+            var per = db.Personal.Include(a => a.Licencia).Include(x => x.Departamento).ToList();
+            if (Nombre != null)
+            {
+                per = per.Where(x => x.Nombre.Contains(Nombre)).ToList();
+            }
+            if(IdDepartamento!=null)
+            {
+                int id = int.Parse(IdDepartamento);
+                per = per.Where(x => x.IdDepartamento==id).ToList();
+            }
+            return View(per);
         }
 
         // GET: Personal/Details/5
