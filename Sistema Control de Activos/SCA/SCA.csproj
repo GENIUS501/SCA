@@ -481,6 +481,7 @@
     <Content Include="Views\ControlInventario\Index.cshtml" />
     <Content Include="Views\ControlInventario\Details.cshtml" />
     <Content Include="Views\MantenimientoVehiculo\Details.cshtml" />
+    <Content Include="Views\Perfiles_Acceso\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

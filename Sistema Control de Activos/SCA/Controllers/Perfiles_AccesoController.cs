@@ -16,29 +16,67 @@ namespace SCA.Controllers
         [AuthorizeUser(idmodulo: "Perfiles")]
         public ActionResult Index()
         {
-            var Modelo = db.Perfiles_Acceso.ToList();
-            return View(Modelo);
+            try
+            {
+                var Modelo = db.Perfiles_Acceso.ToList();
+                return View(Modelo);
+            }
+            catch (Exception)
+            {
+                return View(new List<Perfiles_Acceso>());
+            }
         }
 
         // GET: Perfiles_Acceso/Details/5
         [AuthorizeUser(idmodulo: "Perfiles")]
-        public ActionResult Details(int id)
+        public ActionResult Details(int Id)
         {
-            return View();
+            try
+            {
+                var Perfil = db.Perfiles_Acceso.Where(x => x.Id_Perfil == Id).FirstOrDefault();
+                var PerfilPermiso = db.Perfiles_Permisos.Where(x => x.Id_Perfil == Perfil.Id_Perfil).ToList();
+                PerfilesViewModel Modelo = new PerfilesViewModel();
+                Modelo.Id_Perfil = Perfil.Id_Perfil;
+                Modelo.Descripcion = Perfil.Descripcion;
+                Modelo.NombrePerfil = Perfil.NombrePerfil;
+                Modelo.ModulosEscogidos = new List<PerfilesViewModel.Modulos>();
+                foreach (var Item in PerfilPermiso)
+                {
+                    Modelo.ModulosEscogidos.Add(new PerfilesViewModel.Modulos
+                    {
+                        Modulo = Item.Modulo,
+                        Checked = "true",
+                    }
+                    );
+                }
+                return View(Modelo);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
+
         }
 
         // GET: Perfiles_Acceso/Create
         [AuthorizeUser(idmodulo: "Perfiles")]
         public ActionResult Create()
         {
-            PerfilesViewModel Modelo = new PerfilesViewModel();
-            Modelo.ModulosEscogidos = new List<PerfilesViewModel.Modulos>();
-            Modelo.ModulosEscogidos.Add(new PerfilesViewModel.Modulos
+            try
             {
-                Modulo = "Prueba",
-                Checked = "s"
-            });
-            return View(Modelo);
+                PerfilesViewModel Modelo = new PerfilesViewModel();
+                Modelo.ModulosEscogidos = new List<PerfilesViewModel.Modulos>();
+                Modelo.ModulosEscogidos.Add(new PerfilesViewModel.Modulos
+                {
+                    Modulo = "Prueba",
+                    Checked = "s"
+                });
+                return View(Modelo);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Perfiles_Acceso/Create
@@ -210,23 +248,31 @@ namespace SCA.Controllers
         [AuthorizeUser(idmodulo: "Perfiles")]
         public ActionResult Delete(int Id)
         {
-            var Perfil = db.Perfiles_Acceso.Where(x => x.Id_Perfil == Id).FirstOrDefault();
-            var PerfilPermiso = db.Perfiles_Permisos.Where(x => x.Id_Perfil == Perfil.Id_Perfil).ToList();
-            PerfilesViewModel Modelo = new PerfilesViewModel();
-            Modelo.Id_Perfil = Perfil.Id_Perfil;
-            Modelo.Descripcion = Perfil.Descripcion;
-            Modelo.NombrePerfil = Perfil.NombrePerfil;
-            Modelo.ModulosEscogidos = new List<PerfilesViewModel.Modulos>();
-            foreach (var Item in PerfilPermiso)
+            try
             {
-                Modelo.ModulosEscogidos.Add(new PerfilesViewModel.Modulos
+                var Perfil = db.Perfiles_Acceso.Where(x => x.Id_Perfil == Id).FirstOrDefault();
+                var PerfilPermiso = db.Perfiles_Permisos.Where(x => x.Id_Perfil == Perfil.Id_Perfil).ToList();
+                PerfilesViewModel Modelo = new PerfilesViewModel();
+                Modelo.Id_Perfil = Perfil.Id_Perfil;
+                Modelo.Descripcion = Perfil.Descripcion;
+                Modelo.NombrePerfil = Perfil.NombrePerfil;
+                Modelo.ModulosEscogidos = new List<PerfilesViewModel.Modulos>();
+                foreach (var Item in PerfilPermiso)
                 {
-                    Modulo = Item.Modulo,
-                    Checked = "true",
+                    Modelo.ModulosEscogidos.Add(new PerfilesViewModel.Modulos
+                    {
+                        Modulo = Item.Modulo,
+                        Checked = "true",
+                    }
+                    );
                 }
-                );
+                return View(Modelo);
             }
-            return View(Modelo);
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
+
         }
 
         // POST: Perfiles_Acceso/Delete/5

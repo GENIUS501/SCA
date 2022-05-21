@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id_Perfil)
+                Id del perfil
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NombrePerfil)
@@ -80,10 +80,10 @@
                         extend: 'pdf',
                         orientation: 'landscape',
                         text: '<button class="btn btn-outline-secondary"> Exportar a PDF</button>',
-                        filename: 'Reporte de inventarios',
-                        title: "D'geo \n Reporte de inventarios \n Fecha: " + d,
+                        filename: 'Reporte de perfiles',
+                        title: "D'geo \n Reporte de perfiles \n Fecha: " + d,
                         customize: function (doc) {
-                            /*                            doc.content[1].margin = [80, 0, 80, 0];*/
+                                                        doc.content[1].margin = [280, 0, 280, 0];
                             doc['footer'] = (function (page, pages) {
                                 return {
                                     columns: [
@@ -110,7 +110,7 @@
 
                         },
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                            columns: [0, 1, 2]
                         }
                     }
                 ]
