@@ -19,10 +19,46 @@ namespace SCA.Controllers
 
         // GET: ControlVehiculo
         [AuthorizeUser(idmodulo: "ControlVehículos")]
-        public ActionResult Index()
+        public ActionResult Index(string Placa, string Marca, string Colaborador, string IdDepartamento, string Estado, string FechaIni, string FechaFin)
         {
-            var Model = db.ControlVehiculo.Include(a => a.Flotilla).Include(a => a.Personal).ToList();
-            return View(Model);
+            ViewBag.IdDepartamento = db.Departamento.ToList().ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre,
+                    Value = d.IdDepartamento.ToString(),
+                    Selected = false
+                };
+            });
+            var Modelo = db.ControlVehiculo.Include(a => a.Flotilla).Include(a => a.Personal).ToList();
+            if (Placa != null)
+            {
+                int id = int.Parse(Placa);
+                Modelo = Modelo.Where(x => x.Flotilla.Placa == id).ToList();
+            }
+            if (Marca != null)
+            {
+                Modelo = Modelo.Where(x => x.Flotilla.Marca.Contains(Marca)).ToList();
+            }
+            if (IdDepartamento != null)
+            {
+                int id = int.Parse(IdDepartamento);
+                Modelo = Modelo.Where(x => x.Flotilla.IdDepartamento == id).ToList();
+            }
+            if (Colaborador != null)
+            {
+                Modelo = Modelo.Where(x => x.Personal.Nombre.Contains(Colaborador)).ToList();
+            }
+            if (Estado != null)
+            {
+                int id = int.Parse(Estado);
+                Modelo = Modelo.Where(x => x.EstadoVehiculo == id).ToList();
+            }
+            if (FechaIni != null && FechaFin != null)
+            {
+                Modelo = Modelo.Where(x => x.FechaIngresa >= Convert.ToDateTime(FechaIni) && x.FechaIngresa <= Convert.ToDateTime(FechaFin) || x.FechaSalida >= Convert.ToDateTime(FechaIni) && x.FechaSalida <= Convert.ToDateTime(FechaFin)).ToList();
+            }
+            return View(Modelo);
         }
 
         // GET: ControlVehiculo/Details/5

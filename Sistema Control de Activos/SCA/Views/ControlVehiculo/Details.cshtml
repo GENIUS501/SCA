@@ -40,7 +40,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EstadoVehiculo)
+            @if (Model.EstadoVehiculo > 0)
+            {
+                @Html.Raw("Malo");
+            }
+            else
+            {
+                @Html.Raw("Bueno");
+            }
         </dd>
 
         <dt>
